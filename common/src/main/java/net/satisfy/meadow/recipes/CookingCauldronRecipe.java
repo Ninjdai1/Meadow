@@ -2,7 +2,6 @@ package net.satisfy.meadow.recipes;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
-import de.cristelknight.doapi.common.util.GeneralUtil;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
@@ -13,6 +12,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import net.satisfy.meadow.registry.RecipeRegistry;
+import net.satisfy.meadow.util.GeneralUtil;
 import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("unused")

@@ -1,6 +1,5 @@
 package net.satisfy.meadow.block;
 
-import de.cristelknight.doapi.common.util.GeneralUtil;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -24,6 +23,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.satisfy.meadow.registry.SoundRegistry;
+import net.satisfy.meadow.util.GeneralUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;

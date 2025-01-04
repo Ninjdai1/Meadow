@@ -1,6 +1,5 @@
 package net.satisfy.meadow.block.entity;
 
-import de.cristelknight.doapi.common.util.GeneralUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
@@ -15,6 +14,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.satisfy.meadow.registry.BlockEntityRegistry;
+import net.satisfy.meadow.util.GeneralUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
