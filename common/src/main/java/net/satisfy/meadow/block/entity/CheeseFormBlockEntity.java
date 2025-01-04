@@ -1,6 +1,5 @@
 package net.satisfy.meadow.block.entity;
 
-import de.cristelknight.doapi.common.world.ImplementedInventory;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
@@ -26,6 +25,7 @@ import net.satisfy.meadow.registry.BlockEntityRegistry;
 import net.satisfy.meadow.registry.ObjectRegistry;
 import net.satisfy.meadow.registry.RecipeRegistry;
 import net.satisfy.meadow.registry.TagRegistry;
+import net.satisfy.meadow.world.ImplementedInventory;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
