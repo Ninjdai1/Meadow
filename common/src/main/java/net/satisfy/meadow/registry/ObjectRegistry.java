@@ -1,6 +1,5 @@
 package net.satisfy.meadow.registry;
 
-import de.cristelknight.doapi.Util;
 import de.cristelknight.doapi.common.block.FlowerBoxBlock;
 import de.cristelknight.doapi.common.block.*;
 import de.cristelknight.doapi.common.registry.DoApiSoundEventRegistry;
@@ -46,6 +45,7 @@ import net.satisfy.meadow.item.armor.FurChest;
 import net.satisfy.meadow.item.armor.FurHead;
 import net.satisfy.meadow.item.armor.FurLegs;
 import net.satisfy.meadow.util.MeadowIdentifier;
+import net.satisfy.meadow.util.Util;
 import net.satisfy.meadow.util.WoodenCauldronBehavior;
 import org.jetbrains.annotations.NotNull;
 

@@ -1,6 +1,5 @@
 package net.satisfy.meadow.item.armor;
 
-import de.cristelknight.doapi.common.item.CustomArmorItem;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
