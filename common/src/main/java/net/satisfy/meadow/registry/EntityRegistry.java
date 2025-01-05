@@ -10,8 +10,10 @@ import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.Cow;
 import net.satisfy.meadow.Meadow;
+import net.satisfy.meadow.entity.ChairEntity;
 import net.satisfy.meadow.entity.ShearableVarCow;
 import net.satisfy.meadow.entity.WaterBuffalo;
+import net.satisfy.meadow.util.MeadowIdentifier;
 
 import java.util.function.Supplier;
 
@@ -25,6 +27,8 @@ public class EntityRegistry {
     public static final RegistrySupplier<EntityType<ShearableVarCow>> SHEARABLE_MEADOW_VAR_COW = create("wooly_cow",
             () -> EntityType.Builder.of(ShearableVarCow::new, MobCategory.CREATURE).sized(0.9f, 1.4f).build(new ResourceLocation(Meadow.MOD_ID, "wooly_cow").toString())
     );
+
+    public static final RegistrySupplier<EntityType<ChairEntity>> CHAIR = create("chair", () -> EntityType.Builder.of(ChairEntity::new, MobCategory.MISC).sized(0.001F, 0.001F).build((new MeadowIdentifier("chair")).toString()));
 
     public static void registerCow(Supplier<? extends EntityType<? extends Animal>> typeSupplier) {
         EntityAttributeRegistry.register(typeSupplier, Cow::createAttributes);

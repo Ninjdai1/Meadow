@@ -1,6 +1,5 @@
 package net.satisfy.meadow.block;
 
-import de.cristelknight.doapi.common.registry.DoApiSoundEventRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -35,6 +34,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.satisfy.meadow.block.entity.CookingCauldronBlockEntity;
 import net.satisfy.meadow.registry.BlockEntityRegistry;
 import net.satisfy.meadow.registry.ObjectRegistry;
+import net.satisfy.meadow.registry.SoundRegistry;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -103,7 +103,7 @@ public class CookingCauldronBlock extends BaseEntityBlock {
             double f = pos.getZ() + 0.5;
             if (random.nextDouble() < 0.3) {
                 world.playLocalSound(d, e, f, SoundEvents.CAMPFIRE_CRACKLE, SoundSource.BLOCKS, 1.0f, 1.0f, true);
-                world.playLocalSound(d, e, f, DoApiSoundEventRegistry.COOKING_POT_BOILING.get(), SoundSource.BLOCKS, 0.05f, 1.0f, true);
+                world.playLocalSound(d, e, f, SoundRegistry.COOKING_POT_BOILING.get(), SoundSource.BLOCKS, 0.05f, 1.0f, true);
             }
             Direction direction = state.getValue(FACING);
             Direction.Axis axis = direction.getAxis();

@@ -1,6 +1,5 @@
 package net.satisfy.meadow.block;
 
-import de.cristelknight.doapi.common.util.ChairUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -13,6 +12,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.satisfy.meadow.util.ChairUtil;
 import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("deprecation")

@@ -1,6 +1,5 @@
 package net.satisfy.meadow.block;
 
-import de.cristelknight.doapi.common.block.FacingBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;

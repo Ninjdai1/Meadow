@@ -37,5 +37,11 @@
     "sounds": [
       "meadow:water_buffalo_death"
     ]
+  },
+  "cooking_pot_boiling": {
+    "subtitle": "subtitles.meadow.cooking_pot_boiling",
+    "sounds": [
+      "meadow:cooking_pot_boiling"
+    ]
   }
 }

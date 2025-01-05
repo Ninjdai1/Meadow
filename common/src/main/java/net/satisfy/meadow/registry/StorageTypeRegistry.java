@@ -8,4 +8,7 @@ public class StorageTypeRegistry {
     public static final ResourceLocation FLOWER_POT_SMALL = new MeadowIdentifier("flower_pot_small");
     public static final ResourceLocation CHEESE_RACK = new MeadowIdentifier("cheese_rack");
 
+    public static final ResourceLocation FLOWER_POT_BIG = new MeadowIdentifier("flower_pot_big");
+    public static final ResourceLocation FLOWER_BOX = new MeadowIdentifier("flower_box");
+
 }

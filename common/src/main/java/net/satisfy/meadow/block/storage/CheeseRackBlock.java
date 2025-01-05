@@ -1,8 +1,5 @@
 package net.satisfy.meadow.block.storage;
 
-import de.cristelknight.doapi.Util;
-import de.cristelknight.doapi.common.block.StorageBlock;
-import de.cristelknight.doapi.common.block.entity.StorageBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
@@ -17,8 +14,11 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
+import net.satisfy.meadow.block.StorageBlock;
+import net.satisfy.meadow.block.entity.StorageBlockEntity;
 import net.satisfy.meadow.registry.StorageTypeRegistry;
 import net.satisfy.meadow.registry.TagRegistry;
+import net.satisfy.meadow.util.Util;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;

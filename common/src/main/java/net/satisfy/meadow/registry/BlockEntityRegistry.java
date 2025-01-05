@@ -1,17 +1,27 @@
 package net.satisfy.meadow.registry;
 
+import com.mojang.datafixers.types.Type;
+import de.cristelknight.doapi.Util;
+import de.cristelknight.doapi.api.DoApiAPI;
+import de.cristelknight.doapi.api.DoApiPlugin;
+import de.cristelknight.doapi.common.block.entity.StorageBlockEntity;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.satisfy.meadow.Meadow;
 import net.satisfy.meadow.block.entity.*;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.function.Supplier;
 
 public class BlockEntityRegistry {
     private static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES = DeferredRegister.create(Meadow.MOD_ID, Registries.BLOCK_ENTITY_TYPE);
 
+    public static final RegistrySupplier<BlockEntityType<StorageBlockEntity>> STORAGE_ENTITY = createBlockEntity("storage", () -> BlockEntityType.Builder.of(StorageBlockEntity::new, getBlocksForEntity()).build((Type)null));
     public static final RegistrySupplier<BlockEntityType<CookingCauldronBlockEntity>> COOKING_CAULDRON = createBlockEntity("cooking_cauldron", () -> BlockEntityType.Builder.of(CookingCauldronBlockEntity::new, ObjectRegistry.COOKING_CAULDRON.get()).build(null));
     public static final RegistrySupplier<BlockEntityType<CheeseFormBlockEntity>> CHEESE_FORM_BLOCK_ENTITY = createBlockEntity("cheese_form", () -> BlockEntityType.Builder.of(CheeseFormBlockEntity::new, ObjectRegistry.CHEESE_FORM.get()).build(null));
     public static final RegistrySupplier<BlockEntityType<CheeseRackBlockEntity>> CHEESE_RACK_BLOCK_ENTITY = createBlockEntity("cheese_rack", () -> BlockEntityType.Builder.of(CheeseRackBlockEntity::new, ObjectRegistry.CHEESE_RACK.get()).build(null));
@@ -25,5 +35,14 @@ public class BlockEntityRegistry {
     public static void init() {
         Meadow.LOGGER.debug("Registering Mod BlockEntities for " + Meadow.MOD_ID);
         BLOCK_ENTITY_TYPES.register();
+    }
+
+    private static Block[] getBlocksForEntity() {
+        return new Block[]{
+                ObjectRegistry.CHEESE_RACK.get(),
+                ObjectRegistry.WOODEN_FLOWER_POT_SMALL.get(),
+                ObjectRegistry.WOODEN_FLOWER_POT_BIG.get(),
+                ObjectRegistry.WHEELBARROW.get()
+        };
     }
 }

@@ -1,6 +1,5 @@
 package net.satisfy.meadow.block;
 
-import de.cristelknight.doapi.common.block.FacingBlock;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

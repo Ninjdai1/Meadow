@@ -18,6 +18,8 @@ public class SoundRegistry {
     public static final RegistrySupplier<SoundEvent> BUFFALO_HURT = create("buffalo_hurt");
     public static final RegistrySupplier<SoundEvent> BUFFALO_DEATH = create("buffalo_death");
 
+    public static final RegistrySupplier<SoundEvent> COOKING_POT_BOILING = create("cooking_pot_boiling");
+
     private static RegistrySupplier<SoundEvent> create(String name) {
         final ResourceLocation id = new MeadowIdentifier(name);
         return SOUND_EVENTS.register(id, () -> SoundEvent.createVariableRangeEvent(id));

@@ -1,6 +1,5 @@
 package net.satisfy.meadow.block.storage;
 
-import de.cristelknight.doapi.common.block.StorageBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
@@ -15,6 +14,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.satisfy.meadow.block.StorageBlock;
 import net.satisfy.meadow.registry.StorageTypeRegistry;
 import org.jetbrains.annotations.NotNull;
 
