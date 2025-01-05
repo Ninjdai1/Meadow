@@ -1,7 +1,5 @@
 package net.satisfy.meadow.client.gui.handler;
 
-import de.cristelknight.doapi.client.recipebook.IRecipeBookGroup;
-import de.cristelknight.doapi.client.recipebook.handler.AbstractRecipeBookGUIScreenHandler;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -11,7 +9,6 @@ import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
-import net.satisfy.meadow.client.recipebook.group.CheeseFormRecipeBookGroup;
 import net.satisfy.meadow.block.entity.CheeseFormBlockEntity;
 import net.satisfy.meadow.recipes.CheeseFormRecipe;
 import net.satisfy.meadow.registry.ScreenHandlerRegistry;
@@ -64,11 +61,6 @@ public class CheeseFormGuiHandler extends AbstractRecipeBookGUIScreenHandler {
             return 0;
         }
         return progress * 25 / totalProgress + 1;
-    }
-
-    @Override
-    public List<IRecipeBookGroup> getGroups() {
-        return CheeseFormRecipeBookGroup.CHEESE_GROUPS;
     }
 
     @Override

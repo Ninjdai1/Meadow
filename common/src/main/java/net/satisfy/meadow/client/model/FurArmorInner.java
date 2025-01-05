@@ -1,16 +1,16 @@
 package net.satisfy.meadow.client.model;
 
-import de.cristelknight.doapi.DoApiRL;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.world.entity.LivingEntity;
+import net.satisfy.meadow.util.MeadowIdentifier;
 
 
 public class FurArmorInner<T extends LivingEntity> extends HumanoidModel<T> {
-    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new DoApiRL("wool_armor_inner"), "main");
+    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new MeadowIdentifier("wool_armor_inner"), "main");
 
     public FurArmorInner(ModelPart root) {
         super(root);

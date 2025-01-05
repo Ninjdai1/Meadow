@@ -1,6 +1,5 @@
 package net.satisfy.meadow.client;
 
-import de.cristelknight.doapi.client.render.block.storage.api.StorageBlockEntityRenderer;
 import de.cristelknight.doapi.terraform.sign.TerraformSignHelper;
 import dev.architectury.registry.client.level.entity.EntityModelLayerRegistry;
 import dev.architectury.registry.client.level.entity.EntityRendererRegistry;
@@ -20,6 +19,7 @@ import net.satisfy.meadow.client.model.FurArmorHat;
 import net.satisfy.meadow.client.model.WaterBuffaloModel;
 import net.satisfy.meadow.client.model.WoolyCowModel;
 import net.satisfy.meadow.client.render.block.storage.CheeseRackRenderer;
+import net.satisfy.meadow.client.render.block.storage.StorageBlockEntityRenderer;
 import net.satisfy.meadow.client.render.block.storage.WheelBarrowRenderer;
 import net.satisfy.meadow.client.render.block.storage.FlowerPotSmallRenderer;
 import net.satisfy.meadow.client.render.entity.ShearableVarCowRenderer;

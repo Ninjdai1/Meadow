@@ -1,7 +1,5 @@
 package net.satisfy.meadow.client.gui.handler;
 
-import de.cristelknight.doapi.client.recipebook.IRecipeBookGroup;
-import de.cristelknight.doapi.client.recipebook.handler.AbstractRecipeBookGUIScreenHandler;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -12,7 +10,6 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
-import net.satisfy.meadow.client.recipebook.group.CookingCauldronRecipeBookGroup;
 import net.satisfy.meadow.block.entity.CookingCauldronBlockEntity;
 import net.satisfy.meadow.recipes.CookingCauldronRecipe;
 import net.satisfy.meadow.registry.RecipeRegistry;
@@ -74,12 +71,6 @@ public class CookingCauldronGuiHandler extends AbstractRecipeBookGUIScreenHandle
             return 0;
         }
         return progress * arrowWidth/ totalProgress + 1;
-    }
-
-
-    @Override
-    public List<IRecipeBookGroup> getGroups() {
-        return CookingCauldronRecipeBookGroup.CAULDRON_GROUPS;
     }
 
     @Override
