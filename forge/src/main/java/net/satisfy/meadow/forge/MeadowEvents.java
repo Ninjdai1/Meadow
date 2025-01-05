@@ -1,6 +1,5 @@
 package net.satisfy.meadow.forge;
 
-import de.cristelknight.doapi.common.util.VillagerUtil;
 import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.event.village.VillagerTradesEvent;
@@ -9,6 +8,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.satisfy.meadow.Meadow;
 import net.satisfy.meadow.forge.registry.MeadowForgeVillagers;
 import net.satisfy.meadow.registry.ObjectRegistry;
+import net.satisfy.meadow.util.VillagerUtil;
 
 import java.util.HashMap;
 import java.util.List;

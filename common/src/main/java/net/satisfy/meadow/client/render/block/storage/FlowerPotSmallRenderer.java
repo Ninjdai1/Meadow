@@ -8,7 +8,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.satisfy.meadow.block.entity.StorageBlockEntity;
 
-import static de.cristelknight.doapi.client.ClientUtil.renderBlock;
+import static net.satisfy.meadow.client.util.ClientUtil.renderBlock;
 
 public class FlowerPotSmallRenderer implements StorageTypeRenderer {
 

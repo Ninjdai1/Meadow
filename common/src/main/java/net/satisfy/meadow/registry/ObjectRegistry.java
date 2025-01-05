@@ -1,8 +1,5 @@
 package net.satisfy.meadow.registry;
 
-import de.cristelknight.doapi.common.block.FlowerBoxBlock;
-import de.cristelknight.doapi.common.block.*;
-import de.cristelknight.doapi.common.registry.DoApiSoundEventRegistry;
 import dev.architectury.core.item.ArchitecturySpawnEggItem;
 import dev.architectury.registry.fuel.FuelRegistry;
 import dev.architectury.registry.registries.DeferredRegister;
@@ -35,10 +32,7 @@ import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import net.satisfy.meadow.Meadow;
 import net.satisfy.meadow.block.*;
-import net.satisfy.meadow.block.storage.CheeseRackBlock;
-import net.satisfy.meadow.block.storage.MeadowFlowerPotBigBlock;
-import net.satisfy.meadow.block.storage.WheelBarrowBlock;
-import net.satisfy.meadow.block.storage.FlowerPotSmallBlock;
+import net.satisfy.meadow.block.storage.*;
 import net.satisfy.meadow.item.*;
 import net.satisfy.meadow.item.armor.FurBoots;
 import net.satisfy.meadow.item.armor.FurChest;
@@ -115,7 +109,7 @@ public class ObjectRegistry {
     public static final RegistrySupplier<Block> SHUTTER_BLOCK_POPPY = registerWithItem("shutter_block_poppy", () -> new ShutterBlock(BlockBehaviour.Properties.of().strength(1.0F).sound(SoundType.WOOD)));
     public static final RegistrySupplier<Block> SHUTTER_BLOCK_FIR = registerWithItem("shutter_block_fir", () -> new ShutterBlock(BlockBehaviour.Properties.of().strength(1.0F).sound(SoundType.WOOD)));
     public static final RegistrySupplier<Block> SHUTTER_BLOCK_BERRY = registerWithItem("shutter_block_berry", () -> new ShutterBlock(BlockBehaviour.Properties.of().strength(1.0F).sound(SoundType.WOOD)));
-    public static final RegistrySupplier<Block> SHELF = registerWithItem("shelf", () -> new CabinetBlock(BlockBehaviour.Properties.of().strength(2.0F, 3.0F).sound(SoundType.WOOD), DoApiSoundEventRegistry.CABINET_OPEN, DoApiSoundEventRegistry.CABINET_CLOSE));
+    public static final RegistrySupplier<Block> SHELF = registerWithItem("shelf", () -> new CabinetBlock(BlockBehaviour.Properties.of().strength(2.0F, 3.0F).sound(SoundType.WOOD), SoundRegistry.CABINET_OPEN, SoundRegistry.CABINET_CLOSE));
     public static final RegistrySupplier<Block> CHEESE_RACK = registerWithItem("cheese_rack", () -> new CheeseRackBlock(BlockBehaviour.Properties.of().strength(2.0F, 3.0F).sound(SoundType.WOOD).noOcclusion()));
     public static final RegistrySupplier<Block> CHAIR = registerWithItem("chair", () -> new ChairBlock(BlockBehaviour.Properties.of().strength(2.0f, 3.0f).sound(SoundType.WOOD)));
     public static final RegistrySupplier<Block> TABLE = registerWithItem("table", () -> new TableBlock(BlockBehaviour.Properties.of().requiresCorrectToolForDrops().strength(3.5F).sound(SoundType.WOOD).noOcclusion()));

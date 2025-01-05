@@ -43,5 +43,17 @@
     "sounds": [
       "meadow:cooking_pot_boiling"
     ]
+  },
+  "cabinet_open": {
+    "subtitle": "subtitles.meadow.cabinet_open",
+    "sounds": [
+      "meadow:cabinet_open"
+    ]
+  },
+  "cabinet_close": {
+    "subtitle": "subtitles.meadow.cabinet_close",
+    "sounds": [
+      "meadow:cabinet_close"
+    ]
   }
 }
