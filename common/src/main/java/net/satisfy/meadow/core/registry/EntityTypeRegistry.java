@@ -54,9 +54,9 @@ public class EntityTypeRegistry {
         return BLOCK_ENTITY_TYPES.register(new MeadowIdentifier(path), type);
     }
     public static void init() {
-        registerCow(SHEARABLE_MEADOW_VAR_COW);
-        registerCow(WATER_BUFFALO);
         ENTITY_TYPES.register();
         BLOCK_ENTITY_TYPES.register();
+        registerCow(SHEARABLE_MEADOW_VAR_COW);
+        registerCow(WATER_BUFFALO);
     }
 }
