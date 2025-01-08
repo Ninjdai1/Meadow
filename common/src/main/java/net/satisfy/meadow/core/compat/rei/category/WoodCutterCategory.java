@@ -17,8 +17,6 @@ import net.satisfy.meadow.core.registry.ObjectRegistry;
 import java.util.List;
 
 public class WoodCutterCategory implements DisplayCategory<WoodCutterDisplay> {
-
-
     public static final CategoryIdentifier<WoodCutterDisplay> WOOD_CUTTER_DISPLAY = CategoryIdentifier.of(Meadow.MOD_ID, "wood_cutter_display");
 
     @Override
@@ -28,7 +26,7 @@ public class WoodCutterCategory implements DisplayCategory<WoodCutterDisplay> {
 
     @Override
     public Component getTitle() {
-        return Component.translatable("rei.meadow.wood_cutter_category");
+        return ObjectRegistry.WOODCUTTER.get().getName();
     }
 
     @Override

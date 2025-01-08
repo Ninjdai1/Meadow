@@ -10,14 +10,14 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.satisfy.meadow.core.item.FurHelmetItem;
-import net.satisfy.meadow.core.registry.ArmorRegistryClient;
+import net.satisfy.meadow.core.registry.ArmorRegistry;
 
 public class FurHelmetRenderer implements ArmorRenderer {
     @Override
     public void render(PoseStack matrices, MultiBufferSource vertexConsumers, ItemStack stack, LivingEntity entity, EquipmentSlot slot, int light, HumanoidModel<LivingEntity> contextModel) {
         FurHelmetItem hat = (FurHelmetItem) stack.getItem();
 
-        Model model = ArmorRegistryClient.getHatModel(hat, contextModel.getHead());
+        Model model = ArmorRegistry.getHatModel(hat, contextModel.getHead());
 
         model.renderToBuffer(matrices, vertexConsumers.getBuffer(model.renderType(hat.getHatTexture())), light, OverlayTexture.NO_OVERLAY, 1F, 1F, 1F, 1F);
     }

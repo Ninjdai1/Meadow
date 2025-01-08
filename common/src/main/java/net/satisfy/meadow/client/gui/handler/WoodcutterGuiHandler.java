@@ -15,6 +15,7 @@ import net.satisfy.meadow.core.registry.ObjectRegistry;
 import net.satisfy.meadow.core.registry.RecipeRegistry;
 import net.satisfy.meadow.core.registry.ScreenHandlerRegistry;
 import net.satisfy.meadow.core.registry.SoundEventRegistry;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -166,7 +167,7 @@ public class WoodcutterGuiHandler extends AbstractContainerMenu {
     }
 
     @Override
-    public MenuType<?> getType() {
+    public @NotNull MenuType<?> getType() {
         return ScreenHandlerRegistry.WOODCUTTER_SCREEN_HANDLER.get();
     }
 
@@ -181,7 +182,7 @@ public class WoodcutterGuiHandler extends AbstractContainerMenu {
 
 
     @Override
-    public ItemStack quickMoveStack(Player player, int index) {
+    public @NotNull ItemStack quickMoveStack(Player player, int index) {
         ItemStack itemStack = ItemStack.EMPTY;
         Slot slot = this.slots.get(index);
         if (slot.hasItem()) {

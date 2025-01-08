@@ -1,4 +1,4 @@
-package net.satisfy.meadow.fabric.world;
+package net.satisfy.meadow.fabric.core.world;
 
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext;

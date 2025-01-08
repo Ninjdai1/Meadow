@@ -11,7 +11,7 @@ import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.satisfy.meadow.core.item.FurHelmetItem;
-import net.satisfy.meadow.core.registry.ArmorRegistryClient;
+import net.satisfy.meadow.core.registry.ArmorRegistry;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
@@ -32,7 +32,7 @@ public abstract class HelmetItemMixin extends ArmorItem {
                 new IClientItemExtensions() {
                     @Override
                     public @NotNull Model getGenericArmorModel(LivingEntity livingEntity, ItemStack itemStack, EquipmentSlot equipmentSlot, HumanoidModel<?> original) {
-                        return ArmorRegistryClient.getHatModel(itemStack.getItem(), original.getHead());
+                        return ArmorRegistry.getHatModel(itemStack.getItem(), original.getHead());
                     }
                 }
         );

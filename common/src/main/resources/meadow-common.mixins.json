@@ -1,20 +1,18 @@
 {
   "required": true,
-  "package": "net.satisfy.meadow.mixin",
+  "package": "net.satisfy.meadow.core.mixin",
   "compatibilityLevel": "JAVA_17",
   "minVersion": "0.8",
   "client": [
   ],
   "mixins": [
-    "net.satisfy.meadow.core.mixin.BlockMixin",
-    "net.satisfy.meadow.core.mixin.CowMixin",
-    "net.satisfy.meadow.core.mixin.FluidDecrementMixin",
-    "net.satisfy.meadow.core.mixin.GoatMixin",
-    "net.satisfy.meadow.core.mixin.NetherPortalBlockMixin",
-    "net.satisfy.meadow.core.mixin.SheepMixin",
-    "SinkBlockMixin",
-    "net.satisfy.meadow.core.mixin.variant.MobVariantMixin",
-    "net.satisfy.meadow.core.mixin.variant.SheepVariantMixin"
+    "BlockMixin",
+    "CowMixin",
+    "FluidDecrementMixin",
+    "GoatMixin",
+    "NetherPortalBlockMixin",
+    "SheepMixin",
+    "variant.MobVariantMixin"
   ],
   "injectors": {
     "defaultRequire": 1

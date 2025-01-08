@@ -10,13 +10,13 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.satisfy.meadow.core.item.FurLegsItem;
-import net.satisfy.meadow.core.registry.ArmorRegistryClient;
+import net.satisfy.meadow.core.registry.ArmorRegistry;
 
 public class FurLeggingsRenderer implements ArmorRenderer {
     @Override
     public void render(PoseStack matrices, MultiBufferSource vertexConsumers, ItemStack stack, LivingEntity entity, EquipmentSlot slot, int light, HumanoidModel<LivingEntity> contextModel) {
         if (stack.getItem() instanceof FurLegsItem leggings) {
-            Model model = ArmorRegistryClient.getLeggingsModel(leggings, contextModel.rightLeg, contextModel.leftLeg);
+            Model model = ArmorRegistry.getLeggingsModel(leggings, contextModel.rightLeg, contextModel.leftLeg);
 
             model.renderToBuffer(matrices, vertexConsumers.getBuffer(model.renderType(leggings.getLeggingsTexture())), light, OverlayTexture.NO_OVERLAY, 1F, 1F, 1F, 1F);
         }

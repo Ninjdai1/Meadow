@@ -70,8 +70,7 @@ public class FoodBlock extends FacingBlock {
     }
 
     private InteractionResult tryEat(LevelAccessor world, BlockPos pos, BlockState state, Player player) {
-        if (world instanceof Level) {
-            Level level = (Level) world;
+        if (world instanceof Level level) {
             for (int count = 0; count < 10; ++count) {
                 double d0 = level.random.nextGaussian() * 0.02D;
                 double d1 = level.random.nextGaussian() * 0.02D;

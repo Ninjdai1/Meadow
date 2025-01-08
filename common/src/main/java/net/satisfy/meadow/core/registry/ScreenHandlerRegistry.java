@@ -23,7 +23,6 @@ public class ScreenHandlerRegistry {
 
 
     public static void init() {
-        Meadow.LOGGER.debug("Registering Screens for " + Meadow.MOD_ID);
         SCREEN_TYPES.register();
     }
 

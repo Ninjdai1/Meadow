@@ -1,4 +1,4 @@
-package net.satisfy.meadow.fabric.rei;
+package net.satisfy.meadow.fabric.core.rei;
 
 import me.shedaniel.rei.api.client.plugins.REIClientPlugin;
 import me.shedaniel.rei.api.client.registry.category.CategoryRegistry;

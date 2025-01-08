@@ -6,8 +6,9 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
-import net.satisfy.meadow.core.compat.block.entity.FondueBlockEntity;
+import net.satisfy.meadow.core.block.entity.FondueBlockEntity;
 import net.satisfy.meadow.core.registry.ScreenHandlerRegistry;
+import org.jetbrains.annotations.NotNull;
 
 public class FondueGuiHandler extends AbstractContainerMenu {
     private final Container inventory;
@@ -55,7 +56,7 @@ public class FondueGuiHandler extends AbstractContainerMenu {
 
 
     @Override
-    public ItemStack quickMoveStack(Player player, int invSlot) {
+    public @NotNull ItemStack quickMoveStack(Player player, int invSlot) {
         ItemStack newStack = ItemStack.EMPTY;
         Slot slot = this.slots.get(invSlot);
         if (slot.hasItem()) {

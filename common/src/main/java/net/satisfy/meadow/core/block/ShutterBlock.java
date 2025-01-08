@@ -27,14 +27,14 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.satisfy.meadow.core.util.ShutterType;
+import net.satisfy.meadow.core.util.GeneralUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("deprecation")
 public class ShutterBlock extends Block implements SimpleWaterloggedBlock {
     public static final DirectionProperty FACING;
-    public static final EnumProperty<ShutterType> TYPE;
+    public static final EnumProperty<GeneralUtil.ShutterType> TYPE;
     public static final BooleanProperty LEFT;
     public static final BooleanProperty OPEN;
     public static final BooleanProperty POWERED;
@@ -43,7 +43,7 @@ public class ShutterBlock extends Block implements SimpleWaterloggedBlock {
 
     public ShutterBlock(Properties settings) {
         super(settings);
-        this.registerDefaultState(((((this.stateDefinition.any().setValue(FACING, Direction.NORTH)).setValue(TYPE, ShutterType.NONE)).setValue(OPEN, false)).setValue(LEFT, false).setValue(POWERED, false)).setValue(WATERLOGGED, false));
+        this.registerDefaultState(((((this.stateDefinition.any().setValue(FACING, Direction.NORTH)).setValue(TYPE, GeneralUtil.ShutterType.NONE)).setValue(OPEN, false)).setValue(LEFT, false).setValue(POWERED, false)).setValue(WATERLOGGED, false));
     }
 
     @Override
@@ -96,7 +96,7 @@ public class ShutterBlock extends Block implements SimpleWaterloggedBlock {
                 world.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
             }
         }
-        ShutterType type = getType(state, world.getBlockState(pos.above()), world.getBlockState(pos.below()));
+        GeneralUtil.ShutterType type = getType(state, world.getBlockState(pos.above()), world.getBlockState(pos.below()));
         if (state.getValue(TYPE) != type) {
             state = state.setValue(TYPE, type);
         }
@@ -123,7 +123,7 @@ public class ShutterBlock extends Block implements SimpleWaterloggedBlock {
     public void toggleShutters(BlockState state, Level level, BlockPos pos, boolean open) {
         BlockState updateState = state;
         BlockPos updatePos = pos;
-        if (state.getValue(TYPE) == ShutterType.MIDDLE || state.getValue(TYPE) == ShutterType.BOTTOM) {
+        if (state.getValue(TYPE) == GeneralUtil.ShutterType.MIDDLE || state.getValue(TYPE) == GeneralUtil.ShutterType.BOTTOM) {
             int heightUp = level.dimensionType().height() - updatePos.getY();
             for (int i = 0; i < heightUp; i++) {
                 BlockState above = level.getBlockState(updatePos.above());
@@ -136,7 +136,7 @@ public class ShutterBlock extends Block implements SimpleWaterloggedBlock {
                 }
             }
         }
-        if (state.getValue(TYPE) == ShutterType.MIDDLE || state.getValue(TYPE) == ShutterType.TOP) {
+        if (state.getValue(TYPE) == GeneralUtil.ShutterType.MIDDLE || state.getValue(TYPE) == GeneralUtil.ShutterType.TOP) {
             updateState = state;
             updatePos = pos;
             int heightDown = level.dimensionType().minY() - updatePos.getY();
@@ -161,20 +161,20 @@ public class ShutterBlock extends Block implements SimpleWaterloggedBlock {
         return SoundEvents.BAMBOO_WOOD_DOOR_CLOSE;
     }
 
-    public ShutterType getType(BlockState state, BlockState above, BlockState below) {
+    public GeneralUtil.ShutterType getType(BlockState state, BlockState above, BlockState below) {
         boolean shape_above_same = above.getBlock() == state.getBlock() && above.getValue(FACING) == state.getValue(FACING)
                 && above.getValue(OPEN) == state.getValue(OPEN) && above.getValue(LEFT) == state.getValue(LEFT);
         boolean shape_below_same = below.getBlock() == state.getBlock() && below.getValue(FACING) == state.getValue(FACING)
                 && below.getValue(OPEN) == state.getValue(OPEN) && below.getValue(LEFT) == state.getValue(LEFT);
 
         if (shape_above_same && !shape_below_same) {
-            return ShutterType.BOTTOM;
+            return GeneralUtil.ShutterType.BOTTOM;
         } else if (!shape_above_same && shape_below_same) {
-            return ShutterType.TOP;
+            return GeneralUtil.ShutterType.TOP;
         } else if (shape_above_same) {
-            return ShutterType.MIDDLE;
+            return GeneralUtil.ShutterType.MIDDLE;
         }
-        return ShutterType.NONE;
+        return GeneralUtil.ShutterType.NONE;
     }
 
     @Override
@@ -199,7 +199,7 @@ public class ShutterBlock extends Block implements SimpleWaterloggedBlock {
 
     static {
         FACING = BlockStateProperties.HORIZONTAL_FACING;
-        TYPE = ShutterType.SHUTTER_TYPE;
+        TYPE = GeneralUtil.ShutterType.SHUTTER_TYPE;
         LEFT = BooleanProperty.create("left");
         OPEN = BlockStateProperties.OPEN;
         POWERED = BlockStateProperties.POWERED;

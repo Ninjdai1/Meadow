@@ -13,23 +13,15 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.satisfy.meadow.core.registry.StorageTypeRegistry;
 import org.jetbrains.annotations.NotNull;
 
+@SuppressWarnings("deprecation")
 public class FlowerPotBigBlock extends StorageBlock {
-    private static final Supplier<VoxelShape> voxelShapeSupplier = () -> {
-        VoxelShape shape = Shapes.empty();
-        shape = Shapes.joinUnoptimized(shape, Shapes.box((double)0.78125F, (double)0.4375F, (double)0.21875F, (double)0.90625F, (double)0.625F, (double)0.78125F), BooleanOp.OR);
-        shape = Shapes.joinUnoptimized(shape, Shapes.box((double)0.09375F, (double)0.4375F, (double)0.21875F, (double)0.21875F, (double)0.625F, (double)0.78125F), BooleanOp.OR);
-        shape = Shapes.joinUnoptimized(shape, Shapes.box((double)0.21875F, (double)0.0F, (double)0.21875F, (double)0.78125F, (double)0.4375F, (double)0.78125F), BooleanOp.OR);
-        shape = Shapes.joinUnoptimized(shape, Shapes.box((double)0.09375F, (double)0.4375F, (double)0.09375F, (double)0.90625F, (double)0.625F, (double)0.21875F), BooleanOp.OR);
-        shape = Shapes.joinUnoptimized(shape, Shapes.box((double)0.09375F, (double)0.4375F, (double)0.78125F, (double)0.90625F, (double)0.625F, (double)0.90625F), BooleanOp.OR);
-        return shape;
-    };
+    private static final Supplier<VoxelShape> voxelShapeSupplier = () -> Shapes.box(0.25, 0.0, 0.25, 0.75, 0.5625, 0.75);
     private static final VoxelShape SHAPE;
 
     public FlowerPotBigBlock(BlockBehaviour.Properties settings) {

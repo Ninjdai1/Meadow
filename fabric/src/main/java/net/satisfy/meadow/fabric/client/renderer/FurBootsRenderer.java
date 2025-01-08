@@ -10,13 +10,13 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.satisfy.meadow.core.item.FurBootsItem;
-import net.satisfy.meadow.core.registry.ArmorRegistryClient;
+import net.satisfy.meadow.core.registry.ArmorRegistry;
 
 public class FurBootsRenderer implements ArmorRenderer {
     @Override
     public void render(PoseStack matrices, MultiBufferSource vertexConsumers, ItemStack stack, LivingEntity entity, EquipmentSlot slot, int light, HumanoidModel<LivingEntity> contextModel) {
         if (stack.getItem() instanceof FurBootsItem boots) {
-            Model model = ArmorRegistryClient.getBootsModel(boots, contextModel.rightLeg, contextModel.leftLeg);
+            Model model = ArmorRegistry.getBootsModel(boots, contextModel.rightLeg, contextModel.leftLeg);
 
             model.renderToBuffer(matrices, vertexConsumers.getBuffer(model.renderType(boots.getBootsTexture())), light, OverlayTexture.NO_OVERLAY, 1F, 1F, 1F, 1F);
         }

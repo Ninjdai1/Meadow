@@ -105,9 +105,6 @@ public class WoodenBucket extends Item implements DispensibleContainerItem, Inje
         return !player.getAbilities().instabuild ? new ItemStack(ObjectRegistry.WOODEN_BUCKET.get()) : itemStack;
     }
 
-    public void checkExtraContent(@Nullable Player player, Level level, ItemStack itemStack, BlockPos blockPos) {
-    }
-
     public boolean emptyContents(@Nullable Player player, Level level, BlockPos blockPos, @Nullable BlockHitResult blockHitResult) {
         if (!(this.content instanceof FlowingFluid)) {
             return false;

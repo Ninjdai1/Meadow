@@ -19,7 +19,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.satisfy.meadow.Meadow;
 import net.satisfy.meadow.client.gui.FondueGui;
 import net.satisfy.meadow.core.compat.jei.MeadowJEIPlugin;
-import net.satisfy.meadow.core.compat.block.entity.FondueBlockEntity;
+import net.satisfy.meadow.core.block.entity.FondueBlockEntity;
 import net.satisfy.meadow.core.recipes.FondueRecipe;
 import net.satisfy.meadow.core.registry.ObjectRegistry;
 

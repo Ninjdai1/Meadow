@@ -3,24 +3,25 @@ package net.satisfy.meadow.client.gui.handler;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.ContainerData;
-import net.minecraft.world.inventory.FurnaceResultSlot;
-import net.minecraft.world.inventory.SimpleContainerData;
-import net.minecraft.world.inventory.Slot;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.Recipe;
-import net.satisfy.meadow.core.compat.block.entity.CheeseFormBlockEntity;
-import net.satisfy.meadow.core.recipes.CheeseFormRecipe;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.*;
+import net.minecraft.world.item.ItemStack;
+import net.satisfy.meadow.core.block.entity.CheeseFormBlockEntity;
 import net.satisfy.meadow.core.registry.ScreenHandlerRegistry;
+import org.jetbrains.annotations.NotNull;
 
-public class CheeseFormGuiHandler extends AbstractRecipeBookGUIScreenHandler {
+public class CheeseFormGuiHandler extends AbstractContainerMenu {
+
+    private final ContainerData propertyDelegate;
 
     public CheeseFormGuiHandler(int syncId, Inventory playerInventory) {
         this(syncId, playerInventory, new SimpleContainer(3), new SimpleContainerData(1));
     }
 
     public CheeseFormGuiHandler(int syncId, Inventory playerInventory, Container inventory, ContainerData propertyDelegate) {
-        super(ScreenHandlerRegistry.CHEESE_FORM_SCREEN_HANDLER.get(), syncId, 2, playerInventory, inventory, propertyDelegate);
+        super(ScreenHandlerRegistry.CHEESE_FORM_SCREEN_HANDLER.get(), syncId);
+        this.propertyDelegate = propertyDelegate;
+        addDataSlots(propertyDelegate);
         buildBlockEntityContainer(playerInventory, inventory);
         buildPlayerContainer(playerInventory);
     }
@@ -62,27 +63,12 @@ public class CheeseFormGuiHandler extends AbstractRecipeBookGUIScreenHandler {
     }
 
     @Override
-    public boolean hasIngredient(Recipe<?> recipe) {
-        if (recipe instanceof CheeseFormRecipe cheeseFormRecipe) {
-            for (Ingredient ingredient : cheeseFormRecipe.getIngredients()) {
-                boolean found = false;
-                for (Slot slot : this.slots) {
-                    if (ingredient.test(slot.getItem())) {
-                        found = true;
-                        break;
-                    }
-                }
-                if (!found) {
-                    return false;
-                }
-            }
-            return true;
-        }
-        return false;
+    public @NotNull ItemStack quickMoveStack(Player player, int i) {
+        return ItemStack.EMPTY; // Return an empty stack for now
     }
 
     @Override
-    public int getCraftingSlotCount() {
-        return 2;
+    public boolean stillValid(Player player) {
+        return true; // Adjust the logic for still-valid checks
     }
 }

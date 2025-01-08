@@ -28,7 +28,7 @@ import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.satisfy.meadow.core.compat.block.entity.FondueBlockEntity;
+import net.satisfy.meadow.core.block.entity.FondueBlockEntity;
 import net.satisfy.meadow.core.registry.EntityTypeRegistry;
 import net.satisfy.meadow.core.registry.SoundEventRegistry;
 import net.satisfy.meadow.core.util.GeneralUtil;

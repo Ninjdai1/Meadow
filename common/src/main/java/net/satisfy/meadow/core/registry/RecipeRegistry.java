@@ -32,7 +32,6 @@ public class RecipeRegistry {
 
 
     public static void init() {
-        Meadow.LOGGER.debug("Registering Recipies for " + Meadow.MOD_ID);
         RECIPE_SERIALIZERS.register();
         RECIPE_TYPES.register();
     }

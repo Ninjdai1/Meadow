@@ -3,28 +3,32 @@ package net.satisfy.meadow.client.gui.handler;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.ContainerData;
-import net.minecraft.world.inventory.FurnaceResultSlot;
-import net.minecraft.world.inventory.SimpleContainerData;
-import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.Recipe;
-import net.satisfy.meadow.core.compat.block.entity.CookingCauldronBlockEntity;
+import net.minecraft.world.item.crafting.RecipeManager;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.satisfy.meadow.core.block.entity.CookingCauldronBlockEntity;
 import net.satisfy.meadow.core.recipes.CookingCauldronRecipe;
 import net.satisfy.meadow.core.registry.RecipeRegistry;
 import net.satisfy.meadow.core.registry.ScreenHandlerRegistry;
+import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
 import java.util.stream.Stream;
 
-public class CookingCauldronGuiHandler extends AbstractRecipeBookGUIScreenHandler {
+public class CookingCauldronGuiHandler extends AbstractContainerMenu {
+
+    private final ContainerData propertyDelegate;
 
     public CookingCauldronGuiHandler(int syncId, Inventory playerInventory) {
         this(syncId, playerInventory, new SimpleContainer(7), new SimpleContainerData(2));
     }
 
     public CookingCauldronGuiHandler(int syncId, Inventory playerInventory, Container inventory, ContainerData propertyDelegate) {
-        super(ScreenHandlerRegistry.COOKING_CAULDRON_SCREEN_HANDLER.get(), syncId, 6, playerInventory, inventory, propertyDelegate);
+        super(ScreenHandlerRegistry.COOKING_CAULDRON_SCREEN_HANDLER.get(), syncId);
+        this.propertyDelegate = propertyDelegate;
+        addDataSlots(propertyDelegate);
         buildBlockEntityContainer(playerInventory, inventory);
         buildPlayerContainer(playerInventory);
     }
@@ -33,7 +37,7 @@ public class CookingCauldronGuiHandler extends AbstractRecipeBookGUIScreenHandle
         this.addSlot(new FurnaceResultSlot(playerInventory.player, inventory, 0, 124, 26));
         for (int row = 0; row < 2; row++) {
             for (int slot = 0; slot < 3; slot++) {
-                this.addSlot(new Slot(inventory, 1 + slot + row + (row * 2), 30 + (slot * 18), 17 + (row * 18)));
+                this.addSlot(new Slot(inventory, 1 + slot + (row * 3), 30 + (slot * 18), 17 + (row * 18)));
             }
         }
     }
@@ -56,11 +60,19 @@ public class CookingCauldronGuiHandler extends AbstractRecipeBookGUIScreenHandle
 
     @SuppressWarnings("unused")
     private boolean isItemIngredient(ItemStack stack) {
-        return recipeStream().anyMatch(cookingPotRecipe -> cookingPotRecipe.getIngredients().stream().anyMatch(ingredient -> ingredient.test(stack)));
+        return recipeStream().anyMatch(cookingPotRecipe ->
+                cookingPotRecipe.getIngredients().stream().anyMatch(ingredient -> ingredient.test(stack)));
     }
 
     private Stream<CookingCauldronRecipe> recipeStream() {
-        return this.world.getRecipeManager().getAllRecipesFor(RecipeRegistry.COOKING.get()).stream();
+        return this.getRecipeManager().getAllRecipesFor(RecipeRegistry.COOKING.get()).stream();
+    }
+
+    private RecipeManager getRecipeManager() {
+        if (this.slots.get(0).container instanceof BlockEntity blockEntity) {
+            return Objects.requireNonNull(blockEntity.getLevel()).getRecipeManager();
+        }
+        throw new IllegalStateException("Unable to get RecipeManager, container is not associated with a BlockEntity.");
     }
 
     public int getScaledProgress(int arrowWidth) {
@@ -69,31 +81,16 @@ public class CookingCauldronGuiHandler extends AbstractRecipeBookGUIScreenHandle
         if (progress == 0) {
             return 0;
         }
-        return progress * arrowWidth/ totalProgress + 1;
+        return progress * arrowWidth / totalProgress + 1;
     }
 
     @Override
-    public boolean hasIngredient(Recipe<?> recipe) {
-        if (recipe instanceof CookingCauldronRecipe potRecipe) {
-            for (Ingredient ingredient : potRecipe.getIngredients()) {
-                boolean found = false;
-                for (Slot slot : this.slots) {
-                    if (ingredient.test(slot.getItem())) {
-                        found = true;
-                        break;
-                    }
-                }
-                if (!found) {
-                    return false;
-                }
-            }
-            return true;
-        }
-        return false;
+    public @NotNull ItemStack quickMoveStack(Player player, int i) {
+        return ItemStack.EMPTY;
     }
 
     @Override
-    public int getCraftingSlotCount() {
-        return 6;
+    public boolean stillValid(Player player) {
+        return true;
     }
 }

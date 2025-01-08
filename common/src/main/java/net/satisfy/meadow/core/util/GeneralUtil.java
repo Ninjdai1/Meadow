@@ -17,6 +17,7 @@ import net.minecraft.stats.Stats;
 import net.minecraft.util.Mth;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.util.Tuple;
+import net.minecraft.world.Container;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntityType;
@@ -70,7 +71,28 @@ public class GeneralUtil {
         return Platform.isForge() ? register.register(path.getPath(), itemSupplier) : registrar.register(path, itemSupplier);
     }
 
-
+    public static boolean matchesRecipe(Container inventory, NonNullList<Ingredient> recipe, int startIndex, int endIndex) {
+        final List<ItemStack> validStacks = new ArrayList<>();
+        for (int i = startIndex; i <= endIndex; i++) {
+            final ItemStack stackInSlot = inventory.getItem(i);
+            if (!stackInSlot.isEmpty())
+                validStacks.add(stackInSlot);
+        }
+        for (Ingredient entry : recipe) {
+            boolean matches = false;
+            for (ItemStack item : validStacks) {
+                if (entry.test(item)) {
+                    matches = true;
+                    validStacks.remove(item);
+                    break;
+                }
+            }
+            if (!matches) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     public static Collection<ServerPlayer> tracking(ServerLevel world, ChunkPos pos) {
         Objects.requireNonNull(world, "The world cannot be null");
@@ -328,5 +350,29 @@ public class GeneralUtil {
 
     private static ResourceLocation getDimensionTypeId(Level world) {
         return world.dimensionTypeId().location();
+    }
+
+    public enum ShutterType implements StringRepresentable {
+        TOP("top"),
+        MIDDLE("middle"),
+        BOTTOM("bottom"),
+        NONE("none");
+
+        private final String name;
+
+        ShutterType(String type) {
+            this.name = type;
+        }
+
+        @Override
+        public @NotNull String getSerializedName() {
+            return this.name;
+        }
+
+        public static final EnumProperty<ShutterType> SHUTTER_TYPE;
+
+        static {
+            SHUTTER_TYPE = EnumProperty.create("type", ShutterType.class);
+        }
     }
 }

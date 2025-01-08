@@ -1,6 +1,7 @@
 package net.satisfy.meadow.core.registry;
 
 import net.minecraft.world.level.block.Block;
+import net.satisfy.meadow.platform.PlatformHelper;
 
 public class FlammableBlockRegistry {
 

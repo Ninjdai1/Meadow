@@ -21,12 +21,12 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.function.Predicate;
 
-public class DarkCherryBoatItem extends BoatItem {
+public class PineBoatItem extends BoatItem {
     private static final Predicate<Entity> ENTITY_PREDICATE = EntitySelector.NO_SPECTATORS.and(Entity::isPickable);
     private final PineBoatEntity.Type type;
     private final boolean hasChest;
 
-    public DarkCherryBoatItem(boolean hasChest, PineBoatEntity.Type type, Properties pProperties) {
+    public PineBoatItem(boolean hasChest, PineBoatEntity.Type type, Properties pProperties) {
         super(hasChest, null, pProperties);
         this.hasChest = hasChest;
         this.type = type;

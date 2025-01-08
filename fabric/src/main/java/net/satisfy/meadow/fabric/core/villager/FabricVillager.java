@@ -1,4 +1,4 @@
-package net.satisfy.meadow.fabric.villager;
+package net.satisfy.meadow.fabric.core.villager;
 
 import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;
 import net.fabricmc.fabric.api.object.builder.v1.villager.VillagerProfessionBuilder;

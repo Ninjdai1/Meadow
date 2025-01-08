@@ -4,7 +4,7 @@ import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
-import net.satisfy.vinery.core.entity.ChairEntity;
+import net.satisfy.meadow.core.entity.ChairEntity;
 
 public class ChairRenderer extends EntityRenderer<ChairEntity> {
     public ChairRenderer(EntityRendererProvider.Context ctx) {
@@ -17,7 +17,6 @@ public class ChairRenderer extends EntityRenderer<ChairEntity> {
     }
 
     @Override
-    @SuppressWarnings("all")
     public ResourceLocation getTextureLocation(ChairEntity entity) {
         return null;
     }

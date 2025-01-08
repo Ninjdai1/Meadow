@@ -11,6 +11,7 @@ import net.satisfy.meadow.core.util.MeadowIdentifier;
 import static net.satisfy.meadow.Meadow.MOD_ID;
 
 public class TagRegistry {
+    public static final TagKey<Biome> IS_MEADOW = TagKey.create(Registries.BIOME, new MeadowIdentifier("is_meadow"));
     public static final TagKey<Biome> SPAWNS_DARK_COW = TagKey.create(Registries.BIOME, new MeadowIdentifier("spawns_dark_cows"));
     public static final TagKey<Biome> SPAWNS_ROCKY_SHEEP = TagKey.create(Registries.BIOME, new MeadowIdentifier("spawns_rocky_sheep"));
     public static final TagKey<Biome> SPAWNS_WARPED_COW = TagKey.create(Registries.BIOME, new MeadowIdentifier("spawns_warped_cow"));

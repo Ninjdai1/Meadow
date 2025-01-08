@@ -2,7 +2,6 @@ package net.satisfy.meadow;
 
 import dev.architectury.hooks.item.tool.AxeItemHooks;
 import net.minecraft.world.level.block.Blocks;
-import net.satisfy.meadow.config.MeadowConfig;
 import net.satisfy.meadow.core.registry.*;
 import net.satisfy.meadow.core.util.WoodenCauldronBehavior;
 
@@ -10,7 +9,6 @@ public class Meadow {
     public static final String MOD_ID = "meadow";
 
     public static void init() {
-        MeadowConfig.get();
         TabRegistry.init();
         ObjectRegistry.init();
         EntityTypeRegistry.init();

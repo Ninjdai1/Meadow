@@ -23,15 +23,17 @@
     ],
 
     "rei_client": [
-      "net.satisfy.meadow.fabric.rei.MeadowReiClientPluginFabric"
+      "net.satisfy.meadow.fabric.core.rei.MeadowReiClientPluginFabric"
     ],
     "jei_mod_plugin": [
       "net.satisfy.meadow.core.compat.jei.MeadowJEIPlugin"
+    ],
+    "modmenu": [
+      "net.satisfy.meadow.fabric.core.config.ModMenu"
     ]
   },
   "mixins": [
-    "meadow-common.mixins.json",
-    "meadow.mixins.json"
+    "meadow-common.mixins.json"
   ],
   "depends": {
     "fabric": "*",

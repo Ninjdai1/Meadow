@@ -27,13 +27,6 @@ public class ClientUtil {
         renderBlock(item.getBlock().defaultBlockState(), matrices, vertexConsumers, entity);
     }
 
-    public static <T extends BlockEntity> void renderItem(ItemStack stack, PoseStack matrices, MultiBufferSource vertexConsumers, T entity) {
-        Level level = entity.getLevel();
-        if (level != null) {
-            Minecraft.getInstance().getItemRenderer().renderStatic(stack, ItemDisplayContext.GUI, getLightLevel(level, entity.getBlockPos()), OverlayTexture.NO_OVERLAY, matrices, vertexConsumers, level, 1);
-        }
-    }
-
     public static int getLightLevel(Level world, BlockPos pos) {
         int bLight = world.getBrightness(LightLayer.BLOCK, pos);
         int sLight = world.getBrightness(LightLayer.SKY, pos);

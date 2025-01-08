@@ -17,7 +17,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.satisfy.meadow.core.block.entity.StorageBlockEntity;
 import net.satisfy.meadow.core.registry.StorageTypeRegistry;
 import net.satisfy.meadow.core.registry.TagRegistry;
-import net.satisfy.meadow.core.util.Util;
+import net.satisfy.meadow.core.util.GeneralUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
@@ -35,7 +35,7 @@ public class CheeseRackBlock extends StorageBlock {
             return InteractionResult.PASS;
         }
 
-        Optional<Tuple<Float, Float>> optional = Util.getRelativeHitCoordinatesForBlockFace(hit, state.getValue(FACING), unAllowedDirections());
+        Optional<Tuple<Float, Float>> optional = GeneralUtil.getRelativeHitCoordinatesForBlockFace(hit, state.getValue(FACING), unAllowedDirections());
         if (optional.isEmpty()) {
             return InteractionResult.PASS;
         }

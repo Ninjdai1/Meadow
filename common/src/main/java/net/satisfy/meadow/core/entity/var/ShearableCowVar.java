@@ -62,7 +62,7 @@ public enum ShearableCowVar implements StringRepresentable {
 
 
     private static final Map<ShearableCowVar, TagKey<Biome>> SPAWNS = Util.make(new HashMap<>(), map -> {
-        map.put(ShearableCowVar.HIGHLAND, BiomeTags.IS_MEADOW);
+        map.put(ShearableCowVar.HIGHLAND, TagRegistry.IS_MEADOW);
         map.put(ShearableCowVar.UMBRA, TagRegistry.SPAWNS_DARK_COW);
         map.put(ShearableCowVar.WARPED, TagRegistry.SPAWNS_WARPED_COW);
     });

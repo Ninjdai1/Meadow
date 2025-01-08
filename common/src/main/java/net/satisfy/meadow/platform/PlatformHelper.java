@@ -14,4 +14,20 @@ public class PlatformHelper {
     public static <T extends Entity> Supplier<EntityType<T>> registerBoatType(String name, EntityType.EntityFactory<T> factory, MobCategory category, float width, float height, int clientTrackingRange) {
         throw new AssertionError();
     }
+
+    public static boolean shouldGiveEffect() {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
+    public static boolean shouldShowTooltip() {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
+    public static void addFlammable(int burnOdd, int igniteOdd, Block[] blocks) {
+        throw new AssertionError();
+    }
+
+
 }

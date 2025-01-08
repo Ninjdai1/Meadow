@@ -31,13 +31,16 @@ public class EntityTypeRegistry {
     public static final RegistrySupplier<BlockEntityType<FondueBlockEntity>> FONDUE = registerBlockEntity("fondue", () -> BlockEntityType.Builder.of(FondueBlockEntity::new, ObjectRegistry.FONDUE.get()).build(null));
     public static final RegistrySupplier<BlockEntityType<StoveBlockEntity>> STOVE_BLOCK_ENTITY = registerBlockEntity("stove_block_entity", () -> BlockEntityType.Builder.of(StoveBlockEntity::new, ObjectRegistry.STOVE_LID.get()).build(null));
     public static final RegistrySupplier<BlockEntityType<CabinetBlockEntity>> CABINET_BLOCK_ENTITY = registerBlockEntity("cabinet", () -> BlockEntityType.Builder.of(CabinetBlockEntity::new, StorageTypeRegistry.registerBlocks(new HashSet<>()).toArray(new Block[0])).build(null));
-
-    public static final Supplier<EntityType<PineBoatEntity>> PINE_BOAT = PlatformHelper.registerBoatType("PINE_boat", PineBoatEntity::new, MobCategory.MISC, 1.375F, 0.5625F, 10);
-    public static final Supplier<EntityType<PineChestBoatEntity>> PINE_CHEST_BOAT = PlatformHelper.registerBoatType("PINE_chest_boat", PineChestBoatEntity::new, MobCategory.MISC, 1.375F, 0.5625F, 10);
+    public static final RegistrySupplier<BlockEntityType<CompletionistBannerEntity>> MEADOW_BANNER = registerBlockEntity("meadow_banner", () -> BlockEntityType.Builder.of(net.satisfy.meadow.core.block.entity.CompletionistBannerEntity::new, ObjectRegistry.MEADOW_BANNER.get(), ObjectRegistry.MEADOW_WALL_BANNER.get()).build(null));
+    public static final RegistrySupplier<BlockEntityType<ModSignBlockEntity>> MOD_SIGN = BLOCK_ENTITY_TYPES.register("mod_sign", () -> BlockEntityType.Builder.of(ModSignBlockEntity::new, ObjectRegistry.PINE_SIGN.get(), ObjectRegistry.PINE_WALL_SIGN.get()).build(null));
+    public static final RegistrySupplier<BlockEntityType<ModHangingSignBlockEntity>> MOD_HANGING_SIGN = BLOCK_ENTITY_TYPES.register("mod_hanging_sign", () -> BlockEntityType.Builder.of(ModHangingSignBlockEntity::new, ObjectRegistry.PINE_HANGING_SIGN.get(), ObjectRegistry.PINE_WALL_HANGING_SIGN.get()).build(null));
 
     public static final RegistrySupplier<EntityType<WaterBuffalo>> WATER_BUFFALO = registerEntity("water_buffalo", () -> EntityType.Builder.of(WaterBuffalo::new, MobCategory.CREATURE).sized(0.9f, 1.4f).build(new ResourceLocation(Meadow.MOD_ID, "water_buffalo").toString()));
     public static final RegistrySupplier<EntityType<ShearableVarCow>> SHEARABLE_MEADOW_VAR_COW = registerEntity("wooly_cow", () -> EntityType.Builder.of(ShearableVarCow::new, MobCategory.CREATURE).sized(0.9f, 1.4f).build(new ResourceLocation(Meadow.MOD_ID, "wooly_cow").toString()));
     public static final RegistrySupplier<EntityType<ChairEntity>> CHAIR = registerEntity("chair", () -> EntityType.Builder.of(ChairEntity::new, MobCategory.MISC).sized(0.001F, 0.001F).build((new MeadowIdentifier("chair")).toString()));
+
+    public static final Supplier<EntityType<PineBoatEntity>> PINE_BOAT = PlatformHelper.registerBoatType("pine_boat", PineBoatEntity::new, MobCategory.MISC, 1.375F, 0.5625F, 10);
+    public static final Supplier<EntityType<PineChestBoatEntity>> PINE_CHEST_BOAT = PlatformHelper.registerBoatType("pine_chest_boat", PineChestBoatEntity::new, MobCategory.MISC, 1.375F, 0.5625F, 10);
 
     public static void registerCow(Supplier<? extends EntityType<? extends Animal>> typeSupplier) {
         EntityAttributeRegistry.register(typeSupplier, Cow::createAttributes);
@@ -53,6 +56,7 @@ public class EntityTypeRegistry {
     public static void init() {
         registerCow(SHEARABLE_MEADOW_VAR_COW);
         registerCow(WATER_BUFFALO);
+        ENTITY_TYPES.register();
         BLOCK_ENTITY_TYPES.register();
     }
 }
