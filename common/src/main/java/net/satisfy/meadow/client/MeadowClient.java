@@ -19,10 +19,7 @@ import net.satisfy.meadow.client.model.*;
 import net.satisfy.meadow.client.renderer.block.CompletionistBannerRenderer;
 import net.satisfy.meadow.client.renderer.block.ModHangingSignRenderer;
 import net.satisfy.meadow.client.renderer.block.ModSignRenderer;
-import net.satisfy.meadow.client.renderer.block.storage.CheeseRackRenderer;
-import net.satisfy.meadow.client.renderer.block.storage.StorageBlockEntityRenderer;
-import net.satisfy.meadow.client.renderer.block.storage.WheelBarrowRenderer;
-import net.satisfy.meadow.client.renderer.block.storage.FlowerPotSmallRenderer;
+import net.satisfy.meadow.client.renderer.block.storage.*;
 import net.satisfy.meadow.client.renderer.entity.ChairRenderer;
 import net.satisfy.meadow.client.renderer.entity.PineBoatRenderer;
 import net.satisfy.meadow.client.renderer.entity.ShearableVarCowRenderer;
@@ -63,7 +60,9 @@ public class MeadowClient {
 
     public static void registerStorageTypeRenderers(){
         StorageBlockEntityRenderer.registerStorageType(StorageTypeRegistry.WHEEL_BARROW, new WheelBarrowRenderer());
+        StorageBlockEntityRenderer.registerStorageType(StorageTypeRegistry.FLOWER_BOX, new FlowerBoxRenderer());
         StorageBlockEntityRenderer.registerStorageType(StorageTypeRegistry.FLOWER_POT_SMALL, new FlowerPotSmallRenderer());
+        StorageBlockEntityRenderer.registerStorageType(StorageTypeRegistry.FLOWER_POT_BIG, new FlowerPotBigRenderer());
         StorageBlockEntityRenderer.registerStorageType(StorageTypeRegistry.CHEESE_RACK, new CheeseRackRenderer());
     }
 
