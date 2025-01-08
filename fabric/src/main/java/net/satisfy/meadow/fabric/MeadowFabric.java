@@ -1,15 +1,12 @@
 package net.satisfy.meadow.fabric;
 
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.client.rendering.v1.ArmorRenderer;
 import net.satisfy.meadow.Meadow;
-import net.satisfy.meadow.fabric.client.FurArmorHatRenderer;
 import net.satisfy.meadow.fabric.villager.FabricVillager;
 import net.satisfy.meadow.fabric.world.FabricEntitySpawn;
 import net.satisfy.meadow.fabric.world.FeatureModification;
 import net.satisfy.meadow.fabric.world.MeadowBiomeModification;
-import net.satisfy.meadow.registry.CompostableRegistry;
-import net.satisfy.meadow.registry.ObjectRegistry;
+import net.satisfy.meadow.core.registry.CompostableRegistry;
 
 
 public class MeadowFabric implements ModInitializer {

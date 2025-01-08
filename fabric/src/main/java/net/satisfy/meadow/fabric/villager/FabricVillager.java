@@ -20,8 +20,8 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
-import net.satisfy.meadow.registry.ObjectRegistry;
-import net.satisfy.meadow.util.MeadowIdentifier;
+import net.satisfy.meadow.core.registry.ObjectRegistry;
+import net.satisfy.meadow.core.util.MeadowIdentifier;
 
 @SuppressWarnings("deprecation")
 public class FabricVillager {

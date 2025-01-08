@@ -10,11 +10,11 @@ import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.satisfy.meadow.recipes.WoodcuttingRecipe;
-import net.satisfy.meadow.registry.ObjectRegistry;
-import net.satisfy.meadow.registry.RecipeRegistry;
-import net.satisfy.meadow.registry.ScreenHandlerRegistry;
-import net.satisfy.meadow.registry.SoundRegistry;
+import net.satisfy.meadow.core.recipes.WoodcuttingRecipe;
+import net.satisfy.meadow.core.registry.ObjectRegistry;
+import net.satisfy.meadow.core.registry.RecipeRegistry;
+import net.satisfy.meadow.core.registry.ScreenHandlerRegistry;
+import net.satisfy.meadow.core.registry.SoundEventRegistry;
 
 import java.util.List;
 
@@ -69,7 +69,7 @@ public class WoodcutterGuiHandler extends AbstractContainerMenu {
                 context.execute((world, pos) -> {
                     long l = world.getGameTime();
                     if (WoodcutterGuiHandler.this.lastTakeTime != l) {
-                        world.playSound(null, pos, SoundRegistry.WOODCUTTER.get(), SoundSource.BLOCKS, 1.0f, 1.0f);
+                        world.playSound(null, pos, SoundEventRegistry.WOODCUTTER.get(), SoundSource.BLOCKS, 1.0f, 1.0f);
                         WoodcutterGuiHandler.this.lastTakeTime = l;
                     }
                 });

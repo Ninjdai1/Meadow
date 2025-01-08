@@ -6,9 +6,9 @@ import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
-import net.satisfy.meadow.registry.EntityRegistry;
-import net.satisfy.meadow.registry.TagRegistry;
-import net.satisfy.meadow.world.CommonSpawnUtil;
+import net.satisfy.meadow.core.registry.EntityTypeRegistry;
+import net.satisfy.meadow.core.registry.TagRegistry;
+import net.satisfy.meadow.core.world.CommonSpawnUtil;
 
 import java.util.function.Predicate;
 
@@ -20,11 +20,6 @@ public class FeatureModification {
         int meadowPackSizeMin = 2;
         int meadowPackSizeMax = 3;
 
-        int bearSpawnWeight = 5;
-        int bearPackSizeMin = 2;
-        int bearPackSizeMax = 3;
-
-        Predicate<BiomeSelectionContext> bear = (ctx -> ctx.hasTag(BiomeTags.IS_FOREST) || ctx.hasTag(BiomeTags.HAS_WOODLAND_MANSION) || ctx.hasTag(BiomeTags.IS_TAIGA));
         Predicate<BiomeSelectionContext> buffalo = (ctx -> ctx.hasTag(BiomeTags.IS_RIVER) || ctx.hasTag(BiomeTags.IS_SAVANNA));
 
 
@@ -51,10 +46,10 @@ public class FeatureModification {
 
 
         Predicate<BiomeSelectionContext> shearableVarCows = (ctx -> ctx.hasTag(TagRegistry.IS_MEADOW) || ctx.hasTag(TagRegistry.SPAWNS_DARK_COW));
-        BiomeModifications.addSpawn(shearableVarCows, MobCategory.CREATURE, EntityRegistry.SHEARABLE_MEADOW_VAR_COW.get(),
+        BiomeModifications.addSpawn(shearableVarCows, MobCategory.CREATURE, EntityTypeRegistry.SHEARABLE_MEADOW_VAR_COW.get(),
                 10, meadowPackSizeMin, meadowPackSizeMax);
 
-        BiomeModifications.addSpawn(buffalo, MobCategory.CREATURE, EntityRegistry.WATER_BUFFALO.get(),
+        BiomeModifications.addSpawn(buffalo, MobCategory.CREATURE, EntityTypeRegistry.WATER_BUFFALO.get(),
                 meadowSpawnWeight, meadowPackSizeMin, meadowPackSizeMax);
     }
 }

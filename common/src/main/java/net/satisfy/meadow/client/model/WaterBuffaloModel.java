@@ -6,7 +6,7 @@ import net.minecraft.client.model.QuadrupedModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.satisfy.meadow.entity.WaterBuffalo;
+import net.satisfy.meadow.core.entity.WaterBuffalo;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -9,7 +9,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.satisfy.meadow.Meadow;
-import net.satisfy.meadow.registry.ObjectRegistry;
+import net.satisfy.meadow.core.registry.ObjectRegistry;
 
 public class MeadowForgeVillagers {
     public static final DeferredRegister<PoiType> POI_TYPES = DeferredRegister.create(ForgeRegistries.POI_TYPES, Meadow.MOD_ID);

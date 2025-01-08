@@ -4,11 +4,12 @@
   "compatibilityLevel": "JAVA_17",
   "minVersion": "0.8",
   "client": [
-    "ClientPacketListenerMixin"
   ],
   "mixins": [
-    "HatItemMixin",
-    "SheepMixin"
+    "BootsItemMixin",
+    "ChestplateItemMixin",
+    "HelmetItemMixin",
+    "LeggingsItemMixin"
   ],
   "injectors": {
     "defaultRequire": 1

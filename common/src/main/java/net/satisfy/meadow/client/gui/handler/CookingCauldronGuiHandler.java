@@ -10,12 +10,11 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
-import net.satisfy.meadow.block.entity.CookingCauldronBlockEntity;
-import net.satisfy.meadow.recipes.CookingCauldronRecipe;
-import net.satisfy.meadow.registry.RecipeRegistry;
-import net.satisfy.meadow.registry.ScreenHandlerRegistry;
+import net.satisfy.meadow.core.compat.block.entity.CookingCauldronBlockEntity;
+import net.satisfy.meadow.core.recipes.CookingCauldronRecipe;
+import net.satisfy.meadow.core.registry.RecipeRegistry;
+import net.satisfy.meadow.core.registry.ScreenHandlerRegistry;
 
-import java.util.List;
 import java.util.stream.Stream;
 
 public class CookingCauldronGuiHandler extends AbstractRecipeBookGUIScreenHandler {

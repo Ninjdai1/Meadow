@@ -6,15 +6,15 @@
   "client": [
   ],
   "mixins": [
-    "BlockMixin",
-    "CowMixin",
-    "FluidDecrementMixin",
-    "GoatMixin",
-    "NetherPortalBlockMixin",
-    "SheepMixin",
+    "net.satisfy.meadow.core.mixin.BlockMixin",
+    "net.satisfy.meadow.core.mixin.CowMixin",
+    "net.satisfy.meadow.core.mixin.FluidDecrementMixin",
+    "net.satisfy.meadow.core.mixin.GoatMixin",
+    "net.satisfy.meadow.core.mixin.NetherPortalBlockMixin",
+    "net.satisfy.meadow.core.mixin.SheepMixin",
     "SinkBlockMixin",
-    "variant.MobVariantMixin",
-    "variant.SheepVariantMixin"
+    "net.satisfy.meadow.core.mixin.variant.MobVariantMixin",
+    "net.satisfy.meadow.core.mixin.variant.SheepVariantMixin"
   ],
   "injectors": {
     "defaultRequire": 1

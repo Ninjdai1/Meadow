@@ -5,7 +5,7 @@
   "name": "[Let's Do] Meadow",
 "description": "Hey Wanderer! Sit down, enjoy a piece of cheese, and take a look at the new mountain pasture - cliffs, beautiful forests, clearings, and lots of colorful flowers!",
   "authors": [
-    "satisfy, BMJO, Jason13"
+    "satisfy, Jason13"
   ],
   "contact": {
     "homepage": "https://legacy.curseforge.com/minecraft/mc-mods/lets-do-meadow",
@@ -21,39 +21,21 @@
     "client": [
       "net.satisfy.meadow.fabric.client.MeadowFabricClient"
     ],
-    "doapi": [
-      "net.satisfy.meadow.util.MeadowDoAPI"
-    ],
+
     "rei_client": [
       "net.satisfy.meadow.fabric.rei.MeadowReiClientPluginFabric"
     ],
     "jei_mod_plugin": [
-      "net.satisfy.meadow.compat.jei.MeadowJEIPlugin"
-    ],
-    "cardinal-components": [
-      "net.satisfy.meadow.fabric.cca.MyComponents"
-    ],
-    "mixinsquared": [
-      "net.satisfy.meadow.util.MeadowMixinCanceller"
+      "net.satisfy.meadow.core.compat.jei.MeadowJEIPlugin"
     ]
   },
   "mixins": [
-    "meadow-variant.mixins.json",
     "meadow-common.mixins.json",
     "meadow.mixins.json"
   ],
-  "custom": {
-    "cardinal-components": [
-      "meadow:var"
-    ]
-  },
   "depends": {
     "fabric": "*",
     "minecraft": ">=1.20",
-    "architectury": ">=9.1.10",
-    "doapi": ">=1.2.13"
-  },
-  "conflicts": {
-    "moremobvariants": "*"
+    "architectury": ">=9.1.10"
   }
 }

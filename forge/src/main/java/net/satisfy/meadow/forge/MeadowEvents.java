@@ -7,8 +7,8 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.satisfy.meadow.Meadow;
 import net.satisfy.meadow.forge.registry.MeadowForgeVillagers;
-import net.satisfy.meadow.registry.ObjectRegistry;
-import net.satisfy.meadow.util.VillagerUtil;
+import net.satisfy.meadow.core.registry.ObjectRegistry;
+import net.satisfy.meadow.core.util.VillagerUtil;
 
 import java.util.HashMap;
 import java.util.List;

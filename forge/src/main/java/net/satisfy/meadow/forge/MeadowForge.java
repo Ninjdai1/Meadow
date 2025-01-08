@@ -11,11 +11,9 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.satisfy.meadow.Meadow;
-import net.satisfy.meadow.forge.capabilities.MeadowCapabilities;
-import net.satisfy.meadow.forge.networking.MeadowNetworkForge;
+import net.satisfy.meadow.core.registry.EntityTypeRegistry;
 import net.satisfy.meadow.forge.registry.MeadowForgeVillagers;
-import net.satisfy.meadow.registry.CompostableRegistry;
-import net.satisfy.meadow.registry.EntityRegistry;
+import net.satisfy.meadow.core.registry.CompostableRegistry;
 
 @Mod(Meadow.MOD_ID)
 public class MeadowForge {
@@ -24,8 +22,6 @@ public class MeadowForge {
         EventBuses.registerModEventBus(Meadow.MOD_ID, modEventBus);
 
         Meadow.init();
-        MeadowCapabilities.setupCapabilities(modEventBus);
-        MeadowNetworkForge.registerC2SPackets();
         MeadowForgeVillagers.register(modEventBus);
         modEventBus.addListener(this::commonSetup);
     }
@@ -37,12 +33,12 @@ public class MeadowForge {
 
     @SubscribeEvent
     public static void spawnEvent(SpawnPlacementRegisterEvent event){
-        event.register(EntityRegistry.SHEARABLE_MEADOW_VAR_COW.get(),
+        event.register(EntityTypeRegistry.SHEARABLE_MEADOW_VAR_COW.get(),
                 SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                 Animal::checkAnimalSpawnRules,
                 SpawnPlacementRegisterEvent.Operation.AND
         );
-        event.register(EntityRegistry.WATER_BUFFALO.get(),
+        event.register(EntityTypeRegistry.WATER_BUFFALO.get(),
                 SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                 Animal::checkAnimalSpawnRules,
                 SpawnPlacementRegisterEvent.Operation.AND

@@ -5,3 +5,4 @@ accessible	method	net/minecraft/world/food/FoodProperties	<init>	(IFZZZLjava/uti
 accessible method net/minecraft/world/level/block/AbstractCauldronBlock isEntityInsideContent (Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/Entity;)Z
 accessible field net/minecraft/client/renderer/entity/layers/SheepFurLayer SHEEP_FUR_LOCATION Lnet/minecraft/resources/ResourceLocation;
 mutable field net/minecraft/client/renderer/entity/layers/SheepFurLayer SHEEP_FUR_LOCATION Lnet/minecraft/resources/ResourceLocation;
+accessible method net/minecraft/world/level/block/state/properties/WoodType register (Lnet/minecraft/world/level/block/state/properties/WoodType;)Lnet/minecraft/world/level/block/state/properties/WoodType;

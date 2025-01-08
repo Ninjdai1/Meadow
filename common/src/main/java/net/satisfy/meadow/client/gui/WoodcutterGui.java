@@ -12,8 +12,8 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
 import net.satisfy.meadow.client.gui.handler.WoodcutterGuiHandler;
-import net.satisfy.meadow.recipes.WoodcuttingRecipe;
-import net.satisfy.meadow.util.MeadowIdentifier;
+import net.satisfy.meadow.core.recipes.WoodcuttingRecipe;
+import net.satisfy.meadow.core.util.MeadowIdentifier;
 
 import java.util.List;
 

@@ -9,11 +9,9 @@ import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
-import net.satisfy.meadow.block.entity.CheeseFormBlockEntity;
-import net.satisfy.meadow.recipes.CheeseFormRecipe;
-import net.satisfy.meadow.registry.ScreenHandlerRegistry;
-
-import java.util.List;
+import net.satisfy.meadow.core.compat.block.entity.CheeseFormBlockEntity;
+import net.satisfy.meadow.core.recipes.CheeseFormRecipe;
+import net.satisfy.meadow.core.registry.ScreenHandlerRegistry;
 
 public class CheeseFormGuiHandler extends AbstractRecipeBookGUIScreenHandler {
 

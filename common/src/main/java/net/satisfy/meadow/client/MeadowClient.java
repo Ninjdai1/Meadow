@@ -1,6 +1,5 @@
 package net.satisfy.meadow.client;
 
-import de.cristelknight.doapi.terraform.sign.TerraformSignHelper;
 import dev.architectury.registry.client.level.entity.EntityModelLayerRegistry;
 import dev.architectury.registry.client.level.entity.EntityRendererRegistry;
 import dev.architectury.registry.client.rendering.ColorHandlerRegistry;
@@ -15,18 +14,19 @@ import net.satisfy.meadow.client.gui.CheeseFormGui;
 import net.satisfy.meadow.client.gui.CookingCauldronGui;
 import net.satisfy.meadow.client.gui.FondueGui;
 import net.satisfy.meadow.client.gui.WoodcutterGui;
-import net.satisfy.meadow.client.model.FurArmorHat;
-import net.satisfy.meadow.client.model.WaterBuffaloModel;
-import net.satisfy.meadow.client.model.WoolyCowModel;
-import net.satisfy.meadow.client.render.block.storage.CheeseRackRenderer;
-import net.satisfy.meadow.client.render.block.storage.StorageBlockEntityRenderer;
-import net.satisfy.meadow.client.render.block.storage.WheelBarrowRenderer;
-import net.satisfy.meadow.client.render.block.storage.FlowerPotSmallRenderer;
-import net.satisfy.meadow.client.render.entity.ShearableVarCowRenderer;
-import net.satisfy.meadow.client.render.entity.WaterBuffaloRenderer;
-import net.satisfy.meadow.registry.*;
+import net.satisfy.meadow.client.model.*;
+import net.satisfy.meadow.client.renderer.block.storage.CheeseRackRenderer;
+import net.satisfy.meadow.client.renderer.block.storage.StorageBlockEntityRenderer;
+import net.satisfy.meadow.client.renderer.block.storage.WheelBarrowRenderer;
+import net.satisfy.meadow.client.renderer.block.storage.FlowerPotSmallRenderer;
+import net.satisfy.meadow.client.renderer.entity.PineBoatRenderer;
+import net.satisfy.meadow.client.renderer.entity.ShearableVarCowRenderer;
+import net.satisfy.meadow.client.renderer.entity.WaterBuffaloRenderer;
+import net.satisfy.meadow.core.registry.EntityTypeRegistry;
+import net.satisfy.meadow.core.registry.ScreenHandlerRegistry;
+import net.satisfy.meadow.core.registry.StorageTypeRegistry;
 
-import static net.satisfy.meadow.registry.ObjectRegistry.*;
+import static net.satisfy.meadow.core.registry.ObjectRegistry.*;
 
 public class MeadowClient {
     public static final ModelLayerLocation SHEARABLE_MEADOW_COW_MODEL_LAYER = new ModelLayerLocation(new ResourceLocation(Meadow.MOD_ID, "shearable_meadow_cow"), "head");
@@ -36,8 +36,6 @@ public class MeadowClient {
         registerEntityRenderers();
         registerEntityModelLayers();
 
-        TerraformSignHelper.regsterSignSprite(BoatsAndSignsRegistry.PINE_SIGN_TEXTURE);
-        TerraformSignHelper.regsterSignSprite(BoatsAndSignsRegistry.PINE_HANGING_SIGN_TEXTURE);
     }
 
     public static void initClient() {
@@ -80,16 +78,18 @@ public class MeadowClient {
     }
 
     private static void registerEntityRenderers() {
-        EntityRendererRegistry.register(EntityRegistry.SHEARABLE_MEADOW_VAR_COW, ShearableVarCowRenderer::new);
-        EntityRendererRegistry.register(EntityRegistry.WATER_BUFFALO, WaterBuffaloRenderer::new);
+        EntityRendererRegistry.register(EntityTypeRegistry.SHEARABLE_MEADOW_VAR_COW, ShearableVarCowRenderer::new);
+        EntityRendererRegistry.register(EntityTypeRegistry.WATER_BUFFALO, WaterBuffaloRenderer::new);
+        EntityRendererRegistry.register(EntityTypeRegistry.PINE_BOAT, context -> new PineBoatRenderer<>(context, false));
+        EntityRendererRegistry.register(EntityTypeRegistry.PINE_CHEST_BOAT, context -> new PineBoatRenderer<>(context, true));
     }
 
     public static void registerEntityModelLayers() {
-        EntityModelLayerRegistry.register(FurArmorHat.LAYER_LOCATION, FurArmorHat::createBodyLayer);
+        EntityModelLayerRegistry.register(FurHelmetModel.LAYER_LOCATION, FurHelmetModel::createBodyLayer);
+        EntityModelLayerRegistry.register(FurChestplateModel.LAYER_LOCATION, FurChestplateModel::createBodyLayer);
+        EntityModelLayerRegistry.register(FurLeggingsModel.LAYER_LOCATION, FurLeggingsModel::createBodyLayer);
+        EntityModelLayerRegistry.register(FurBootsModel.LAYER_LOCATION, FurBootsModel::createBodyLayer);
         EntityModelLayerRegistry.register(SHEARABLE_MEADOW_COW_MODEL_LAYER, WoolyCowModel::createBodyLayer);
         EntityModelLayerRegistry.register(WATER_BUFFALO_MODEL_LAYER, WaterBuffaloModel::getTexturedModelData);
-
-
-        ArmorRegistry.registerArmorModelLayers();
     }
 }

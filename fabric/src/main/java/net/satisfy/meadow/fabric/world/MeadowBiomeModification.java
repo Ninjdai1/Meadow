@@ -4,8 +4,8 @@ import net.fabricmc.fabric.api.biome.v1.*;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.levelgen.GenerationStep;
-import net.satisfy.meadow.util.MeadowIdentifier;
-import net.satisfy.meadow.world.MeadowPlacedFeature;
+import net.satisfy.meadow.core.util.MeadowIdentifier;
+import net.satisfy.meadow.core.world.MeadowPlacedFeature;
 
 import java.util.function.Predicate;
 

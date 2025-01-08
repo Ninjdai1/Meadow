@@ -4,7 +4,7 @@ import net.minecraft.client.model.CowModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.satisfy.meadow.entity.ShearableVarCow;
+import net.satisfy.meadow.core.entity.ShearableVarCow;
 
 public class WoolyCowModel extends CowModel<ShearableVarCow> {
 

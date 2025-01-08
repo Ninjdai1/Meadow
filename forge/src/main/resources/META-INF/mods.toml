@@ -6,7 +6,7 @@ license = "Custom"
 modId = "meadow"
 version = "${version}"
 displayName = "[Let's Do] Meadow"
-authors = ["satisfy", "BMJO"]
+authors = "satisfy, jason13official"
 description = '''
 Hey Wanderer! Sit down, enjoy a piece of cheese, and take a look at the new mountain pasture - cliffs, beautiful forests, clearings, and lots of colorful flowers.
 '''
@@ -30,12 +30,5 @@ side = "BOTH"
 modId = "architectury"
 mandatory = true
 versionRange = "[6.5.77,)"
-ordering = "AFTER"
-side = "BOTH"
-
-[[dependencies.meadow]]
-modId = "doapi"
-mandatory = true
-versionRange = "[1.2.13,)"
 ordering = "AFTER"
 side = "BOTH"
