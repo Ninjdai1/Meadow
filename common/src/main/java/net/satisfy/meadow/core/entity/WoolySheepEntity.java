@@ -15,7 +15,12 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.AgeableMob;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.Shearable;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
@@ -38,27 +43,20 @@ import net.satisfy.meadow.core.util.MeadowIdentifier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Objects;
+
 public class WoolySheepEntity extends Animal implements Shearable {
     private static final EntityDataAccessor<Byte> DATA_WOOL_TYPE = SynchedEntityData.defineId(WoolySheepEntity.class, EntityDataSerializers.BYTE);
     private EatBlockGoal eatBlockGoal;
     private int eatAnimationTick;
-    private SheepTexture sheepTexture = SheepTexture.FLECKED;
 
     public enum SheepTexture {
         FLECKED, PATCHED, ROCKY, INKY, FUZZY, LONG_NOSED
     }
 
-    public void setSheepTexture(SheepTexture texture) {
-        this.sheepTexture = texture;
-    }
-
-    public SheepTexture getSheepTexture() {
-        return sheepTexture;
-    }
-
-    public WoolySheepEntity(EntityType<? extends Animal> entityType, Level level) {
-        super(entityType, level);
-        this.setWoolType((byte) this.random.nextInt(4));
+    public WoolySheepEntity(EntityType<? extends Animal> type, Level level) {
+        super(type, level);
+        this.setWoolType((byte) this.random.nextInt(6));
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -87,6 +85,15 @@ public class WoolySheepEntity extends Animal implements Shearable {
     }
 
     @Override
+    public void ate() {
+        super.ate();
+        if (this.isSheared()) {
+            this.setSheared(false);
+        }
+    }
+
+
+    @Override
     public void aiStep() {
         if (this.level().isClientSide) {
             this.eatAnimationTick = Math.max(0, this.eatAnimationTick - 1);
@@ -109,13 +116,13 @@ public class WoolySheepEntity extends Animal implements Shearable {
         } else if (this.eatAnimationTick >= 4 && this.eatAnimationTick <= 36) {
             return 1.0F;
         } else {
-            return this.eatAnimationTick < 4 ? ((float)this.eatAnimationTick - f) / 4.0F : -((float)(this.eatAnimationTick - 40) - f) / 4.0F;
+            return this.eatAnimationTick < 4 ? ((float) this.eatAnimationTick - f) / 4.0F : -((float) (this.eatAnimationTick - 40) - f) / 4.0F;
         }
     }
 
     public float getHeadEatAngleScale(float f) {
         if (this.eatAnimationTick > 4 && this.eatAnimationTick <= 36) {
-            float g = ((float)(this.eatAnimationTick - 4) - f) / 32.0F;
+            float g = ((float) (this.eatAnimationTick - 4) - f) / 32.0F;
             return 0.62831855F + 0.21991149F * Mth.sin(g * 28.7F);
         } else {
             return this.eatAnimationTick > 0 ? 0.62831855F : this.getXRot() * 0.017453292F;
@@ -123,31 +130,34 @@ public class WoolySheepEntity extends Animal implements Shearable {
     }
 
     @Override
-    public @NotNull InteractionResult mobInteract(Player player, InteractionHand interactionHand) {
-        ItemStack itemStack = player.getItemInHand(interactionHand);
-        if (itemStack.is(Items.SHEARS)) {
+    public @NotNull InteractionResult mobInteract(Player player, InteractionHand hand) {
+        ItemStack stack = player.getItemInHand(hand);
+        if (stack.is(Items.SHEARS)) {
             if (!this.level().isClientSide && this.readyForShearing()) {
                 this.shear(SoundSource.PLAYERS);
                 this.gameEvent(GameEvent.SHEAR, player);
-                itemStack.hurtAndBreak(1, player, (playerx) -> playerx.broadcastBreakEvent(interactionHand));
+                stack.hurtAndBreak(1, player, p -> p.broadcastBreakEvent(hand));
                 return InteractionResult.SUCCESS;
-            } else {
-                return InteractionResult.CONSUME;
             }
-        } else {
-            return super.mobInteract(player, interactionHand);
+            return InteractionResult.CONSUME;
         }
+        return super.mobInteract(player, hand);
     }
 
     @Override
-    public void shear(SoundSource soundSource) {
+    public void shear(SoundSource source) {
         if (!this.level().isClientSide && this.readyForShearing()) {
-            this.level().playSound(null, this, SoundEvents.SHEEP_SHEAR, soundSource, 1.0F, 1.0F);
+            this.level().playSound(null, this, SoundEvents.SHEEP_SHEAR, source, 1.0F, 1.0F);
             this.setSheared(true);
             int count = 1 + this.random.nextInt(3);
-
-            Block woolBlock = getWoolBlockByTexture(this.getSheepTexture());
-
+            Block woolBlock = switch (this.getSheepTexture()) {
+                case PATCHED -> ObjectRegistry.PATCHED_WOOL.get();
+                case ROCKY -> ObjectRegistry.ROCKY_WOOL.get();
+                case INKY -> ObjectRegistry.INKY_WOOL.get();
+                case FUZZY -> Blocks.WHITE_WOOL;
+                case LONG_NOSED -> ObjectRegistry.HIGHLAND_WOOL.get();
+                default -> ObjectRegistry.FLECKED_WOOL.get();
+            };
             for (int i = 0; i < count; i++) {
                 Item woolItem = woolBlock.asItem();
                 ItemStack woolStack = new ItemStack(woolItem);
@@ -157,21 +167,6 @@ public class WoolySheepEntity extends Animal implements Shearable {
             }
         }
     }
-
-
-    private Block getWoolBlockByTexture(WoolySheepEntity.SheepTexture texture) {
-        return switch (texture) {
-            case PATCHED -> ObjectRegistry.PATCHED_WOOL.get();
-            case ROCKY -> ObjectRegistry.ROCKY_WOOL.get();
-            case INKY -> ObjectRegistry.INKY_WOOL.get();
-            case FUZZY -> Blocks.WHITE_WOOL;
-            case LONG_NOSED -> ObjectRegistry.HIGHLAND_WOOL.get();
-            default -> ObjectRegistry.FLECKED_WOOL.get();
-        };
-    }
-
-
-
 
     @Override
     public @NotNull ResourceLocation getDefaultLootTable() {
@@ -195,42 +190,36 @@ public class WoolySheepEntity extends Animal implements Shearable {
         this.entityData.set(DATA_WOOL_TYPE, woolType);
     }
 
-
     public byte getWoolType() {
-        byte rawWoolType = this.entityData.get(DATA_WOOL_TYPE);
-        return (byte) (rawWoolType & 0x0F);
+        return (byte) (this.entityData.get(DATA_WOOL_TYPE) & 0x0F);
     }
-
-
 
     @Nullable
     @Override
-    public WoolySheepEntity getBreedOffspring(ServerLevel serverLevel, AgeableMob ageableMob) {
-        WoolySheepEntity sheep = EntityTypeRegistry.WOOLY_SHEEP.get().create(serverLevel);
+    public WoolySheepEntity getBreedOffspring(ServerLevel level, AgeableMob mob) {
+        WoolySheepEntity sheep = EntityTypeRegistry.WOOLY_SHEEP.get().create(level);
         if (sheep != null) {
-            sheep.setWoolType((byte) this.random.nextInt(4));
+            sheep.setWoolType((byte) this.random.nextInt(6));
         }
         return sheep;
     }
 
     @Override
-    public @NotNull SpawnGroupData finalizeSpawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance difficultyInstance, MobSpawnType mobSpawnType, @Nullable SpawnGroupData spawnGroupData, @Nullable CompoundTag compoundTag) {
-        this.setWoolType((byte) this.random.nextInt(4));
-        return super.finalizeSpawn(serverLevelAccessor, difficultyInstance, mobSpawnType, spawnGroupData, compoundTag);
+    public @NotNull SpawnGroupData finalizeSpawn(ServerLevelAccessor s, DifficultyInstance d, MobSpawnType m, @Nullable SpawnGroupData g, @Nullable CompoundTag c) {
+        this.setWoolType((byte) this.random.nextInt(6));
+        return Objects.requireNonNull(super.finalizeSpawn(s, d, m, g, c));
     }
 
-    public SheepColor getTextureColor() {
+    public SheepTexture getSheepTexture() {
         return switch (this.getWoolType()) {
-            case 1 -> SheepColor.PATCHED_WOOL;
-            case 2 -> SheepColor.ROCKY_WOOL;
-            case 3 -> SheepColor.INKY_WOOL;
-            case 4 -> SheepColor.LONG_NOSED_WOOL;
-            case 5 -> SheepColor.FUZZY_WOOL;
-            default -> SheepColor.FLECKED_WOOL;
+            case 1 -> SheepTexture.PATCHED;
+            case 2 -> SheepTexture.ROCKY;
+            case 3 -> SheepTexture.INKY;
+            case 4 -> SheepTexture.LONG_NOSED;
+            case 5 -> SheepTexture.FUZZY;
+            default -> SheepTexture.FLECKED;
         };
     }
-
-
 
     public boolean readyForShearing() {
         return this.isAlive() && !this.isSheared() && !this.isBaby();
@@ -250,17 +239,17 @@ public class WoolySheepEntity extends Animal implements Shearable {
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag compoundTag) {
-        super.addAdditionalSaveData(compoundTag);
-        compoundTag.putBoolean("Sheared", this.isSheared());
-        compoundTag.putByte("WoolType", this.getWoolType());
+    public void addAdditionalSaveData(CompoundTag c) {
+        super.addAdditionalSaveData(c);
+        c.putBoolean("Sheared", this.isSheared());
+        c.putByte("WoolType", this.getWoolType());
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag compoundTag) {
-        super.readAdditionalSaveData(compoundTag);
-        this.setSheared(compoundTag.getBoolean("Sheared"));
-        this.setWoolType(compoundTag.getByte("WoolType"));
+    public void readAdditionalSaveData(CompoundTag c) {
+        super.readAdditionalSaveData(c);
+        this.setSheared(c.getBoolean("Sheared"));
+        this.setWoolType(c.getByte("WoolType"));
     }
 
     @Override
@@ -269,7 +258,7 @@ public class WoolySheepEntity extends Animal implements Shearable {
     }
 
     @Override
-    protected SoundEvent getHurtSound(DamageSource damageSource) {
+    protected SoundEvent getHurtSound(DamageSource ds) {
         return SoundEvents.SHEEP_HURT;
     }
 
@@ -279,7 +268,7 @@ public class WoolySheepEntity extends Animal implements Shearable {
     }
 
     @Override
-    protected void playStepSound(BlockPos blockPos, BlockState blockState) {
+    protected void playStepSound(BlockPos pos, BlockState state) {
         this.playSound(SoundEvents.SHEEP_STEP, 0.15F, 1.0F);
     }
 
@@ -292,13 +281,33 @@ public class WoolySheepEntity extends Animal implements Shearable {
         LONG_NOSED_WOOL(new float[]{1.0F, 1.0F, 1.0F, 0.0F});
 
         private final float[] textureDiffuseColors;
-
-        SheepColor(float[] textureDiffuseColors) {
-            this.textureDiffuseColors = textureDiffuseColors;
+        SheepColor(float[] colors) {
+            this.textureDiffuseColors = colors;
         }
-
         public float[] getTextureDiffuseColors() {
             return this.textureDiffuseColors;
         }
+    }
+
+    public SheepColor getTextureColor() {
+        return switch (this.getWoolType()) {
+            case 1 -> SheepColor.PATCHED_WOOL;
+            case 2 -> SheepColor.ROCKY_WOOL;
+            case 3 -> SheepColor.INKY_WOOL;
+            case 4 -> SheepColor.LONG_NOSED_WOOL;
+            case 5 -> SheepColor.FUZZY_WOOL;
+            default -> SheepColor.FLECKED_WOOL;
+        };
+    }
+
+    public void setSheepTexture(SheepTexture texture) {
+        setWoolType(switch (texture) {
+            case PATCHED -> (byte)1;
+            case ROCKY -> (byte)2;
+            case INKY -> (byte)3;
+            case LONG_NOSED -> (byte)4;
+            case FUZZY -> (byte)5;
+            default -> (byte)0;
+        });
     }
 }

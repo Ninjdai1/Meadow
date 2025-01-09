@@ -17,30 +17,29 @@ public class WoolySheepFurLayerRenderer extends RenderLayer<WoolySheepEntity, Wo
     private static final ResourceLocation PATCHED_FUR_LOCATION = new MeadowIdentifier("textures/entity/sheep/patched_sheep_fur.png");
     private static final ResourceLocation ROCKY_FUR_LOCATION = new MeadowIdentifier("textures/entity/sheep/rocky_sheep_fur.png");
     private static final ResourceLocation INKY_FUR_LOCATION = new MeadowIdentifier("textures/entity/sheep/inky_sheep_fur.png");
+    private static final ResourceLocation FUZZY_FUR_LOCATION = new MeadowIdentifier("textures/entity/sheep/fuzzy_sheep_fur.png");
+    private static final ResourceLocation LONG_NOSED_FUR_LOCATION = new MeadowIdentifier("textures/entity/sheep/long_nosed_sheep_fur.png");
     private final WoolySheepFurModel<WoolySheepEntity> sheepModel;
 
-    public WoolySheepFurLayerRenderer(RenderLayerParent<WoolySheepEntity, WoolySheepModel<WoolySheepEntity>> renderLayerParent, EntityRendererProvider.Context context) {
-        super(renderLayerParent);
+    public WoolySheepFurLayerRenderer(RenderLayerParent<WoolySheepEntity, WoolySheepModel<WoolySheepEntity>> parent, EntityRendererProvider.Context context) {
+        super(parent);
         this.sheepModel = new WoolySheepFurModel<>(context.bakeLayer(ModelLayers.SHEEP_FUR));
     }
 
     @Override
-    public void render(PoseStack poseStack, MultiBufferSource multiBufferSource, int i, WoolySheepEntity meadowSheep, float f, float g, float h, float j, float k, float l) {
-        if (!meadowSheep.isSheared() && !meadowSheep.isInvisible()) {
-            ResourceLocation furLocation = getFurLocation(meadowSheep.getSheepTexture());
-            float[] fs = meadowSheep.getTextureColor().getTextureDiffuseColors();
-
-            coloredCutoutModelCopyLayerRender(this.getParentModel(), this.sheepModel, furLocation, poseStack, multiBufferSource, i, meadowSheep, f, g, j, k, l, h, fs[0], fs[1], fs[2]);
+    public void render(PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, WoolySheepEntity sheep, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
+        if (sheep.isSheared() || sheep.isInvisible()) {
+            return;
         }
-    }
-
-
-    private ResourceLocation getFurLocation(WoolySheepEntity.SheepTexture texture) {
-        return switch (texture) {
+        ResourceLocation furLocation = switch (sheep.getSheepTexture()) {
             case PATCHED -> PATCHED_FUR_LOCATION;
             case ROCKY -> ROCKY_FUR_LOCATION;
             case INKY -> INKY_FUR_LOCATION;
+            case FUZZY -> FUZZY_FUR_LOCATION;
+            case LONG_NOSED -> LONG_NOSED_FUR_LOCATION;
             default -> FLECKED_FUR_LOCATION;
         };
+        float[] fs = sheep.getTextureColor().getTextureDiffuseColors();
+        coloredCutoutModelCopyLayerRender(this.getParentModel(), this.sheepModel, furLocation, poseStack, bufferSource, packedLight, sheep, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, partialTicks, fs[0], fs[1], fs[2]);
     }
 }
