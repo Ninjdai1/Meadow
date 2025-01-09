@@ -1,4 +1,4 @@
-package net.satisfy.meadow.core.mixin.variant;
+package net.satisfy.meadow.core.mixin;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.DifficultyInstance;

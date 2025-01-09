@@ -7,6 +7,7 @@ modId = "meadow"
 version = "${version}"
 displayName = "[Let's Do] Meadow"
 authors = "satisfy, jason13official"
+credits = "MissLilitu, Cristelknight"
 description = '''
 Hey Wanderer! Sit down, enjoy a piece of cheese, and take a look at the new mountain pasture - cliffs, beautiful forests, clearings, and lots of colorful flowers.
 '''

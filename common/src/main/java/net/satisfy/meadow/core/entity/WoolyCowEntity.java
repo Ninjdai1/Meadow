@@ -30,23 +30,22 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.satisfy.meadow.core.entity.var.ShearableCowVar;
 import net.satisfy.meadow.core.registry.EntityTypeRegistry;
 import net.satisfy.meadow.core.registry.ObjectRegistry;
 import net.satisfy.meadow.core.util.MeadowIdentifier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class ShearableVarCow extends Animal implements Shearable, VariantHolder<ShearableCowVar> {
-    private static final EntityDataAccessor<Boolean> IS_SHEARED = SynchedEntityData.defineId(ShearableVarCow.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Integer> DATA_ID_TYPE_VARIANT = SynchedEntityData.defineId(ShearableVarCow.class, EntityDataSerializers.INT);
+public class WoolyCowEntity extends Animal implements Shearable, VariantHolder<WoolyCowVar> {
+    private static final EntityDataAccessor<Boolean> IS_SHEARED = SynchedEntityData.defineId(WoolyCowEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Integer> DATA_ID_TYPE_VARIANT = SynchedEntityData.defineId(WoolyCowEntity.class, EntityDataSerializers.INT);
 
     private static final ResourceLocation COW_LOOT_TABLE = new ResourceLocation("entities/cow");
 
     private int eatGrassTimer;
     private EatBlockGoal eatGrassGoal;
 
-    public ShearableVarCow(EntityType<ShearableVarCow> entityType, Level world) {
+    public WoolyCowEntity(EntityType<WoolyCowEntity> entityType, Level world) {
         super(entityType, world);
     }
 
@@ -184,13 +183,13 @@ public class ShearableVarCow extends Animal implements Shearable, VariantHolder<
 
     @Nullable
     @Override
-    public ShearableVarCow getBreedOffspring(@NotNull ServerLevel serverLevel, @NotNull AgeableMob ageableMob) {
-        ShearableVarCow cow = EntityTypeRegistry.SHEARABLE_MEADOW_VAR_COW.get().create(serverLevel);
+    public WoolyCowEntity getBreedOffspring(@NotNull ServerLevel serverLevel, @NotNull AgeableMob ageableMob) {
+        WoolyCowEntity cow = EntityTypeRegistry.WOOLY_COW.get().create(serverLevel);
         if (cow == null) return null;
 
         RandomSource random = serverLevel.getRandom();
-        ShearableCowVar var = this.getVariant();
-        if (random.nextBoolean() && ageableMob instanceof ShearableVarCow varCow) {
+        WoolyCowVar var = this.getVariant();
+        if (random.nextBoolean() && ageableMob instanceof WoolyCowEntity varCow) {
             var = varCow.getVariant();
         }
         cow.setVariant(var);
@@ -200,11 +199,11 @@ public class ShearableVarCow extends Animal implements Shearable, VariantHolder<
     @Nullable
     public SpawnGroupData finalizeSpawn(@NotNull ServerLevelAccessor serverLevelAccessor, @NotNull DifficultyInstance difficultyInstance, @NotNull MobSpawnType mobSpawnType, @Nullable SpawnGroupData spawnGroupData, @Nullable CompoundTag compoundTag) {
 
-        ShearableCowVar variant;
+        WoolyCowVar variant;
         if (spawnGroupData instanceof ShearableVarCowGroupData data) {
             variant = data.variant;
         } else {
-            variant = ShearableCowVar.getRandomVariant(serverLevelAccessor, blockPosition(), mobSpawnType.equals(MobSpawnType.SPAWN_EGG));
+            variant = WoolyCowVar.getRandomVariant(serverLevelAccessor, blockPosition(), mobSpawnType.equals(MobSpawnType.SPAWN_EGG));
             spawnGroupData = new ShearableVarCowGroupData(variant);
         }
 
@@ -212,13 +211,13 @@ public class ShearableVarCow extends Animal implements Shearable, VariantHolder<
         return super.finalizeSpawn(serverLevelAccessor, difficultyInstance, mobSpawnType, spawnGroupData, compoundTag);
     }
 
-    public void setVariant(ShearableCowVar variant) {
+    public void setVariant(WoolyCowVar variant) {
         setTypeVariant(variant.getId() & 255 | this.getTypeVariant() & -256);
     }
 
     @Override
-    public @NotNull ShearableCowVar getVariant() {
-        return ShearableCowVar.byId(getTypeVariant() & 255);
+    public @NotNull WoolyCowVar getVariant() {
+        return WoolyCowVar.byId(getTypeVariant() & 255);
     }
 
     private void setTypeVariant(int i) {
@@ -230,9 +229,9 @@ public class ShearableVarCow extends Animal implements Shearable, VariantHolder<
     }
 
     public static class ShearableVarCowGroupData extends AgeableMob.AgeableMobGroupData {
-        public final ShearableCowVar variant;
+        public final WoolyCowVar variant;
 
-        public ShearableVarCowGroupData(ShearableCowVar variant) {
+        public ShearableVarCowGroupData(WoolyCowVar variant) {
             super(true);
             this.variant = variant;
         }

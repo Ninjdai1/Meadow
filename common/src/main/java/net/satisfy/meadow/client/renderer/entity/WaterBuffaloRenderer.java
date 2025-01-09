@@ -7,12 +7,12 @@ import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.satisfy.meadow.client.MeadowClient;
 import net.satisfy.meadow.client.model.WaterBuffaloModel;
-import net.satisfy.meadow.core.entity.WaterBuffalo;
+import net.satisfy.meadow.core.entity.WaterBuffaloEntity;
 import org.jetbrains.annotations.NotNull;
 
 import static net.satisfy.meadow.Meadow.MOD_ID;
 
-public class WaterBuffaloRenderer extends MobRenderer<WaterBuffalo, WaterBuffaloModel> {
+public class WaterBuffaloRenderer extends MobRenderer<WaterBuffaloEntity, WaterBuffaloModel> {
 
     private static final ResourceLocation TEXTURE = new ResourceLocation(MOD_ID, "textures/entity/buffalo/water_buffalo.png");
 
@@ -21,12 +21,12 @@ public class WaterBuffaloRenderer extends MobRenderer<WaterBuffalo, WaterBuffalo
     }
 
     @Override
-    public @NotNull ResourceLocation getTextureLocation(WaterBuffalo entity) {
+    public @NotNull ResourceLocation getTextureLocation(WaterBuffaloEntity entity) {
         return TEXTURE;
     }
 
     @Override
-    public void render(WaterBuffalo pEntity, float pEntityYaw, float pPartialTicks, PoseStack pMatrixStack,
+    public void render(WaterBuffaloEntity pEntity, float pEntityYaw, float pPartialTicks, PoseStack pMatrixStack,
                        MultiBufferSource pBuffer, int pPackedLight) {
         if(pEntity.isBaby()) {
             pMatrixStack.scale(0.5f, 0.5f, 0.5f);

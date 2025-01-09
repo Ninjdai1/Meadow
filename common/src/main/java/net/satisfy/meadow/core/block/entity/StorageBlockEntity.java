@@ -47,6 +47,7 @@ public class StorageBlockEntity extends BlockEntity {
         if (level != null && !level.isClientSide()) {
             Packet<ClientGamePacketListener> updatePacket = getUpdatePacket();
             for (ServerPlayer player : GeneralUtil.tracking((ServerLevel) level, getBlockPos())) {
+                assert updatePacket != null;
                 player.connection.send(updatePacket);
             }
         }

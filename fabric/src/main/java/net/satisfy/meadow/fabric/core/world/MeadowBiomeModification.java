@@ -57,7 +57,7 @@ public class MeadowBiomeModification {
     public static class FabricEntitySpawn {
         public static void registerEntitySpawn() {
             SpawnPlacements.register(EntityTypeRegistry.WATER_BUFFALO.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING, Animal::checkAnimalSpawnRules);
-            SpawnPlacements.register(EntityTypeRegistry.SHEARABLE_MEADOW_VAR_COW.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Animal::checkAnimalSpawnRules);
+            SpawnPlacements.register(EntityTypeRegistry.WOOLY_COW.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Animal::checkAnimalSpawnRules);
         }
     }
 }

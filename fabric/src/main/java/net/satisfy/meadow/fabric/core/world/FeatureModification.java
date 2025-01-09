@@ -46,7 +46,7 @@ public class FeatureModification {
 
 
         Predicate<BiomeSelectionContext> shearableVarCows = (ctx -> ctx.hasTag(TagRegistry.IS_MEADOW) || ctx.hasTag(TagRegistry.SPAWNS_DARK_COW));
-        BiomeModifications.addSpawn(shearableVarCows, MobCategory.CREATURE, EntityTypeRegistry.SHEARABLE_MEADOW_VAR_COW.get(),
+        BiomeModifications.addSpawn(shearableVarCows, MobCategory.CREATURE, EntityTypeRegistry.WOOLY_COW.get(),
                 10, meadowPackSizeMin, meadowPackSizeMax);
 
         BiomeModifications.addSpawn(buffalo, MobCategory.CREATURE, EntityTypeRegistry.WATER_BUFFALO.get(),

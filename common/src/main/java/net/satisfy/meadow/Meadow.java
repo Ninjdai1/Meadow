@@ -2,6 +2,7 @@ package net.satisfy.meadow;
 
 import dev.architectury.hooks.item.tool.AxeItemHooks;
 import net.minecraft.world.level.block.Blocks;
+import net.satisfy.meadow.core.event.CommonEvents;
 import net.satisfy.meadow.core.registry.*;
 import net.satisfy.meadow.core.util.WoodenCauldronBehavior;
 
@@ -15,6 +16,7 @@ public class Meadow {
         RecipeRegistry.init();
         SoundEventRegistry.init();
         ScreenHandlerRegistry.init();
+        CommonEvents.init();
     }
 
     public static void commonSetup() {

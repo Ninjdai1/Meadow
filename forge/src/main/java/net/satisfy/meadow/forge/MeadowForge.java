@@ -33,7 +33,7 @@ public class MeadowForge {
 
     @SubscribeEvent
     public static void spawnEvent(SpawnPlacementRegisterEvent event){
-        event.register(EntityTypeRegistry.SHEARABLE_MEADOW_VAR_COW.get(),
+        event.register(EntityTypeRegistry.WOOLY_COW.get(),
                 SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                 Animal::checkAnimalSpawnRules,
                 SpawnPlacementRegisterEvent.Operation.AND

@@ -19,8 +19,8 @@ import net.satisfy.meadow.core.registry.SoundEventRegistry;
 import org.jetbrains.annotations.NotNull;
 
 
-public class WaterBuffalo extends Cow {
-    public WaterBuffalo(EntityType<? extends Cow> entityType, Level world) {
+public class WaterBuffaloEntity extends Cow {
+    public WaterBuffaloEntity(EntityType<? extends Cow> entityType, Level world) {
         super(entityType, world);
     }
 

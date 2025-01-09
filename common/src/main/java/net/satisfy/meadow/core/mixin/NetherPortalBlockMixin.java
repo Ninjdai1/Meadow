@@ -8,8 +8,8 @@ import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.NetherPortalBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.satisfy.meadow.core.entity.var.ShearableCowVar;
-import net.satisfy.meadow.core.entity.ShearableVarCow;
+import net.satisfy.meadow.core.entity.WoolyCowVar;
+import net.satisfy.meadow.core.entity.WoolyCowEntity;
 import net.satisfy.meadow.core.registry.EntityTypeRegistry;
 import net.satisfy.meadow.core.registry.TagRegistry;
 import org.spongepowered.asm.mixin.Mixin;
@@ -27,10 +27,10 @@ public class NetherPortalBlockMixin {
                 blockPos = blockPos.below();
             }
 
-            if (serverLevel.getBlockState(blockPos).isValidSpawn(serverLevel, blockPos, EntityTypeRegistry.SHEARABLE_MEADOW_VAR_COW.get())) {
-                ShearableVarCow entity = EntityTypeRegistry.SHEARABLE_MEADOW_VAR_COW.get().spawn(serverLevel, blockPos.above(), MobSpawnType.STRUCTURE);
+            if (serverLevel.getBlockState(blockPos).isValidSpawn(serverLevel, blockPos, EntityTypeRegistry.WOOLY_COW.get())) {
+                WoolyCowEntity entity = EntityTypeRegistry.WOOLY_COW.get().spawn(serverLevel, blockPos.above(), MobSpawnType.STRUCTURE);
                 if (entity != null) {
-                    entity.setVariant(ShearableCowVar.WARPED);
+                    entity.setVariant(WoolyCowVar.WARPED);
                     entity.setPortalCooldown();
                 }
             }

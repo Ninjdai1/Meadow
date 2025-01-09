@@ -6,12 +6,12 @@ import net.minecraft.client.model.QuadrupedModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.satisfy.meadow.core.entity.WaterBuffalo;
+import net.satisfy.meadow.core.entity.WaterBuffaloEntity;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class WaterBuffaloModel extends QuadrupedModel<WaterBuffalo> {
+public class WaterBuffaloModel extends QuadrupedModel<WaterBuffaloEntity> {
     private final ModelPart body;
     private final ModelPart head;
     private final ModelPart leg0;

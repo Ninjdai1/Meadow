@@ -35,15 +35,20 @@ public class EntityTypeRegistry {
     public static final RegistrySupplier<BlockEntityType<ModSignBlockEntity>> MOD_SIGN = BLOCK_ENTITY_TYPES.register("mod_sign", () -> BlockEntityType.Builder.of(ModSignBlockEntity::new, ObjectRegistry.PINE_SIGN.get(), ObjectRegistry.PINE_WALL_SIGN.get()).build(null));
     public static final RegistrySupplier<BlockEntityType<ModHangingSignBlockEntity>> MOD_HANGING_SIGN = BLOCK_ENTITY_TYPES.register("mod_hanging_sign", () -> BlockEntityType.Builder.of(ModHangingSignBlockEntity::new, ObjectRegistry.PINE_HANGING_SIGN.get(), ObjectRegistry.PINE_WALL_HANGING_SIGN.get()).build(null));
 
-    public static final RegistrySupplier<EntityType<WaterBuffalo>> WATER_BUFFALO = registerEntity("water_buffalo", () -> EntityType.Builder.of(WaterBuffalo::new, MobCategory.CREATURE).sized(0.9f, 1.4f).build(new ResourceLocation(Meadow.MOD_ID, "water_buffalo").toString()));
-    public static final RegistrySupplier<EntityType<ShearableVarCow>> SHEARABLE_MEADOW_VAR_COW = registerEntity("wooly_cow", () -> EntityType.Builder.of(ShearableVarCow::new, MobCategory.CREATURE).sized(0.9f, 1.4f).build(new ResourceLocation(Meadow.MOD_ID, "wooly_cow").toString()));
+    public static final RegistrySupplier<EntityType<WaterBuffaloEntity>> WATER_BUFFALO = registerEntity("water_buffalo", () -> EntityType.Builder.of(WaterBuffaloEntity::new, MobCategory.CREATURE).sized(0.9f, 1.4f).build(new ResourceLocation(Meadow.MOD_ID, "water_buffalo").toString()));
+    public static final RegistrySupplier<EntityType<WoolyCowEntity>> WOOLY_COW = registerEntity("wooly_cow", () -> EntityType.Builder.of(WoolyCowEntity::new, MobCategory.CREATURE).sized(0.9f, 1.4f).build(new ResourceLocation(Meadow.MOD_ID, "wooly_cow").toString()));
     public static final RegistrySupplier<EntityType<ChairEntity>> CHAIR = registerEntity("chair", () -> EntityType.Builder.of(ChairEntity::new, MobCategory.MISC).sized(0.001F, 0.001F).build((new MeadowIdentifier("chair")).toString()));
+    public static final RegistrySupplier<EntityType<WoolySheepEntity>> WOOLY_SHEEP = registerEntity("wooly_sheep", () -> EntityType.Builder.of(WoolySheepEntity::new, MobCategory.CREATURE).sized(1.0f, 1.1f).build(new ResourceLocation(Meadow.MOD_ID, "meadow_sheep").toString()));
 
     public static final Supplier<EntityType<PineBoatEntity>> PINE_BOAT = PlatformHelper.registerBoatType("pine_boat", PineBoatEntity::new, MobCategory.MISC, 1.375F, 0.5625F, 10);
     public static final Supplier<EntityType<PineChestBoatEntity>> PINE_CHEST_BOAT = PlatformHelper.registerBoatType("pine_chest_boat", PineChestBoatEntity::new, MobCategory.MISC, 1.375F, 0.5625F, 10);
 
     public static void registerCow(Supplier<? extends EntityType<? extends Animal>> typeSupplier) {
         EntityAttributeRegistry.register(typeSupplier, Cow::createAttributes);
+    }
+
+    public static void registerSheep(Supplier<? extends EntityType<? extends Animal>> typeSupplier) {
+        EntityAttributeRegistry.register(typeSupplier, WoolySheepEntity::createAttributes);
     }
 
     public static <T extends EntityType<?>> RegistrySupplier<T> registerEntity(final String path, final Supplier<T> type) {
@@ -56,7 +61,8 @@ public class EntityTypeRegistry {
     public static void init() {
         ENTITY_TYPES.register();
         BLOCK_ENTITY_TYPES.register();
-        registerCow(SHEARABLE_MEADOW_VAR_COW);
+        registerCow(WOOLY_COW);
         registerCow(WATER_BUFFALO);
+        registerSheep(WOOLY_SHEEP);
     }
 }

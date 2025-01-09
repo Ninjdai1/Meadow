@@ -1,4 +1,4 @@
-package net.satisfy.meadow.core.entity.var;
+package net.satisfy.meadow.core.entity;
 
 import com.mojang.serialization.Codec;
 import net.minecraft.Util;
@@ -22,18 +22,18 @@ import java.util.Map;
 import java.util.function.IntFunction;
 import java.util.stream.Collectors;
 
-public enum ShearableCowVar implements StringRepresentable {
+public enum WoolyCowVar implements StringRepresentable {
     HIGHLAND(0, "highland_cattle", ObjectRegistry.HIGHLAND_WOOL.get().asItem(), ObjectRegistry.WOODEN_MILK_BUCKET.get()),
     UMBRA(1, "umbra_cow", ObjectRegistry.UMBRA_WOOL.get().asItem(), ObjectRegistry.WOODEN_MILK_BUCKET.get()),
     WARPED(2, "warped_cow", ObjectRegistry.WARPED_WOOL.get().asItem(), ObjectRegistry.WOODEN_WARPED_MILK_BUCKET.get());
-    public static final Codec<ShearableCowVar> CODEC = StringRepresentable.fromEnum(ShearableCowVar::values);
-    private static final IntFunction<ShearableCowVar> BY_ID = ByIdMap.continuous(ShearableCowVar::getId, values(), ByIdMap.OutOfBoundsStrategy.WRAP);
+    public static final Codec<WoolyCowVar> CODEC = StringRepresentable.fromEnum(WoolyCowVar::values);
+    private static final IntFunction<WoolyCowVar> BY_ID = ByIdMap.continuous(WoolyCowVar::getId, values(), ByIdMap.OutOfBoundsStrategy.WRAP);
     private final int id;
     private final String name;
     private final Item wool;
     private final Item bucket;
 
-    ShearableCowVar(int id, String name, Item wool, Item bucket) {
+    WoolyCowVar(int id, String name, Item wool, Item bucket) {
         this.id = id;
         this.name = name;
         this.wool = wool;
@@ -52,7 +52,7 @@ public enum ShearableCowVar implements StringRepresentable {
         return this.id;
     }
 
-    public static ShearableCowVar byId(int i) {
+    public static WoolyCowVar byId(int i) {
         return BY_ID.apply(i);
     }
 
@@ -61,29 +61,29 @@ public enum ShearableCowVar implements StringRepresentable {
     }
 
 
-    private static final Map<ShearableCowVar, TagKey<Biome>> SPAWNS = Util.make(new HashMap<>(), map -> {
-        map.put(ShearableCowVar.HIGHLAND, TagRegistry.IS_MEADOW);
-        map.put(ShearableCowVar.UMBRA, TagRegistry.SPAWNS_DARK_COW);
-        map.put(ShearableCowVar.WARPED, TagRegistry.SPAWNS_WARPED_COW);
+    private static final Map<WoolyCowVar, TagKey<Biome>> SPAWNS = Util.make(new HashMap<>(), map -> {
+        map.put(WoolyCowVar.HIGHLAND, TagRegistry.IS_MEADOW);
+        map.put(WoolyCowVar.UMBRA, TagRegistry.SPAWNS_DARK_COW);
+        map.put(WoolyCowVar.WARPED, TagRegistry.SPAWNS_WARPED_COW);
     });
-     public static ShearableCowVar getRandomVariant(LevelAccessor levelAccessor, BlockPos blockPos, boolean spawnEgg) {
+     public static WoolyCowVar getRandomVariant(LevelAccessor levelAccessor, BlockPos blockPos, boolean spawnEgg) {
         Holder<Biome> holder = levelAccessor.getBiome(blockPos);
         RandomSource random = levelAccessor.getRandom();
-        List<ShearableCowVar> possibleVars = getShearableCowVariantsInBiome(holder);
+        List<WoolyCowVar> possibleVars = getShearableCowVariantsInBiome(holder);
         int size = possibleVars.size();
         if(size == 0 || spawnEgg){
-            if(spawnEgg) return Util.getRandom(ShearableCowVar.values(), random);
+            if(spawnEgg) return Util.getRandom(WoolyCowVar.values(), random);
 
-            if(holder.is(BiomeTags.IS_NETHER)) return ShearableCowVar.WARPED;
-            List<ShearableCowVar> list = new java.util.ArrayList<>(List.of(ShearableCowVar.values()));
-            list.remove(ShearableCowVar.WARPED);
+            if(holder.is(BiomeTags.IS_NETHER)) return WoolyCowVar.WARPED;
+            List<WoolyCowVar> list = new java.util.ArrayList<>(List.of(WoolyCowVar.values()));
+            list.remove(WoolyCowVar.WARPED);
             return Util.getRandom(list, random);
         }
 
         return possibleVars.get(levelAccessor.getRandom().nextInt(size));
     }
 
-    private static List<ShearableCowVar> getShearableCowVariantsInBiome(Holder<Biome> biome) {
+    private static List<WoolyCowVar> getShearableCowVariantsInBiome(Holder<Biome> biome) {
         return SPAWNS.keySet().stream()
                 .filter(ShearableCowVariant -> biome.is(SPAWNS.get(ShearableCowVariant)))
                 .collect(Collectors.toList());

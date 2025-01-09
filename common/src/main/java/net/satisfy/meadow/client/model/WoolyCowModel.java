@@ -4,9 +4,9 @@ import net.minecraft.client.model.CowModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.satisfy.meadow.core.entity.ShearableVarCow;
+import net.satisfy.meadow.core.entity.WoolyCowEntity;
 
-public class WoolyCowModel extends CowModel<ShearableVarCow> {
+public class WoolyCowModel extends CowModel<WoolyCowEntity> {
 
     private float headPitchModifier;
 
@@ -54,13 +54,13 @@ public class WoolyCowModel extends CowModel<ShearableVarCow> {
     }
 
     @Override
-    public void setupAnim(ShearableVarCow shearableVarCow, float f, float g, float h, float i, float j) {
+    public void setupAnim(WoolyCowEntity shearableVarCow, float f, float g, float h, float i, float j) {
         super.setupAnim(shearableVarCow, f, g, h, i, j);
         this.head.xRot = this.headPitchModifier;
     }
 
     @Override
-    public void prepareMobModel(ShearableVarCow shearableVarCow, float f, float g, float h) {
+    public void prepareMobModel(WoolyCowEntity shearableVarCow, float f, float g, float h) {
         super.prepareMobModel(shearableVarCow, f, g, h);
         this.head.y = 6.0f + shearableVarCow.getNeckAngle(h) * 9.0f;
         this.headPitchModifier = shearableVarCow.getHeadAngle(h);
