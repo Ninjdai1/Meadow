@@ -105,58 +105,6 @@ public class GeneralUtil {
         return tracking(world, new ChunkPos(pos));
     }
 
-    public static void popResourceFromFace(Level level, BlockPos blockPos, Direction side, ItemStack itemStack) {
-        BlockState blockState = level.getBlockState(blockPos);
-        double itemWidth = EntityType.ITEM.getWidth();
-        double itemHeight = EntityType.ITEM.getHeight();
-        VoxelShape shape = blockState.getCollisionShape(level, blockPos);
-        double posX = (double)blockPos.getX() + 0.5;
-        double posY = (double)blockPos.getY() + 0.5;
-        double posZ = (double)blockPos.getZ() + 0.5;
-        double offsetX = 0.0;
-        double offsetY = 0.0;
-        double offsetZ = 0.0;
-        switch (side) {
-            case DOWN:
-                posY = (double)blockPos.getY() - shape.min(Direction.Axis.Y);
-                offsetY = -itemHeight * 2.0;
-                break;
-            case UP:
-                posY = (double)blockPos.getY() + shape.max(Direction.Axis.Y);
-                break;
-            case NORTH:
-                posZ = (double)blockPos.getZ() + shape.min(Direction.Axis.Z);
-                offsetZ = -itemWidth;
-                break;
-            case SOUTH:
-                posZ = (double)blockPos.getZ() + shape.max(Direction.Axis.Z);
-                offsetZ = itemWidth;
-                break;
-            case WEST:
-                posX = (double)blockPos.getX() + shape.min(Direction.Axis.X);
-                offsetX = -itemWidth;
-                break;
-            case EAST:
-                posX = (double)blockPos.getX() + shape.max(Direction.Axis.X);
-                offsetX = itemWidth;
-        }
-
-        int i = side.getStepX();
-        int j = side.getStepY();
-        int k = side.getStepZ();
-        double deltaX = i == 0 ? Mth.nextDouble(level.random, -0.1, 0.1) : (double)i * 0.1;
-        double deltaY = j == 0 ? Mth.nextDouble(level.random, 0.0, 0.1) : (double)j * 0.1 + 0.1;
-        double deltaZ = k == 0 ? Mth.nextDouble(level.random, -0.1, 0.1) : (double)k * 0.1;
-        popResource(level, new ItemEntity(level, posX + offsetX, posY + offsetY, posZ + offsetZ, itemStack, deltaX, deltaY, deltaZ), itemStack);
-    }
-
-    private static void popResource(Level level, ItemEntity itemEntity, ItemStack itemStack) {
-        if (!level.isClientSide && !itemStack.isEmpty() && level.getGameRules().getBoolean(GameRules.RULE_DOBLOCKDROPS)) {
-            itemEntity.setDefaultPickUpDelay();
-            level.addFreshEntity(itemEntity);
-        }
-    }
-
     public static VoxelShape rotateShape(Direction from, Direction to, VoxelShape shape) {
         VoxelShape[] buffer = new VoxelShape[]{shape, Shapes.empty()};
         int times = (to.get2DDataValue() - from.get2DDataValue() + 4) % 4;
