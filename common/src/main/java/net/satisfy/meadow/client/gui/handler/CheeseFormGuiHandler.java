@@ -64,11 +64,11 @@ public class CheeseFormGuiHandler extends AbstractContainerMenu {
 
     @Override
     public @NotNull ItemStack quickMoveStack(Player player, int i) {
-        return ItemStack.EMPTY; // Return an empty stack for now
+        return ItemStack.EMPTY;
     }
 
     @Override
     public boolean stillValid(Player player) {
-        return true; // Adjust the logic for still-valid checks
+        return true;
     }
 }

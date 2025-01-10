@@ -34,7 +34,6 @@ public class CheeseFormGui extends AbstractContainerScreen<CheeseFormGuiHandler>
         int posY = this.topPos;
         guiGraphics.blit(CheeseFormGui.BACKGROUND, posX, posY, 0, 0, this.imageWidth - 1, this.imageHeight);
         this.renderProgressArrow(guiGraphics);
-        // this.renderBurnIcon(guiGraphics, posX, posY);
     }
 
     protected void renderProgressArrow(GuiGraphics guiGraphics) {
