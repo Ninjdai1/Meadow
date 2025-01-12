@@ -3,7 +3,7 @@
 	"textures": {
 		"0": "meadow:block/pine_log_side",
 		"1": "meadow:block/pine_log_top",
-		"2": "minecraft:item/iron_axe",
+		"2": "item/iron_axe",
 		"particle": "meadow:block/pine_log_side"
 	},
 	"elements": [
@@ -21,9 +21,9 @@
 			}
 		},
 		{
-			"from": [4.75, 0, 5],
-			"to": [8.75, 4, 11],
-			"rotation": {"angle": 22.5, "axis": "y", "origin": [-0.75, 0, 0]},
+			"from": [8.75, 0, 1],
+			"to": [12.75, 4, 7],
+			"rotation": {"angle": 0, "axis": "y", "origin": [3.25, 0, -4]},
 			"faces": {
 				"north": {"uv": [6, 6, 10, 10], "texture": "#1"},
 				"east": {"uv": [0, 0, 6, 4], "texture": "#0"},

@@ -21,7 +21,6 @@
     "client": [
       "net.satisfy.meadow.fabric.client.MeadowFabricClient"
     ],
-
     "rei_client": [
       "net.satisfy.meadow.fabric.core.rei.MeadowReiClientPluginFabric"
     ],

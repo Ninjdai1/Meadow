@@ -15,6 +15,7 @@ public class PlatformHelper {
         throw new AssertionError();
     }
 
+    @ExpectPlatform
     public static boolean shouldGiveEffect() {
         throw new AssertionError();
     }

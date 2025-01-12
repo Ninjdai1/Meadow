@@ -20,10 +20,9 @@ public class MeadowFabricConfig implements ConfigData {
     }
 
     public static class ItemsSettings {
-  
+
         @ConfigEntry.Gui.CollapsibleObject
         public BannerSettings banner = new BannerSettings();
-
     }
 
     public static class BannerSettings {
@@ -36,5 +35,4 @@ public class MeadowFabricConfig implements ConfigData {
             return giveEffect && showTooltip;
         }
     }
-
 }
