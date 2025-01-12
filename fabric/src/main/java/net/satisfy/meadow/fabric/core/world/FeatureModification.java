@@ -25,27 +25,20 @@ public class FeatureModification {
 
         Predicate<BiomeSelectionContext> meadowVarCows = (ctx -> {
             if(BiomeSelectors.spawnsOneOf(EntityType.COW).test(ctx)) return false;
-            return ctx.hasTag(TagRegistry.IS_MEADOW) || ctx.hasTag(TagRegistry.SPAWNS_DARK_COW) || ctx.hasTag(TagRegistry.SPAWNS_SUNSET_COW) || ctx.hasTag(TagRegistry.SPAWNS_BEAR);
+            return ctx.hasTag(TagRegistry.IS_MEADOW) || ctx.hasTag(TagRegistry.SPAWNS_UMBRA_COW);
         });
         BiomeModifications.addSpawn(meadowVarCows, MobCategory.CREATURE, EntityType.COW,
                 CommonSpawnUtil.cowSpawnWeight, CommonSpawnUtil.cowPackSizeMin, CommonSpawnUtil.cowPackSizeMax);
 
-        Predicate<BiomeSelectionContext> meadowVarChicken = (ctx -> {
-            if(BiomeSelectors.spawnsOneOf(EntityType.CHICKEN).test(ctx)) return false;
-            return ctx.hasTag(TagRegistry.IS_MEADOW);
-        });
-        BiomeModifications.addSpawn(meadowVarChicken, MobCategory.CREATURE, EntityType.CHICKEN,
-                CommonSpawnUtil.chickenSpawnWeight, CommonSpawnUtil.chickenPackSizeMin, CommonSpawnUtil.chickenPackSizeMax);
-
         Predicate<BiomeSelectionContext> meadowVarSheep = (ctx -> {
             if(BiomeSelectors.spawnsOneOf(EntityType.SHEEP).test(ctx)) return false;
-            return ctx.hasTag(TagRegistry.IS_MEADOW) || ctx.hasTag(TagRegistry.SPAWNS_SUNSET_COW) || ctx.hasTag(TagRegistry.SPAWNS_ROCKY_SHEEP);
+            return ctx.hasTag(TagRegistry.IS_MEADOW) || ctx.hasTag(TagRegistry.SPAWNS_ROCKY_SHEEP);
         });
         BiomeModifications.addSpawn(meadowVarSheep, MobCategory.CREATURE, EntityType.SHEEP,
                 CommonSpawnUtil.sheepSpawnWeight, CommonSpawnUtil.sheepPackSizeMin, CommonSpawnUtil.sheepPackSizeMax);
 
 
-        Predicate<BiomeSelectionContext> shearableVarCows = (ctx -> ctx.hasTag(TagRegistry.IS_MEADOW) || ctx.hasTag(TagRegistry.SPAWNS_DARK_COW));
+        Predicate<BiomeSelectionContext> shearableVarCows = (ctx -> ctx.hasTag(TagRegistry.IS_MEADOW) || ctx.hasTag(TagRegistry.SPAWNS_UMBRA_COW));
         BiomeModifications.addSpawn(shearableVarCows, MobCategory.CREATURE, EntityTypeRegistry.WOOLY_COW.get(),
                 10, meadowPackSizeMin, meadowPackSizeMax);
 

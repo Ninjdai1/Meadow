@@ -63,7 +63,7 @@ public enum WoolyCowVar implements StringRepresentable {
 
     private static final Map<WoolyCowVar, TagKey<Biome>> SPAWNS = Util.make(new HashMap<>(), map -> {
         map.put(WoolyCowVar.HIGHLAND, TagRegistry.IS_MEADOW);
-        map.put(WoolyCowVar.UMBRA, TagRegistry.SPAWNS_DARK_COW);
+        map.put(WoolyCowVar.UMBRA, TagRegistry.SPAWNS_UMBRA_COW);
         map.put(WoolyCowVar.WARPED, TagRegistry.SPAWNS_WARPED_COW);
     });
      public static WoolyCowVar getRandomVariant(LevelAccessor levelAccessor, BlockPos blockPos, boolean spawnEgg) {

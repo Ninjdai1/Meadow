@@ -10,20 +10,14 @@ import net.minecraft.world.level.biome.MobSpawnSettings;
 import java.util.Set;
 
 public class CommonSpawnUtil {
-    // Don't forget to change those values in the forge data!!!
     public static final int cowSpawnWeight = 6;
-    public static final int cowPackSizeMin = 2; // do not set to 4
-    public static final int cowPackSizeMax = 3; // do not set to 4
+    public static final int cowPackSizeMin = 2; 
+    public static final int cowPackSizeMax = 3; 
 
     public static final int sheepSpawnWeight = 6;
-    public static final int sheepPackSizeMin = 2; // do not set to 4
-    public static final int sheepPackSizeMax = 3; // do not set to 4
-
-    public static final int chickenSpawnWeight = 6;
-    public static final int chickenPackSizeMin = 2; // do not set to 4
-    public static final int chickenPackSizeMax = 3; // do not set to 4
-
-
+    public static final int sheepPackSizeMin = 2; 
+    public static final int sheepPackSizeMax = 3; 
+    
     public static boolean spawnsInBiome(Holder<Biome> biome, boolean checkForMeadowSpawn, EntityType<?>... entityTypes) {
         return spawnsInBiome(biome, checkForMeadowSpawn, ImmutableSet.copyOf(entityTypes));
     }
@@ -50,10 +44,7 @@ public class CommonSpawnUtil {
         else if(type.equals(EntityType.SHEEP)){
             return spawnEntry.maxCount == sheepPackSizeMax && spawnEntry.minCount == sheepPackSizeMin;
         }
-        else if(type.equals(EntityType.CHICKEN)){
-            return spawnEntry.maxCount == chickenPackSizeMax && spawnEntry.minCount == chickenPackSizeMin;
-        }
-
+        
         return false;
     }
 }
