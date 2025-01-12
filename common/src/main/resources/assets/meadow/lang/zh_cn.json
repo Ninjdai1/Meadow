@@ -262,9 +262,9 @@
   "item.meadow.ingredient.tooltipitem.meadow.wooden_amethyst_milk_bucket": "不知道谁想的鬼点子...",
   "item.meadow.wooden_water_bucket": "水木桶",
   "creativetab.meadow.tab": "[Let's Do] Meadow",
-  "tooltip.meadow.fur_armor": "熊皮套装：",
-  "tooltip.meadow.fur_armor2": "套装加成：",
-  "tooltip.meadow.fur_armor3": "击退抗性+2",
+  "tooltip.meadow.armor.fur_armor": "熊皮套装：",
+  "tooltip.meadow.armor.fur_armor2": "套装加成：",
+  "tooltip.meadow.armor.fur_armor3": "击退抗性+2",
   "subtitles.meadow.click_camera": "照相机：快门声",
   "subtitles.meadow.cooking_cauldron": "烹饪锅：咕嘟",
   "subtitles.meadow.shelf_closed": "橱柜：关闭",
@@ -325,10 +325,10 @@
   "advancement.meadow.milk_bucket_collector": "哞哞——",
   "advancement.meadow.milk_bucket_collector.desc": "收集所有种类的牛奶",
 
-  "tooltip.meadow.thankyou_1": "合成所有种类奶酪的奖励",
-  "tooltip.meadow.thankyou_2": "当放置时：",
-  "tooltip.meadow.thankyou_3": "感谢您游玩青青草甸！",
-  "tooltip.meadow.thankyou_4": "在半径8格范围内给予玩家急迫II效果",
-  "block.doapi.standard": "全物品收集者旗帜：§2青青草甸",
-  "item.meadow.meadow_standard": "全物品收集者旗帜：§2青青草甸"
+  "tooltip.meadow.banner.thankyou_1": "合成所有种类奶酪的奖励",
+  "tooltip.meadow.banner.thankyou_2": "当放置时：",
+  "tooltip.meadow.banner.thankyou_3": "感谢您游玩青青草甸！",
+  "tooltip.meadow.banner.thankyou_4": "在半径8格范围内给予玩家急迫II效果",
+  "block.doapi.banner": "全物品收集者旗帜：§2青青草甸",
+  "block.meadow.meadow_banner": "全物品收集者旗帜：§2青青草甸"
 }

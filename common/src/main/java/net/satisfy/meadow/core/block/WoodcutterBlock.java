@@ -7,7 +7,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -58,6 +57,18 @@ public class WoodcutterBlock extends Block implements EntityBlock {
         ItemStack heldItem = player.getItemInHand(hand);
 
         if (world.getBlockEntity(pos) instanceof WoodcutterBlockEntity blockEntity) {
+            if (player.isShiftKeyDown()) {
+                if (!world.isClientSide && blockEntity.hasAxe()) {
+                    ItemStack axe = blockEntity.getAxe();
+                    if (!player.addItem(axe)) {
+                        player.drop(axe, false);
+                    }
+                    blockEntity.removeAxe();
+                    world.setBlock(pos, state.setValue(HAS_AXE, false), 3);
+                    return InteractionResult.SUCCESS;
+                }
+            }
+
             if (isAxe(heldItem)) {
                 if (!world.isClientSide) {
                     if (!blockEntity.hasAxe()) {
@@ -65,6 +76,7 @@ public class WoodcutterBlock extends Block implements EntityBlock {
                         if (!player.isCreative()) {
                             heldItem.shrink(1);
                         }
+                        world.setBlock(pos, state.setValue(HAS_AXE, true), 3);
                     } else {
                         blockEntity.dropAxe();
                     }
@@ -150,6 +162,22 @@ public class WoodcutterBlock extends Block implements EntityBlock {
             }
         }
         return Optional.empty();
+    }
+
+    @Override
+    public void onRemove(BlockState state, Level world, BlockPos pos, BlockState newState, boolean isMoving) {
+        if (!state.is(newState.getBlock())) {
+            if (world.getBlockEntity(pos) instanceof WoodcutterBlockEntity blockEntity) {
+                ItemStack axe = blockEntity.getAxe();
+                if (!axe.isEmpty()) {
+                    Vec3 dropPos = Vec3.atCenterOf(pos);
+                    ItemEntity itemEntity = new ItemEntity(world, dropPos.x, dropPos.y, dropPos.z, axe);
+                    world.addFreshEntity(itemEntity);
+                    blockEntity.removeAxe();
+                }
+            }
+            super.onRemove(state, world, pos, newState, isMoving);
+        }
     }
 
     private Item getPlanksForWoodType(String namespace, String woodType) {

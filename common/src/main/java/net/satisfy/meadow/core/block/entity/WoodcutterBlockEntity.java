@@ -32,6 +32,11 @@ public class WoodcutterBlockEntity extends BlockEntity implements Clearable {
         return !this.axe.isEmpty();
     }
 
+    public void removeAxe() {
+        this.axe = ItemStack.EMPTY;
+        this.setChanged();
+    }
+
     @Override
     public void load(CompoundTag tag) {
         super.load(tag);
