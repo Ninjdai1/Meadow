@@ -171,6 +171,7 @@ public class TabRegistry {
                 out.accept(ObjectRegistry.WOODEN_AMETHYST_MILK_BUCKET.get());
                 out.accept(ObjectRegistry.WATER_BUFFALO_SPAWN_EGG_ITEM.get());
                 out.accept(ObjectRegistry.WOOLY_COW_SPAWN_EGG_ITEM.get());
+                out.accept(ObjectRegistry.WOOLY_SHEEP_EGG_ITEM.get());
                 out.accept(ObjectRegistry.PINE_SIGN.get());
                 out.accept(ObjectRegistry.PINE_HANGING_SIGN.get());
                 out.accept(ObjectRegistry.PINE_BOAT.get());
