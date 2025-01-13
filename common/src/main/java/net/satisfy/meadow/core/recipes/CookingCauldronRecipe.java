@@ -21,12 +21,14 @@ public class CookingCauldronRecipe implements Recipe<Container> {
     private final NonNullList<Ingredient> inputs;
     private final ItemStack output;
     private final int fluidAmount;
+    private final int craftingDuration;
 
-    public CookingCauldronRecipe(ResourceLocation id, NonNullList<Ingredient> inputs, ItemStack output, int fluidAmount) {
+    public CookingCauldronRecipe(ResourceLocation id, NonNullList<Ingredient> inputs, ItemStack output, int fluidAmount, int craftingDuration) {
         this.id = id;
         this.inputs = inputs;
         this.output = output;
         this.fluidAmount = fluidAmount;
+        this.craftingDuration = craftingDuration;
     }
 
     @Override
@@ -59,6 +61,10 @@ public class CookingCauldronRecipe implements Recipe<Container> {
 
     public int getFluidAmount() {
         return fluidAmount;
+    }
+
+    public int getCraftingDuration() {
+        return craftingDuration;
     }
 
     @Override
@@ -97,7 +103,14 @@ public class CookingCauldronRecipe implements Recipe<Container> {
                 throw new JsonParseException("Too many ingredients for CookingCauldron Recipe");
             } else {
                 int fluidAmount = GsonHelper.getAsInt(json, "fluid_amount", 0);
-                return new CookingCauldronRecipe(id, ingredients, ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json, "result")), fluidAmount);
+                int craftingDuration = GsonHelper.getAsInt(json, "crafting_duration", 10);
+                return new CookingCauldronRecipe(
+                        id,
+                        ingredients,
+                        ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json, "result")),
+                        fluidAmount,
+                        craftingDuration
+                );
             }
         }
 
@@ -107,7 +120,8 @@ public class CookingCauldronRecipe implements Recipe<Container> {
             ingredients.replaceAll(ignored -> Ingredient.fromNetwork(buf));
             ItemStack output = buf.readItem();
             int fluidAmount = buf.readInt();
-            return new CookingCauldronRecipe(id, ingredients, output, fluidAmount);
+            int craftingDuration = buf.readInt();
+            return new CookingCauldronRecipe(id, ingredients, output, fluidAmount, craftingDuration);
         }
 
         @Override
@@ -116,6 +130,7 @@ public class CookingCauldronRecipe implements Recipe<Container> {
             recipe.inputs.forEach(entry -> entry.toNetwork(buf));
             buf.writeItem(recipe.output);
             buf.writeInt(recipe.fluidAmount);
+            buf.writeInt(recipe.craftingDuration);
         }
     }
 

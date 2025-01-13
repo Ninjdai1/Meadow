@@ -6,11 +6,10 @@
     },
     {
       "item": "meadow:alpine_salt"
-    },
-    {
-      "tag": "meadow:water_bottles"
     }
   ],
+  "fluid_amount": 10,
+  "crafting_duration": 30,
   "result": {
     "item": "minecraft:baked_potato",
     "count": 4

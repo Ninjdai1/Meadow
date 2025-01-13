@@ -6,6 +6,7 @@
     }
   ],
   "fluid_amount": 50,
+  "crafting_duration": 120,
   "result": {
     "item": "meadow:alpine_salt",
     "count": 2

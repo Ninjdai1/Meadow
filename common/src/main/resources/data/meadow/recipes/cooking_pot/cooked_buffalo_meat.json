@@ -6,13 +6,14 @@
     },
     {
       "item": "meadow:alpine_salt"
-    },
-    {
-      "tag": "meadow:water_bottles"
     }
   ],
+  "fluid_amount": 10,
+  "crafting_duration": 40,
   "result": {
     "item": "meadow:cooked_buffalo_meat",
     "count": 4
   }
 }
+
+

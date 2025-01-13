@@ -11,8 +11,12 @@
       "item": "minecraft:glass_bottle"
     }
   ],
+  "fluid_amount": 25,
+  "crafting_duration": 60,
   "result": {
     "item":  "meadow:rennet",
     "count": 2
   }
 }
+
+

@@ -35,8 +35,8 @@ import java.util.Objects;
 @SuppressWarnings("deprecation, unused")
 public class CookingCauldronBlockEntity extends BlockEntity implements ImplementedInventory, MenuProvider {
     private static final int MAX_CAPACITY = 8;
-    private static final int MAX_COOKING_TIME = 200;
     private static final int OUTPUT_SLOT = 0;
+    public static final int MAX_COOKING_TIME = 200;
     private static final int INGREDIENTS_START = 1;
     private static final int INGREDIENTS_END = 6;
     private static final int FLUID_INPUT_SLOT = 7;
@@ -46,6 +46,7 @@ public class CookingCauldronBlockEntity extends BlockEntity implements Implement
     private int cookingTime;
     private boolean isBeingBurned;
     private int fluidLevel;
+    private int currentCraftingDuration;
     private final ContainerData delegate = new ContainerData() {
         @Override
         public int get(int index) {
@@ -53,28 +54,26 @@ public class CookingCauldronBlockEntity extends BlockEntity implements Implement
                 case 0 -> cookingTime;
                 case 1 -> isBeingBurned ? 1 : 0;
                 case 2 -> fluidLevel;
+                case 3 -> currentCraftingDuration;
                 default -> 0;
             };
         }
-
+        
         @Override
         public void set(int index, int value) {
             switch(index) {
                 case 0: cookingTime = value; break;
                 case 1: isBeingBurned = value != 0; break;
                 case 2: fluidLevel = value; break;
+                case 3: currentCraftingDuration = value; break;
             }
         }
 
         @Override
         public int getCount() {
-            return 3;
+            return 4;
         }
     };
-
-    public static int getMaxCookingTime() {
-        return MAX_COOKING_TIME;
-    }
 
     public CookingCauldronBlockEntity(BlockPos pos, BlockState state) {
         super(EntityTypeRegistry.COOKING_CAULDRON.get(), pos, state);
@@ -92,6 +91,7 @@ public class CookingCauldronBlockEntity extends BlockEntity implements Implement
         cookingTime = nbt.getInt("CookingTime");
         isBeingBurned = nbt.getBoolean("IsBeingBurned");
         fluidLevel = nbt.getInt("FluidLevel");
+        currentCraftingDuration = nbt.getInt("CurrentCraftingDuration");
     }
 
     @Override
@@ -101,6 +101,7 @@ public class CookingCauldronBlockEntity extends BlockEntity implements Implement
         nbt.putInt("CookingTime", cookingTime);
         nbt.putBoolean("IsBeingBurned", isBeingBurned);
         nbt.putInt("FluidLevel", fluidLevel);
+        nbt.putInt("CurrentCraftingDuration", currentCraftingDuration);
     }
 
     public boolean isBeingBurned() {
@@ -145,23 +146,7 @@ public class CookingCauldronBlockEntity extends BlockEntity implements Implement
                 }
             }
         }
-        ItemStack fluidItem = getItem(FLUID_INPUT_SLOT);
-        if (fluidItem.is(TagRegistry.SMALL_WATER_FILL)) {
-            setItem(FLUID_INPUT_SLOT, fluidItem.getCount() > 1 ? fluidItem.split(1) : ItemStack.EMPTY);
-            consumeFluid(25);
-            ItemStack remainder = getRemainderItem(fluidItem);
-            if (!remainder.isEmpty()) {
-                handleRemainder(remainder, FLUID_INPUT_SLOT);
-            }
-        }
-        else if (fluidItem.is(TagRegistry.LARGE_WATER_FILL)) {
-            setItem(FLUID_INPUT_SLOT, fluidItem.getCount() > 1 ? fluidItem.split(1) : ItemStack.EMPTY);
-            consumeFluid(50);
-            ItemStack remainder = getRemainderItem(fluidItem);
-            if (!remainder.isEmpty()) {
-                handleRemainder(remainder, FLUID_INPUT_SLOT);
-            }
-        }
+        consumeFluid(recipe.getFluidAmount());
     }
 
     private void handleRemainder(ItemStack remainderStack, int originalSlot) {
@@ -192,7 +177,6 @@ public class CookingCauldronBlockEntity extends BlockEntity implements Implement
             dropItemIntoWorld(remainderStack, worldPosition);
         }
     }
-
 
     private ItemStack getRemainderItem(ItemStack stack) {
         if (stack.getItem().hasCraftingRemainingItem()) {
@@ -232,7 +216,7 @@ public class CookingCauldronBlockEntity extends BlockEntity implements Implement
                 if (!remainder.isEmpty()) {
                     handleRemainder(remainder, FLUID_INPUT_SLOT);
                 }
-                consumeFluid(fluidAmount);
+                addFluid(fluidAmount);
                 setChanged();
             }
         }
@@ -260,20 +244,29 @@ public class CookingCauldronBlockEntity extends BlockEntity implements Implement
         CookingCauldronRecipe recipe = world.getRecipeManager().getRecipeFor(RecipeRegistry.COOKING.get(), this, world).orElse(null);
 
         if (canCraft(recipe) && fluidLevel >= recipe.getFluidAmount()) {
+            if (currentCraftingDuration == 0 && cookingTime == 0) {
+                currentCraftingDuration = recipe.getCraftingDuration() * 20;
+                delegate.set(3, currentCraftingDuration);
+            }
             cookingTime++;
-            if (cookingTime >= MAX_COOKING_TIME) {
+            delegate.set(0, cookingTime);
+            if (cookingTime >= currentCraftingDuration) {
                 cookingTime = 0;
+                currentCraftingDuration = 0;
+                delegate.set(3, currentCraftingDuration);
                 craft(recipe);
             }
             world.setBlock(pos, state.setValue(CookingCauldronBlock.COOKING, true).setValue(CookingCauldronBlock.LIT, true), Block.UPDATE_ALL);
         } else {
             cookingTime = 0;
+            currentCraftingDuration = 0;
+            delegate.set(0, cookingTime);
+            delegate.set(3, currentCraftingDuration);
             if (state.getValue(CookingCauldronBlock.COOKING)) {
                 world.setBlock(pos, state.setValue(CookingCauldronBlock.COOKING, false).setValue(CookingCauldronBlock.LIT, true), Block.UPDATE_ALL);
             }
         }
     }
-
 
     @Override
     public NonNullList<ItemStack> getItems() {
@@ -299,7 +292,13 @@ public class CookingCauldronBlockEntity extends BlockEntity implements Implement
         return Math.min(fluidLevel, 100);
     }
 
-    private void consumeFluid(int amount) {
+    private void addFluid(int amount) {
         fluidLevel = Math.min(fluidLevel + amount, 100);
+        delegate.set(2, fluidLevel);
+    }
+
+    private void consumeFluid(int amount) {
+        fluidLevel = Math.max(fluidLevel - amount, 0);
+        delegate.set(2, fluidLevel);
     }
 }

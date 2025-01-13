@@ -15,7 +15,7 @@ public class CookingCauldronGuiHandler extends AbstractContainerMenu {
     private final ContainerData propertyDelegate;
 
     public CookingCauldronGuiHandler(int syncId, Inventory playerInventory) {
-        this(syncId, playerInventory, new SimpleContainer(8), new SimpleContainerData(3));
+        this(syncId, playerInventory, new SimpleContainer(8), new SimpleContainerData(4));
     }
 
     public CookingCauldronGuiHandler(int syncId, Inventory playerInventory, Container container, ContainerData propertyDelegate) {
@@ -55,7 +55,8 @@ public class CookingCauldronGuiHandler extends AbstractContainerMenu {
 
     public int getScaledProgress(int arrowWidth) {
         int progress = propertyDelegate.get(0);
-        int total = 200;
+        int total = propertyDelegate.get(3);
+        if (total == 0) return 0;
         return progress * arrowWidth / total;
     }
 
@@ -68,7 +69,7 @@ public class CookingCauldronGuiHandler extends AbstractContainerMenu {
     }
 
     public int getRequiredDuration() {
-        return 200;
+        return propertyDelegate.get(3);
     }
 
     @Override
