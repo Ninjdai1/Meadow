@@ -1,8 +1,8 @@
 {
 	"credit": "Made by Satisfy",
 	"textures": {
-		"3": "meadow:block/pine_leaves_2",
-		"particle": "meadow:block/pine_leaves_2"
+		"3": "meadow:block/yellow_pine_leaves",
+		"particle": "meadow:block/yellow_pine_leaves"
 	},
 	"elements": [
 		{

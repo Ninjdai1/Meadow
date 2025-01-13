@@ -1,9 +1,9 @@
 {
 	"credit": "Made by Satisfy",
 	"textures": {
-		"1": "meadow:block/stripped_pine_log",
-		"2": "meadow:block/stripped_pine_top",
-		"particle": "meadow:block/stripped_pine_log"
+		"1": "meadow:block/stripped_pine_log_side",
+		"2": "meadow:block/stripped_pine_log_top",
+		"particle": "meadow:block/stripped_pine_log_side"
 	},
 	"elements": [
 		{
