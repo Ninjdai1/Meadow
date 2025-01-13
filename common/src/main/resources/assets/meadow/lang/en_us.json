@@ -244,5 +244,7 @@
   "tooltip.meadow.banner.thankyou_3": "Thank you for playing Meadow!",
   "tooltip.meadow.banner.thankyou_4": "Grants Dig Speed II in a radius of 8 blocks",
   "entity.minecraft.villager.meadow.hermit": "Hermit",
-  "entity.minecraft.villager.meadow.cheesemaker": "Cheesemaker"
+  "entity.minecraft.villager.meadow.cheesemaker": "Cheesemaker",
+  "tooltip.meadow.cooking_cauldron.water_level": "Water Level: %d%%",
+  "tooltip.meadow.cooking_cauldron.remaining_time": "Remaining Time: %s"
 }

@@ -123,7 +123,7 @@ public class CookingCauldronBlockEntity extends BlockEntity implements Implement
         ItemStack outputSlotStack = getItem(OUTPUT_SLOT);
         if (outputSlotStack.isEmpty()) {
             setItem(OUTPUT_SLOT, recipeOutput.copy());
-        } else if (ItemStack.isSameItem(outputSlotStack, recipe.getResultItem()) && outputSlotStack.getCount() + recipeOutput.getCount() <= outputSlotStack.getMaxStackSize()) {
+        } else if (ItemStack.isSameItem(outputSlotStack, recipe.getResultItem()) && outputSlotStack.getCount() < outputSlotStack.getMaxStackSize()) {
             outputSlotStack.grow(recipeOutput.getCount());
         }
         boolean[] ingredientUsed = new boolean[INGREDIENTS_END + 1];
@@ -149,14 +149,32 @@ public class CookingCauldronBlockEntity extends BlockEntity implements Implement
         if (fluidItem.is(TagRegistry.SMALL_WATER_FILL)) {
             setItem(FLUID_INPUT_SLOT, fluidItem.getCount() > 1 ? fluidItem.split(1) : ItemStack.EMPTY);
             consumeFluid(25);
+            ItemStack remainder = getRemainderItem(fluidItem);
+            if (!remainder.isEmpty()) {
+                handleRemainder(remainder, FLUID_INPUT_SLOT);
+            }
         }
         else if (fluidItem.is(TagRegistry.LARGE_WATER_FILL)) {
             setItem(FLUID_INPUT_SLOT, fluidItem.getCount() > 1 ? fluidItem.split(1) : ItemStack.EMPTY);
             consumeFluid(50);
+            ItemStack remainder = getRemainderItem(fluidItem);
+            if (!remainder.isEmpty()) {
+                handleRemainder(remainder, FLUID_INPUT_SLOT);
+            }
         }
     }
 
     private void handleRemainder(ItemStack remainderStack, int originalSlot) {
+        if (originalSlot == FLUID_INPUT_SLOT) {
+            ItemStack currentFluidSlot = getItem(FLUID_INPUT_SLOT);
+            if (currentFluidSlot.isEmpty()) {
+                setItem(FLUID_INPUT_SLOT, remainderStack.copy());
+            } else {
+                dropItemIntoWorld(remainderStack, worldPosition);
+            }
+            return;
+        }
+
         boolean added = false;
         for (int i = INGREDIENTS_START; i <= INGREDIENTS_END; i++) {
             ItemStack is = getItem(i);
@@ -174,6 +192,7 @@ public class CookingCauldronBlockEntity extends BlockEntity implements Implement
             dropItemIntoWorld(remainderStack, worldPosition);
         }
     }
+
 
     private ItemStack getRemainderItem(ItemStack stack) {
         if (stack.getItem().hasCraftingRemainingItem()) {
@@ -221,20 +240,25 @@ public class CookingCauldronBlockEntity extends BlockEntity implements Implement
 
     public void tick(Level world, BlockPos pos, BlockState state) {
         if (world.isClientSide()) return;
+
         if (!fluidInputProcessed) {
             processFluidInput();
             fluidInputProcessed = true;
         }
+
         ItemStack fluidItem = getItem(FLUID_INPUT_SLOT);
         if (fluidItem.isEmpty() || (!fluidItem.is(TagRegistry.SMALL_WATER_FILL) && !fluidItem.is(TagRegistry.LARGE_WATER_FILL))) {
             fluidInputProcessed = false;
         }
+
         isBeingBurned = isBeingBurned();
         if (!isBeingBurned && state.getValue(CookingCauldronBlock.LIT)) {
             world.setBlock(pos, state.setValue(CookingCauldronBlock.LIT, false), Block.UPDATE_ALL);
             return;
         }
+
         CookingCauldronRecipe recipe = world.getRecipeManager().getRecipeFor(RecipeRegistry.COOKING.get(), this, world).orElse(null);
+
         if (canCraft(recipe) && fluidLevel >= recipe.getFluidAmount()) {
             cookingTime++;
             if (cookingTime >= MAX_COOKING_TIME) {
@@ -249,6 +273,7 @@ public class CookingCauldronBlockEntity extends BlockEntity implements Implement
             }
         }
     }
+
 
     @Override
     public NonNullList<ItemStack> getItems() {
@@ -270,7 +295,11 @@ public class CookingCauldronBlockEntity extends BlockEntity implements Implement
         return new CookingCauldronGuiHandler(syncId, inv, this, delegate);
     }
 
+    public int getFluidLevel() {
+        return Math.min(fluidLevel, 100);
+    }
+
     private void consumeFluid(int amount) {
-        fluidLevel += amount;
+        fluidLevel = Math.min(fluidLevel + amount, 100);
     }
 }

@@ -6,7 +6,6 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
-import net.satisfy.meadow.core.block.entity.CookingCauldronBlockEntity;
 import net.satisfy.meadow.core.registry.ScreenHandlerRegistry;
 import net.satisfy.meadow.core.registry.TagRegistry;
 import org.jetbrains.annotations.NotNull;

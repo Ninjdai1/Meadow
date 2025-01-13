@@ -61,7 +61,7 @@ public class CookingCauldronGui extends AbstractContainerScreen<CookingCauldronG
         super.render(guiGraphics, mouseX, mouseY, delta);
         if (isMouseOverFluidArea(mouseX, mouseY)) {
             int fluidLevel = this.menu.getFluidLevel();
-            Component tooltip = Component.translatable("tooltip.meadow.cooking_cauldron.fluid_level", fluidLevel);
+            Component tooltip = Component.translatable("tooltip.meadow.cooking_cauldron.water_level", fluidLevel);
             guiGraphics.renderTooltip(this.font, tooltip, mouseX, mouseY);
         }
         if (isMouseOverProgressArrow(mouseX, mouseY)) {
