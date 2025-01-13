@@ -58,6 +58,7 @@ public class MeadowBiomeModification {
         public static void registerEntitySpawn() {
             SpawnPlacements.register(EntityTypeRegistry.WATER_BUFFALO.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING, Animal::checkAnimalSpawnRules);
             SpawnPlacements.register(EntityTypeRegistry.WOOLY_COW.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Animal::checkAnimalSpawnRules);
+            SpawnPlacements.register(EntityTypeRegistry.WOOLY_SHEEP.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Animal::checkAnimalSpawnRules);
         }
     }
 }

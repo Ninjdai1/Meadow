@@ -23,6 +23,7 @@ import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("deprecation")
 public class LineConnectingBlock extends Block {
+
     public static final DirectionProperty FACING;
     public static final EnumProperty<GeneralUtil.LineConnectingType> TYPE;
 

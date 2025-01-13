@@ -11,16 +11,12 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.AgeableMob;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.SpawnGroupData;
-import net.minecraft.world.entity.Shearable;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
@@ -45,24 +41,47 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
+import static net.satisfy.meadow.core.registry.ObjectRegistry.*;
+
 public class WoolySheepEntity extends Animal implements Shearable {
     private static final EntityDataAccessor<Byte> DATA_WOOL_TYPE = SynchedEntityData.defineId(WoolySheepEntity.class, EntityDataSerializers.BYTE);
+    private static final EntityDataAccessor<Integer> DATA_ID_TYPE_VARIANT = SynchedEntityData.defineId(WoolySheepEntity.class, EntityDataSerializers.INT);
     private EatBlockGoal eatBlockGoal;
     private int eatAnimationTick;
 
-    public enum SheepTexture {
-        FLECKED, PATCHED, ROCKY, INKY, FUZZY, LONG_NOSED
-    }
-
     public WoolySheepEntity(EntityType<? extends Animal> type, Level level) {
         super(type, level);
-        this.setWoolType((byte) this.random.nextInt(6));
+        this.setWoolType((byte) 0);
     }
 
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 8.0).add(Attributes.MOVEMENT_SPEED, 0.23000000417232513);
     }
 
+    @Override
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(DATA_WOOL_TYPE, (byte) 0);
+        this.entityData.define(DATA_ID_TYPE_VARIANT, 0);
+    }
+
+    @Override
+    public void addAdditionalSaveData(CompoundTag c) {
+        super.addAdditionalSaveData(c);
+        c.putBoolean("Sheared", this.isSheared());
+        c.putByte("WoolType", this.getWoolType());
+        c.putInt("Variant", getTypeVariant());
+    }
+
+    @Override
+    public void readAdditionalSaveData(CompoundTag c) {
+        super.readAdditionalSaveData(c);
+        this.setSheared(c.getBoolean("Sheared"));
+        this.setWoolType(c.getByte("WoolType"));
+        setTypeVariant(c.getInt("Variant"));
+    }
+
+    @Override
     protected void registerGoals() {
         this.eatBlockGoal = new EatBlockGoal(this);
         this.goalSelector.addGoal(0, new FloatGoal(this));
@@ -77,28 +96,23 @@ public class WoolySheepEntity extends Animal implements Shearable {
     }
 
     @Override
-    public void customServerAiStep() {
-        if (this.eatBlockGoal == null) {
-            this.eatBlockGoal = new EatBlockGoal(this);
+    public void aiStep() {
+        if (this.level().isClientSide) {
+            this.eatAnimationTick = Math.max(0, this.eatAnimationTick - 1);
         }
+        super.aiStep();
+    }
+
+    @Override
+    public void customServerAiStep() {
+        this.eatAnimationTick = this.eatBlockGoal.getEatAnimationTick();
         super.customServerAiStep();
     }
 
     @Override
     public void ate() {
         super.ate();
-        if (this.isSheared()) {
-            this.setSheared(false);
-        }
-    }
-
-
-    @Override
-    public void aiStep() {
-        if (this.level().isClientSide) {
-            this.eatAnimationTick = Math.max(0, this.eatAnimationTick - 1);
-        }
-        super.aiStep();
+        this.setSheared(false);
     }
 
     @Override
@@ -149,49 +163,30 @@ public class WoolySheepEntity extends Animal implements Shearable {
         if (!this.level().isClientSide && this.readyForShearing()) {
             this.level().playSound(null, this, SoundEvents.SHEEP_SHEAR, source, 1.0F, 1.0F);
             this.setSheared(true);
+            WoolySheepVar variant = this.getVariant();
             int count = 1 + this.random.nextInt(3);
-            Block woolBlock = switch (this.getSheepTexture()) {
-                case PATCHED -> ObjectRegistry.PATCHED_WOOL.get();
-                case ROCKY -> ObjectRegistry.ROCKY_WOOL.get();
-                case INKY -> ObjectRegistry.INKY_WOOL.get();
-                case FUZZY -> Blocks.WHITE_WOOL;
-                case LONG_NOSED -> ObjectRegistry.HIGHLAND_WOOL.get();
-                default -> ObjectRegistry.FLECKED_WOOL.get();
-            };
             for (int i = 0; i < count; i++) {
-                Item woolItem = woolBlock.asItem();
+                Item woolItem = getWoolItemByVariant(variant);
                 ItemStack woolStack = new ItemStack(woolItem);
                 ItemEntity itemEntity = new ItemEntity(this.level(), this.getX(), this.getY() + 1.0D, this.getZ(), woolStack);
-                itemEntity.setDeltaMovement(itemEntity.getDeltaMovement().add((this.random.nextFloat() - this.random.nextFloat()) * 0.1F, this.random.nextFloat() * 0.05F, (this.random.nextFloat() - this.random.nextFloat()) * 0.1F));
+                itemEntity.setDeltaMovement(itemEntity.getDeltaMovement().add(
+                        (this.random.nextFloat() - this.random.nextFloat()) * 0.1F,
+                        this.random.nextFloat() * 0.05F,
+                        (this.random.nextFloat() - this.random.nextFloat()) * 0.1F));
                 this.level().addFreshEntity(itemEntity);
             }
         }
     }
 
-    @Override
-    public @NotNull ResourceLocation getDefaultLootTable() {
-        return switch (this.getTextureColor()) {
-            case LONG_NOSED_WOOL -> new MeadowIdentifier("entities/sheep/long_nosed_sheep");
-            case FUZZY_WOOL -> new MeadowIdentifier("entities/sheep/fuzzy_sheep");
-            case FLECKED_WOOL -> new MeadowIdentifier("entities/sheep/flecked_sheep");
-            case PATCHED_WOOL -> new MeadowIdentifier("entities/sheep/patched_sheep");
-            case ROCKY_WOOL -> new MeadowIdentifier("entities/sheep/rocky_sheep");
-            case INKY_WOOL -> new MeadowIdentifier("entities/sheep/inky_sheep");
+    public static Item getWoolItemByVariant(WoolySheepVar variant) {
+        return switch (variant) {
+            case FLECKED -> FLECKED_WOOL.get().asItem();
+            case PATCHED -> PATCHED_WOOL.get().asItem();
+            case ROCKY -> ROCKY_WOOL.get().asItem();
+            case INKY -> INKY_WOOL.get().asItem();
+            case FUZZY -> Items.WHITE_WOOL;
+            case LONG_NOSED -> HIGHLAND_WOOL.get().asItem();
         };
-    }
-
-    @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(DATA_WOOL_TYPE, (byte) 0);
-    }
-
-    public void setWoolType(byte woolType) {
-        this.entityData.set(DATA_WOOL_TYPE, woolType);
-    }
-
-    public byte getWoolType() {
-        return (byte) (this.entityData.get(DATA_WOOL_TYPE) & 0x0F);
     }
 
     @Nullable
@@ -199,30 +194,60 @@ public class WoolySheepEntity extends Animal implements Shearable {
     public WoolySheepEntity getBreedOffspring(ServerLevel level, AgeableMob mob) {
         WoolySheepEntity sheep = EntityTypeRegistry.WOOLY_SHEEP.get().create(level);
         if (sheep != null) {
-            sheep.setWoolType((byte) this.random.nextInt(6));
+            RandomSource random = level.getRandom();
+            WoolySheepVar var = this.getVariant();
+            if (random.nextBoolean() && mob instanceof WoolySheepEntity varSheep) {
+                var = varSheep.getVariant();
+            }
+            sheep.setVariant(var);
         }
         return sheep;
     }
 
     @Override
-    public @NotNull SpawnGroupData finalizeSpawn(ServerLevelAccessor s, DifficultyInstance d, MobSpawnType m, @Nullable SpawnGroupData g, @Nullable CompoundTag c) {
-        this.setWoolType((byte) this.random.nextInt(6));
-        return Objects.requireNonNull(super.finalizeSpawn(s, d, m, g, c));
+    public @NotNull SpawnGroupData finalizeSpawn(ServerLevelAccessor levelAccessor, DifficultyInstance difficultyInstance, MobSpawnType mobSpawnType, @Nullable SpawnGroupData spawnGroupData, @Nullable CompoundTag compoundTag) {
+        WoolySheepVar variant;
+        if (spawnGroupData instanceof ShearableVarSheepGroupData data) {
+            variant = data.variant;
+        } else {
+            variant = WoolySheepVar.getRandomVariant(levelAccessor, this.blockPosition(), mobSpawnType.equals(MobSpawnType.SPAWN_EGG));
+            spawnGroupData = new ShearableVarSheepGroupData(variant);
+        }
+        setVariant(variant);
+        return Objects.requireNonNull(super.finalizeSpawn(levelAccessor, difficultyInstance, mobSpawnType, spawnGroupData, compoundTag));
     }
 
-    public SheepTexture getSheepTexture() {
-        return switch (this.getWoolType()) {
-            case 1 -> SheepTexture.PATCHED;
-            case 2 -> SheepTexture.ROCKY;
-            case 3 -> SheepTexture.INKY;
-            case 4 -> SheepTexture.LONG_NOSED;
-            case 5 -> SheepTexture.FUZZY;
-            default -> SheepTexture.FLECKED;
-        };
+    public void setVariant(WoolySheepVar variant) {
+        setTypeVariant(variant.getId() & 255 | this.getTypeVariant() & -256);
     }
 
-    public boolean readyForShearing() {
-        return this.isAlive() && !this.isSheared() && !this.isBaby();
+    public @NotNull WoolySheepVar getVariant() {
+        return WoolySheepVar.byId(getTypeVariant() & 255);
+    }
+
+    private void setTypeVariant(int i) {
+        entityData.set(DATA_ID_TYPE_VARIANT, i);
+    }
+
+    private int getTypeVariant() {
+        return entityData.get(DATA_ID_TYPE_VARIANT);
+    }
+
+    public static class ShearableVarSheepGroupData extends AgeableMob.AgeableMobGroupData {
+        public final WoolySheepVar variant;
+
+        public ShearableVarSheepGroupData(WoolySheepVar variant) {
+            super(true);
+            this.variant = variant;
+        }
+    }
+
+    public byte getWoolType() {
+        return (byte) (this.entityData.get(DATA_WOOL_TYPE) & 0x0F);
+    }
+
+    public void setWoolType(byte woolType) {
+        this.entityData.set(DATA_WOOL_TYPE, woolType);
     }
 
     public boolean isSheared() {
@@ -238,76 +263,7 @@ public class WoolySheepEntity extends Animal implements Shearable {
         }
     }
 
-    @Override
-    public void addAdditionalSaveData(CompoundTag c) {
-        super.addAdditionalSaveData(c);
-        c.putBoolean("Sheared", this.isSheared());
-        c.putByte("WoolType", this.getWoolType());
-    }
-
-    @Override
-    public void readAdditionalSaveData(CompoundTag c) {
-        super.readAdditionalSaveData(c);
-        this.setSheared(c.getBoolean("Sheared"));
-        this.setWoolType(c.getByte("WoolType"));
-    }
-
-    @Override
-    protected SoundEvent getAmbientSound() {
-        return SoundEvents.SHEEP_AMBIENT;
-    }
-
-    @Override
-    protected SoundEvent getHurtSound(DamageSource ds) {
-        return SoundEvents.SHEEP_HURT;
-    }
-
-    @Override
-    protected SoundEvent getDeathSound() {
-        return SoundEvents.SHEEP_DEATH;
-    }
-
-    @Override
-    protected void playStepSound(BlockPos pos, BlockState state) {
-        this.playSound(SoundEvents.SHEEP_STEP, 0.15F, 1.0F);
-    }
-
-    public enum SheepColor {
-        FLECKED_WOOL(new float[]{1.0F, 1.0F, 1.0F, 0.0F}),
-        PATCHED_WOOL(new float[]{1.0F, 1.0F, 1.0F, 0.0F}),
-        ROCKY_WOOL(new float[]{1.0F, 1.0F, 1.0F, 0.0F}),
-        INKY_WOOL(new float[]{1.0F, 1.0F, 1.0F, 0.0F}),
-        FUZZY_WOOL(new float[]{1.0F, 1.0F, 1.0F, 0.0F}),
-        LONG_NOSED_WOOL(new float[]{1.0F, 1.0F, 1.0F, 0.0F});
-
-        private final float[] textureDiffuseColors;
-        SheepColor(float[] colors) {
-            this.textureDiffuseColors = colors;
-        }
-        public float[] getTextureDiffuseColors() {
-            return this.textureDiffuseColors;
-        }
-    }
-
-    public SheepColor getTextureColor() {
-        return switch (this.getWoolType()) {
-            case 1 -> SheepColor.PATCHED_WOOL;
-            case 2 -> SheepColor.ROCKY_WOOL;
-            case 3 -> SheepColor.INKY_WOOL;
-            case 4 -> SheepColor.LONG_NOSED_WOOL;
-            case 5 -> SheepColor.FUZZY_WOOL;
-            default -> SheepColor.FLECKED_WOOL;
-        };
-    }
-
-    public void setSheepTexture(SheepTexture texture) {
-        setWoolType(switch (texture) {
-            case PATCHED -> (byte)1;
-            case ROCKY -> (byte)2;
-            case INKY -> (byte)3;
-            case LONG_NOSED -> (byte)4;
-            case FUZZY -> (byte)5;
-            default -> (byte)0;
-        });
+    public boolean readyForShearing() {
+        return this.isAlive() && !this.isSheared() && !this.isBaby();
     }
 }

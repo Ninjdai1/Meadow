@@ -2,7 +2,7 @@
   "type": "forge:add_spawns",
   "biomes": "#meadow:spawns_meadow_sheeps",
   "spawners": {
-    "type": "minecraft:sheep",
+    "type": "meadow:wooly_sheep",
     "weight": 6,
     "minCount": 2,
     "maxCount": 3

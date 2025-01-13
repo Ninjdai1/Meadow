@@ -31,7 +31,7 @@ public class WoolySheepFurLayerRenderer extends RenderLayer<WoolySheepEntity, Wo
         if (sheep.isSheared() || sheep.isInvisible()) {
             return;
         }
-        ResourceLocation furLocation = switch (sheep.getSheepTexture()) {
+        ResourceLocation furLocation = switch (sheep.getVariant()) {
             case PATCHED -> PATCHED_FUR_LOCATION;
             case ROCKY -> ROCKY_FUR_LOCATION;
             case INKY -> INKY_FUR_LOCATION;
@@ -39,7 +39,7 @@ public class WoolySheepFurLayerRenderer extends RenderLayer<WoolySheepEntity, Wo
             case LONG_NOSED -> LONG_NOSED_FUR_LOCATION;
             default -> FLECKED_FUR_LOCATION;
         };
-        float[] fs = sheep.getTextureColor().getTextureDiffuseColors();
+        float[] fs = sheep.getVariant().getTextureDiffuseColors();
         coloredCutoutModelCopyLayerRender(this.getParentModel(), this.sheepModel, furLocation, poseStack, bufferSource, packedLight, sheep, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, partialTicks, fs[0], fs[1], fs[2]);
     }
 }
