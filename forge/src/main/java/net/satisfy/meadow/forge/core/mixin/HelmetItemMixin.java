@@ -1,4 +1,4 @@
-package net.satisfy.meadow.forge.mixin;
+package net.satisfy.meadow.forge.core.mixin;
 
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.Model;

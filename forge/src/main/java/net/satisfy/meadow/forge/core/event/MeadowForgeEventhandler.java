@@ -1,4 +1,4 @@
-package net.satisfy.meadow.forge;
+package net.satisfy.meadow.forge.core.event;
 
 import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.item.Items;
@@ -6,7 +6,7 @@ import net.minecraftforge.event.village.VillagerTradesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.satisfy.meadow.Meadow;
-import net.satisfy.meadow.forge.registry.MeadowForgeVillagers;
+import net.satisfy.meadow.forge.core.registry.MeadowForgeVillagers;
 import net.satisfy.meadow.core.registry.ObjectRegistry;
 import net.satisfy.meadow.core.util.VillagerUtil;
 
@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MeadowEvents {
+public class MeadowForgeEventhandler {
 
     @Mod.EventBusSubscriber(modid = Meadow.MOD_ID)
     public static class ForgeEvents {

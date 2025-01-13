@@ -23,13 +23,6 @@ public class PlatformHelperImpl extends PlatformHelper {
         return () -> registry;
     }
 
-    public static void addFlammable(int burnOdd, int igniteOdd, Block... blocks) {
-        FlammableBlockRegistry registry = FlammableBlockRegistry.getDefaultInstance();
-        for (Block b : blocks) {
-            registry.add(b, burnOdd, igniteOdd);
-        }
-    }
-
     public static boolean shouldGiveEffect() {
         MeadowFabricConfig config = AutoConfig.getConfigHolder(MeadowFabricConfig.class).getConfig();
         return config.items.banner.giveEffect;

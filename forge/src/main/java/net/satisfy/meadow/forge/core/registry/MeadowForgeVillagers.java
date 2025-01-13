@@ -1,4 +1,4 @@
-package net.satisfy.meadow.forge.registry;
+package net.satisfy.meadow.forge.core.registry;
 
 import com.google.common.collect.ImmutableSet;
 import net.minecraft.sounds.SoundEvents;

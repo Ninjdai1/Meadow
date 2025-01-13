@@ -9,16 +9,16 @@ public class Meadow {
     public static final String MOD_ID = "meadow";
 
     public static void init() {
-        TabRegistry.init();
-        ObjectRegistry.init();
         EntityTypeRegistry.init();
+        ObjectRegistry.init();
+        TabRegistry.init();
         RecipeRegistry.init();
         SoundEventRegistry.init();
         ScreenHandlerRegistry.init();
     }
 
     public static void commonSetup() {
-        FlammableBlockRegistry.init();
+        BurningBlockRegistry.init();
         WoodenCauldronBehavior.bootStrap();
         AxeItemHooks.addStrippable(ObjectRegistry.PINE_LOG.get(), ObjectRegistry.STRIPPED_PINE_LOG.get());
         AxeItemHooks.addStrippable(ObjectRegistry.PINE_WOOD.get(), ObjectRegistry.STRIPPED_PINE_WOOD.get());

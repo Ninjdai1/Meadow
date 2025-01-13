@@ -1,4 +1,4 @@
-package net.satisfy.meadow.forge.mixin;
+package net.satisfy.meadow.forge.core.mixin;
 
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.Model;
@@ -10,7 +10,7 @@ import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
-import net.satisfy.meadow.core.item.FurLegsItem;
+import net.satisfy.meadow.core.item.FurBootsItem;
 import net.satisfy.meadow.core.registry.ArmorRegistry;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -20,11 +20,11 @@ import org.spongepowered.asm.mixin.Shadow;
 
 import java.util.function.Consumer;
 
-@Mixin(FurLegsItem.class)
-public abstract class LeggingsItemMixin extends ArmorItem {
+@Mixin(FurBootsItem.class)
+public abstract class BootsItemMixin extends ArmorItem {
     @Shadow
     @Final
-    private ResourceLocation leggingsTexture;
+    private ResourceLocation bootsTexture;
 
     @Override
     public void initializeClient(Consumer<IClientItemExtensions> consumer) {
@@ -32,7 +32,7 @@ public abstract class LeggingsItemMixin extends ArmorItem {
                 new IClientItemExtensions() {
                     @Override
                     public @NotNull Model getGenericArmorModel(LivingEntity livingEntity, ItemStack itemStack, EquipmentSlot equipmentSlot, HumanoidModel<?> original) {
-                        return ArmorRegistry.getLeggingsModel(itemStack.getItem(), original.rightLeg, original.leftLeg);
+                        return ArmorRegistry.getBootsModel(itemStack.getItem(), original.rightLeg, original.leftLeg);
                     }
                 }
         );
@@ -40,10 +40,10 @@ public abstract class LeggingsItemMixin extends ArmorItem {
 
     @Override
     public @Nullable String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
-        return leggingsTexture.toString();
+        return bootsTexture.toString();
     }
 
-    private LeggingsItemMixin(ArmorMaterial armorMaterial, Type armorType, Properties itemProperties) {
+    private BootsItemMixin(ArmorMaterial armorMaterial, Type armorType, Properties itemProperties) {
         super(armorMaterial, armorType, itemProperties);
     }
 }
