@@ -29,7 +29,7 @@ public class CookingCauldronCategory implements DisplayCategory<CookingCauldronD
 
     @Override
     public Component getTitle() {
-        return Component.translatable("rei.meadow.cooking_cauldron_category");
+        return ObjectRegistry.COOKING_CAULDRON.get().getName();
     }
 
     @Override

@@ -18,11 +18,9 @@ import net.satisfy.meadow.client.gui.handler.FondueGuiHandler;
 import net.satisfy.meadow.core.compat.jei.category.CheesePressCategory;
 import net.satisfy.meadow.core.compat.jei.category.CookingCauldronCategory;
 import net.satisfy.meadow.core.compat.jei.category.FondueCategory;
-import net.satisfy.meadow.core.compat.jei.category.WoodCutterCategory;
 import net.satisfy.meadow.core.recipes.CheeseFormRecipe;
 import net.satisfy.meadow.core.recipes.CookingCauldronRecipe;
 import net.satisfy.meadow.core.recipes.FondueRecipe;
-import net.satisfy.meadow.core.recipes.WoodcuttingRecipe;
 import net.satisfy.meadow.core.registry.ObjectRegistry;
 import net.satisfy.meadow.core.registry.RecipeRegistry;
 import net.satisfy.meadow.core.registry.ScreenHandlerRegistry;
@@ -37,7 +35,6 @@ public class MeadowJEIPlugin implements IModPlugin {
 
     @Override
     public void registerCategories(IRecipeCategoryRegistration registration) {
-        registration.addRecipeCategories(new WoodCutterCategory(registration.getJeiHelpers().getGuiHelper()));
         registration.addRecipeCategories(new CookingCauldronCategory(registration.getJeiHelpers().getGuiHelper()));
         registration.addRecipeCategories(new CheesePressCategory(registration.getJeiHelpers().getGuiHelper()));
         registration.addRecipeCategories(new FondueCategory(registration.getJeiHelpers().getGuiHelper()));
@@ -47,9 +44,6 @@ public class MeadowJEIPlugin implements IModPlugin {
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
         RecipeManager rm = Objects.requireNonNull(Minecraft.getInstance().level).getRecipeManager();
-
-        List<WoodcuttingRecipe> woodcuttingRecipes = rm.getAllRecipesFor(RecipeRegistry.WOODCUTTING.get());
-        registration.addRecipes(WoodCutterCategory.WOODCUTTER, woodcuttingRecipes);
 
         List<CookingCauldronRecipe> cookingCauldronRecipes = rm.getAllRecipesFor(RecipeRegistry.COOKING.get());
         registration.addRecipes(CookingCauldronCategory.COOKING_CAULDRON, cookingCauldronRecipes);
@@ -80,7 +74,6 @@ public class MeadowJEIPlugin implements IModPlugin {
 
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
-        registration.addRecipeCatalyst(ObjectRegistry.WOODCUTTER.get().asItem().getDefaultInstance(), WoodCutterCategory.WOODCUTTER);
         registration.addRecipeCatalyst(ObjectRegistry.COOKING_CAULDRON.get().asItem().getDefaultInstance(), CookingCauldronCategory.COOKING_CAULDRON);
         registration.addRecipeCatalyst(ObjectRegistry.CHEESE_FORM.get().asItem().getDefaultInstance(), CheesePressCategory.CHEESE_PRESS);
     }

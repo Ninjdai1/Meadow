@@ -20,6 +20,7 @@ import net.satisfy.meadow.core.compat.jei.MeadowJEIPlugin;
 import net.satisfy.meadow.core.block.entity.CheeseFormBlockEntity;
 import net.satisfy.meadow.core.recipes.CheeseFormRecipe;
 import net.satisfy.meadow.core.registry.ObjectRegistry;
+import org.jetbrains.annotations.NotNull;
 
 public class CheesePressCategory implements IRecipeCategory<CheeseFormRecipe> {
     public static final RecipeType<CheeseFormRecipe> CHEESE_PRESS = RecipeType.create(Meadow.MOD_ID, "cheese", CheeseFormRecipe.class);
@@ -40,7 +41,7 @@ public class CheesePressCategory implements IRecipeCategory<CheeseFormRecipe> {
         this.time = helper.drawableBuilder(CheeseFormGui.BACKGROUND, 180, 22, 16, 25)
                 .buildAnimated(CheeseFormBlockEntity.COOKING_TIME_IN_TICKS, IDrawableAnimated.StartDirection.TOP, false);
         this.icon = helper.createDrawableIngredient(VanillaTypes.ITEM_STACK, ObjectRegistry.CHEESE_FORM.get().asItem().getDefaultInstance());
-        this.localizedName = Component.translatable("rei.meadow.cheese_press_category");
+        this.localizedName = ObjectRegistry.CHEESE_FORM.get().getName();
     }
 
 
@@ -62,22 +63,22 @@ public class CheesePressCategory implements IRecipeCategory<CheeseFormRecipe> {
     }
 
     @Override
-    public RecipeType<CheeseFormRecipe> getRecipeType() {
+    public @NotNull RecipeType<CheeseFormRecipe> getRecipeType() {
         return CHEESE_PRESS;
     }
 
     @Override
-    public Component getTitle() {
+    public @NotNull Component getTitle() {
         return this.localizedName;
     }
 
     @Override
-    public IDrawable getBackground() {
+    public @NotNull IDrawable getBackground() {
         return this.background;
     }
 
     @Override
-    public IDrawable getIcon() {
+    public @NotNull IDrawable getIcon() {
         return this.icon;
     }
 }
