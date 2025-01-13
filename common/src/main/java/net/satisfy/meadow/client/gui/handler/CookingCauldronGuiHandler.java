@@ -6,51 +6,47 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeManager;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.satisfy.meadow.core.block.entity.CookingCauldronBlockEntity;
-import net.satisfy.meadow.core.recipes.CookingCauldronRecipe;
-import net.satisfy.meadow.core.registry.RecipeRegistry;
 import net.satisfy.meadow.core.registry.ScreenHandlerRegistry;
+import net.satisfy.meadow.core.registry.TagRegistry;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Objects;
-import java.util.stream.Stream;
-
 public class CookingCauldronGuiHandler extends AbstractContainerMenu {
-
+    private final Container container;
     private final ContainerData propertyDelegate;
 
     public CookingCauldronGuiHandler(int syncId, Inventory playerInventory) {
-        this(syncId, playerInventory, new SimpleContainer(7), new SimpleContainerData(2));
+        this(syncId, playerInventory, new SimpleContainer(8), new SimpleContainerData(3));
     }
 
-    public CookingCauldronGuiHandler(int syncId, Inventory playerInventory, Container inventory, ContainerData propertyDelegate) {
+    public CookingCauldronGuiHandler(int syncId, Inventory playerInventory, Container container, ContainerData propertyDelegate) {
         super(ScreenHandlerRegistry.COOKING_CAULDRON_SCREEN_HANDLER.get(), syncId);
+        this.container = container;
         this.propertyDelegate = propertyDelegate;
-        addDataSlots(propertyDelegate);
-        buildBlockEntityContainer(playerInventory, inventory);
-        buildPlayerContainer(playerInventory);
-    }
+        addDataSlots(this.propertyDelegate);
 
-    private void buildBlockEntityContainer(Inventory playerInventory, Container inventory) {
-        this.addSlot(new FurnaceResultSlot(playerInventory.player, inventory, 0, 124, 26));
-        for (int row = 0; row < 2; row++) {
-            for (int slot = 0; slot < 3; slot++) {
-                this.addSlot(new Slot(inventory, 1 + slot + (row * 3), 30 + (slot * 18), 17 + (row * 18)));
+        addSlot(new FurnaceResultSlot(playerInventory.player, container, 0, 107, 27));
+
+        for (int i = 1; i <= 6; i++) {
+            int x = 11 + ((i - 1) % 3) * 18;
+            int y = 17 + ((i - 1) / 3) * 18;
+            this.addSlot(new Slot(container, i, x, y));
+        }
+
+        addSlot(new Slot(container, 7, 134, 23) {
+            @Override
+            public boolean mayPlace(ItemStack stack) {
+                return stack.is(TagRegistry.SMALL_WATER_FILL) || stack.is(TagRegistry.LARGE_WATER_FILL);
+            }
+        });
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 9; j++) {
+                addSlot(new Slot(playerInventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
             }
         }
-    }
-
-    private void buildPlayerContainer(Inventory playerInventory) {
-        int i;
-        for (i = 0; i < 3; ++i) {
-            for (int j = 0; j < 9; ++j) {
-                this.addSlot(new Slot(playerInventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
-            }
-        }
-        for (i = 0; i < 9; ++i) {
-            this.addSlot(new Slot(playerInventory, i, 8 + i * 18, 142));
+        for (int i = 0; i < 9; i++) {
+            addSlot(new Slot(playerInventory, i, 8 + i * 18, 142));
         }
     }
 
@@ -58,39 +54,72 @@ public class CookingCauldronGuiHandler extends AbstractContainerMenu {
         return propertyDelegate.get(1) != 0;
     }
 
-    @SuppressWarnings("unused")
-    private boolean isItemIngredient(ItemStack stack) {
-        return recipeStream().anyMatch(cookingPotRecipe ->
-                cookingPotRecipe.getIngredients().stream().anyMatch(ingredient -> ingredient.test(stack)));
-    }
-
-    private Stream<CookingCauldronRecipe> recipeStream() {
-        return this.getRecipeManager().getAllRecipesFor(RecipeRegistry.COOKING.get()).stream();
-    }
-
-    private RecipeManager getRecipeManager() {
-        if (this.slots.get(0).container instanceof BlockEntity blockEntity) {
-            return Objects.requireNonNull(blockEntity.getLevel()).getRecipeManager();
-        }
-        throw new IllegalStateException("Unable to get RecipeManager, container is not associated with a BlockEntity.");
-    }
-
     public int getScaledProgress(int arrowWidth) {
-        final int progress = this.propertyDelegate.get(0);
-        final int totalProgress = CookingCauldronBlockEntity.getMaxCookingTime();
-        if (progress == 0) {
-            return 0;
-        }
-        return progress * arrowWidth / totalProgress + 1;
+        int progress = propertyDelegate.get(0);
+        int total = 200;
+        return progress * arrowWidth / total;
+    }
+
+    public int getFluidLevel() {
+        return propertyDelegate.get(2);
+    }
+
+    public int getCookingTime() {
+        return propertyDelegate.get(0);
+    }
+
+    public int getRequiredDuration() {
+        return 200;
     }
 
     @Override
-    public @NotNull ItemStack quickMoveStack(Player player, int i) {
-        return ItemStack.EMPTY;
+    public @NotNull ItemStack quickMoveStack(Player player, int index) {
+        Slot slot = this.slots.get(index);
+        if (!slot.hasItem()) {
+            return ItemStack.EMPTY;
+        }
+        ItemStack item = slot.getItem();
+        ItemStack copy = item.copy();
+
+        if (index == 0) {
+            if (!this.moveItemStackTo(item, 8, this.slots.size(), true)) {
+                return ItemStack.EMPTY;
+            }
+            slot.onQuickCraft(item, copy);
+        }
+        else if (index >= 1 && index <= 6) {
+            if (!this.moveItemStackTo(item, 8, this.slots.size(), false)) {
+                return ItemStack.EMPTY;
+            }
+        }
+        else if (index == 7) {
+            if (!this.moveItemStackTo(item, 8, this.slots.size(), false)) {
+                return ItemStack.EMPTY;
+            }
+        }
+        else {
+            if (item.is(TagRegistry.SMALL_WATER_FILL) || item.is(TagRegistry.LARGE_WATER_FILL)) {
+                if (!this.moveItemStackTo(item, 7, 8, false)) {
+                    return ItemStack.EMPTY;
+                }
+            }
+            else {
+                return ItemStack.EMPTY;
+            }
+        }
+
+        if (item.isEmpty()) {
+            slot.set(ItemStack.EMPTY);
+        }
+        else {
+            slot.setChanged();
+        }
+        slot.onTake(player, item);
+        return copy;
     }
 
     @Override
     public boolean stillValid(Player player) {
-        return true;
+        return container.stillValid(player);
     }
 }

@@ -1,51 +1,94 @@
 package net.satisfy.meadow.client.gui;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.Minecraft;
+import net.satisfy.meadow.client.gui.handler.CookingCauldronGuiHandler;
+import net.satisfy.meadow.core.util.MeadowIdentifier;
+import org.joml.Vector2i;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
-import net.satisfy.meadow.Meadow;
-import net.satisfy.meadow.client.gui.handler.CookingCauldronGuiHandler;
 
 public class CookingCauldronGui extends AbstractContainerScreen<CookingCauldronGuiHandler> {
-    public static final ResourceLocation BACKGROUND;
-
-    public static final int ARROW_X = 92;
-    public static final int ARROW_Y = 10;
+    private static final ResourceLocation BACKGROUND = new MeadowIdentifier("textures/gui/cooking_cauldron_gui.png");
+    private static final int ARROW_X = 70;
+    private static final int ARROW_Y = 27;
+    private static final int FLUID_X = 157;
+    private static final int FLUID_Y = 23;
+    private static final int FLUID_WIDTH = 8;
+    private static final int FLUID_HEIGHT = 43;
+    private final Vector2i screenPos = new Vector2i();
 
     public CookingCauldronGui(CookingCauldronGuiHandler handler, Inventory inventory, Component title) {
         super(handler, inventory, title);
-        font = Minecraft.getInstance().font;
-        titleLabelX = (imageWidth - font.width(title)) / 2;
-    }
-
-    protected void renderProgressArrow(GuiGraphics guiGraphics) {
-        int progress = this.menu.getScaledProgress(17);
-        guiGraphics.blit(BACKGROUND, leftPos + ARROW_X, topPos + ARROW_Y, 178, 16, progress, 29);
-    }
-
-    protected void renderBurnIcon(GuiGraphics guiGraphics, int posX, int posY) {
-        if (menu.isBeingBurned()) {
-            guiGraphics.blit(BACKGROUND, posX + 124, posY + 51, 176, 0, 17, 15);
-        }
     }
 
     @Override
-    protected void renderBg(GuiGraphics guiGraphics, float f, int i, int j) {
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, CookingCauldronGui.BACKGROUND);
-        int posX = this.leftPos;
-        int posY = this.topPos;
-        guiGraphics.blit(CookingCauldronGui.BACKGROUND, posX, posY, 0, 0, this.imageWidth - 1, this.imageHeight);
-        this.renderProgressArrow(guiGraphics);
-        this.renderBurnIcon(guiGraphics, posX, posY);
+    protected void init() {
+        super.init();
+        screenPos.set(leftPos, topPos);
+        titleLabelX = (imageWidth - font.width(title)) / 2;
     }
-    static {
-        BACKGROUND = new ResourceLocation(Meadow.MOD_ID, "textures/gui/cooking_cauldron_gui.png");
+
+    @Override
+    protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
+        guiGraphics.blit(BACKGROUND, screenPos.x(), screenPos.y(), 0, 0, imageWidth, imageHeight);
+        renderProgressArrow(guiGraphics);
+        renderBurnIcon(guiGraphics);
+        renderFluidBar(guiGraphics);
+    }
+
+    private void renderProgressArrow(GuiGraphics guiGraphics) {
+        int progress = this.menu.getScaledProgress(24);
+        guiGraphics.blit(BACKGROUND, screenPos.x() + ARROW_X, screenPos.y() + ARROW_Y, 176, 14, progress, 17);
+    }
+
+    private void renderBurnIcon(GuiGraphics guiGraphics) {
+        if (menu.isBeingBurned()) {
+            guiGraphics.blit(BACKGROUND, screenPos.x() + 108, screenPos.y() + 52, 176, 0, 14, 14);
+        }
+    }
+
+    private void renderFluidBar(GuiGraphics guiGraphics) {
+        int fluidLevel = menu.getFluidLevel();
+        int filledHeight = (fluidLevel * FLUID_HEIGHT) / 100;
+        guiGraphics.blit(BACKGROUND, screenPos.x() + FLUID_X, screenPos.y() + FLUID_Y + FLUID_HEIGHT - filledHeight, 176, 31 + FLUID_HEIGHT - filledHeight, FLUID_WIDTH, filledHeight);
+    }
+
+    @Override
+    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
+        this.renderBackground(guiGraphics);
+        super.render(guiGraphics, mouseX, mouseY, delta);
+        if (isMouseOverFluidArea(mouseX, mouseY)) {
+            int fluidLevel = this.menu.getFluidLevel();
+            Component tooltip = Component.translatable("tooltip.meadow.cooking_cauldron.fluid_level", fluidLevel);
+            guiGraphics.renderTooltip(this.font, tooltip, mouseX, mouseY);
+        }
+        if (isMouseOverProgressArrow(mouseX, mouseY)) {
+            int remainingTicks = this.menu.getRequiredDuration() - this.menu.getCookingTime();
+            String formattedTime = formatTicks(remainingTicks);
+            Component tooltip = Component.translatable("tooltip.meadow.cooking_cauldron.remaining_time", formattedTime);
+            guiGraphics.renderTooltip(this.font, tooltip, mouseX, mouseY);
+        }
+        super.renderTooltip(guiGraphics, mouseX, mouseY);
+    }
+
+    private boolean isMouseOverFluidArea(int mouseX, int mouseY) {
+        int left = screenPos.x() + FLUID_X;
+        int top = screenPos.y() + FLUID_Y;
+        return mouseX >= left && mouseX < left + FLUID_WIDTH && mouseY >= top && mouseY < top + FLUID_HEIGHT;
+    }
+
+    private boolean isMouseOverProgressArrow(int mouseX, int mouseY) {
+        int left = screenPos.x() + ARROW_X;
+        int top = screenPos.y() + ARROW_Y;
+        return mouseX >= left && mouseX < left + 24 && mouseY >= top && mouseY < top + 17;
+    }
+
+    private String formatTicks(int ticks) {
+        int seconds = ticks / 20;
+        int minutes = seconds / 60;
+        seconds %= 60;
+        return String.format("%d:%02d", minutes, seconds);
     }
 }

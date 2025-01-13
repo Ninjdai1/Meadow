@@ -20,11 +20,13 @@ public class CookingCauldronRecipe implements Recipe<Container> {
     final ResourceLocation id;
     private final NonNullList<Ingredient> inputs;
     private final ItemStack output;
+    private final int fluidAmount;
 
-    public CookingCauldronRecipe(ResourceLocation id, NonNullList<Ingredient> inputs, ItemStack output) {
+    public CookingCauldronRecipe(ResourceLocation id, NonNullList<Ingredient> inputs, ItemStack output, int fluidAmount) {
         this.id = id;
         this.inputs = inputs;
         this.output = output;
+        this.fluidAmount = fluidAmount;
     }
 
     @Override
@@ -53,6 +55,10 @@ public class CookingCauldronRecipe implements Recipe<Container> {
     @Override
     public @NotNull ItemStack getResultItem(RegistryAccess registryManager) {
         return this.output;
+    }
+
+    public int getFluidAmount() {
+        return fluidAmount;
     }
 
     @Override
@@ -88,9 +94,10 @@ public class CookingCauldronRecipe implements Recipe<Container> {
             if (ingredients.isEmpty()) {
                 throw new JsonParseException("No ingredients for CookingCauldron Recipe");
             } else if (ingredients.size() > 6) {
-                throw new JsonParseException("Too many ingredients for CookingPot Recipe");
+                throw new JsonParseException("Too many ingredients for CookingCauldron Recipe");
             } else {
-                return new CookingCauldronRecipe(id, ingredients, ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json, "result")));
+                int fluidAmount = GsonHelper.getAsInt(json, "fluid_amount", 0);
+                return new CookingCauldronRecipe(id, ingredients, ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json, "result")), fluidAmount);
             }
         }
 
@@ -98,7 +105,9 @@ public class CookingCauldronRecipe implements Recipe<Container> {
         public @NotNull CookingCauldronRecipe fromNetwork(ResourceLocation id, FriendlyByteBuf buf) {
             final var ingredients = NonNullList.withSize(buf.readVarInt(), Ingredient.EMPTY);
             ingredients.replaceAll(ignored -> Ingredient.fromNetwork(buf));
-            return new CookingCauldronRecipe(id, ingredients, buf.readItem());
+            ItemStack output = buf.readItem();
+            int fluidAmount = buf.readInt();
+            return new CookingCauldronRecipe(id, ingredients, output, fluidAmount);
         }
 
         @Override
@@ -106,6 +115,7 @@ public class CookingCauldronRecipe implements Recipe<Container> {
             buf.writeVarInt(recipe.inputs.size());
             recipe.inputs.forEach(entry -> entry.toNetwork(buf));
             buf.writeItem(recipe.output);
+            buf.writeInt(recipe.fluidAmount);
         }
     }
 

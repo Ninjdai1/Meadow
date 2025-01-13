@@ -23,6 +23,7 @@ import net.satisfy.meadow.client.gui.handler.CookingCauldronGuiHandler;
 import net.satisfy.meadow.core.block.CookingCauldronBlock;
 import net.satisfy.meadow.core.recipes.CookingCauldronRecipe;
 import net.satisfy.meadow.core.registry.EntityTypeRegistry;
+import net.satisfy.meadow.core.registry.ObjectRegistry;
 import net.satisfy.meadow.core.registry.RecipeRegistry;
 import net.satisfy.meadow.core.registry.TagRegistry;
 import net.satisfy.meadow.core.world.ImplementedInventory;
@@ -33,54 +34,73 @@ import java.util.Objects;
 
 @SuppressWarnings("deprecation, unused")
 public class CookingCauldronBlockEntity extends BlockEntity implements ImplementedInventory, MenuProvider {
-    private static final int MAX_CAPACITY = 7;
+    private static final int MAX_CAPACITY = 8;
     private static final int MAX_COOKING_TIME = 200;
     private static final int OUTPUT_SLOT = 0;
-    private static final int INGREDIENTS_AREA = 6;
+    private static final int INGREDIENTS_START = 1;
+    private static final int INGREDIENTS_END = 6;
+    private static final int FLUID_INPUT_SLOT = 7;
     private static final int[] SLOTS_FOR_REST = {1, 2, 3, 4, 5, 6};
-    private static final int[] SLOTS_FOR_DOWN = {0};
-    public static int getMaxCookingTime() {
-        return MAX_COOKING_TIME;
-    }
-
+    private static final int[] SLOTS_FOR_DOWN = {0, 7};
     private final NonNullList<ItemStack> inventory = NonNullList.withSize(MAX_CAPACITY, ItemStack.EMPTY);
     private int cookingTime;
     private boolean isBeingBurned;
+    private int fluidLevel;
     private final ContainerData delegate = new ContainerData() {
+        @Override
         public int get(int index) {
-            if (index == 0) return cookingTime;
-            else if (index == 1) return isBeingBurned ? 1 : 0;
-            return 0;
+            return switch (index) {
+                case 0 -> cookingTime;
+                case 1 -> isBeingBurned ? 1 : 0;
+                case 2 -> fluidLevel;
+                default -> 0;
+            };
         }
 
+        @Override
         public void set(int index, int value) {
-            if (index == 0) cookingTime = value;
-            else if (index == 1) isBeingBurned = value != 0;
+            switch(index) {
+                case 0: cookingTime = value; break;
+                case 1: isBeingBurned = value != 0; break;
+                case 2: fluidLevel = value; break;
+            }
         }
 
+        @Override
         public int getCount() {
-            return 2;
+            return 3;
         }
     };
+
+    public static int getMaxCookingTime() {
+        return MAX_COOKING_TIME;
+    }
 
     public CookingCauldronBlockEntity(BlockPos pos, BlockState state) {
         super(EntityTypeRegistry.COOKING_CAULDRON.get(), pos, state);
     }
 
+    @Override
     public int @NotNull [] getSlotsForFace(Direction side) {
         return side == Direction.DOWN ? SLOTS_FOR_DOWN : SLOTS_FOR_REST;
     }
 
+    @Override
     public void load(@NotNull CompoundTag nbt) {
         super.load(nbt);
         ContainerHelper.loadAllItems(nbt, inventory);
         cookingTime = nbt.getInt("CookingTime");
+        isBeingBurned = nbt.getBoolean("IsBeingBurned");
+        fluidLevel = nbt.getInt("FluidLevel");
     }
 
+    @Override
     protected void saveAdditional(@NotNull CompoundTag nbt) {
         super.saveAdditional(nbt);
         ContainerHelper.saveAllItems(nbt, inventory);
         nbt.putInt("CookingTime", cookingTime);
+        nbt.putBoolean("IsBeingBurned", isBeingBurned);
+        nbt.putInt("FluidLevel", fluidLevel);
     }
 
     public boolean isBeingBurned() {
@@ -99,7 +119,6 @@ public class CookingCauldronBlockEntity extends BlockEntity implements Implement
 
     private void craft(CookingCauldronRecipe recipe) {
         if (!canCraft(recipe)) return;
-
         ItemStack recipeOutput = recipe.assemble();
         ItemStack outputSlotStack = getItem(OUTPUT_SLOT);
         if (outputSlotStack.isEmpty()) {
@@ -107,11 +126,9 @@ public class CookingCauldronBlockEntity extends BlockEntity implements Implement
         } else if (ItemStack.isSameItem(outputSlotStack, recipe.getResultItem()) && outputSlotStack.getCount() + recipeOutput.getCount() <= outputSlotStack.getMaxStackSize()) {
             outputSlotStack.grow(recipeOutput.getCount());
         }
-
-        boolean[] ingredientUsed = new boolean[INGREDIENTS_AREA + 1];
-
+        boolean[] ingredientUsed = new boolean[INGREDIENTS_END + 1];
         for (Ingredient ingredient : recipe.getIngredients()) {
-            for (int slotIndex = 1; slotIndex <= INGREDIENTS_AREA; slotIndex++) {
+            for (int slotIndex = INGREDIENTS_START; slotIndex <= INGREDIENTS_END; slotIndex++) {
                 if (!ingredientUsed[slotIndex] && ingredient.test(getItem(slotIndex))) {
                     ingredientUsed[slotIndex] = true;
                     ItemStack stackInSlot = getItem(slotIndex);
@@ -128,11 +145,20 @@ public class CookingCauldronBlockEntity extends BlockEntity implements Implement
                 }
             }
         }
+        ItemStack fluidItem = getItem(FLUID_INPUT_SLOT);
+        if (fluidItem.is(TagRegistry.SMALL_WATER_FILL)) {
+            setItem(FLUID_INPUT_SLOT, fluidItem.getCount() > 1 ? fluidItem.split(1) : ItemStack.EMPTY);
+            consumeFluid(25);
+        }
+        else if (fluidItem.is(TagRegistry.LARGE_WATER_FILL)) {
+            setItem(FLUID_INPUT_SLOT, fluidItem.getCount() > 1 ? fluidItem.split(1) : ItemStack.EMPTY);
+            consumeFluid(50);
+        }
     }
 
     private void handleRemainder(ItemStack remainderStack, int originalSlot) {
         boolean added = false;
-        for (int i = 1; i <= INGREDIENTS_AREA; i++) {
+        for (int i = INGREDIENTS_START; i <= INGREDIENTS_END; i++) {
             ItemStack is = getItem(i);
             if (is.isEmpty()) {
                 setItem(i, remainderStack.copy());
@@ -166,17 +192,50 @@ public class CookingCauldronBlockEntity extends BlockEntity implements Implement
         }
     }
 
+    private boolean fluidInputProcessed = false;
+
+    private void processFluidInput() {
+        ItemStack fluidItem = getItem(FLUID_INPUT_SLOT);
+        if (!fluidItem.isEmpty()) {
+            boolean processed = false;
+            int fluidAmount = 0;
+            if (fluidItem.is(TagRegistry.SMALL_WATER_FILL)) {
+                fluidAmount = 25;
+                processed = true;
+            } else if (fluidItem.is(TagRegistry.LARGE_WATER_FILL)) {
+                fluidAmount = 50;
+                processed = true;
+            }
+            if (processed) {
+                ItemStack consumedItem = fluidItem.split(1);
+                setItem(FLUID_INPUT_SLOT, fluidItem);
+                ItemStack remainder = getRemainderItem(consumedItem);
+                if (!remainder.isEmpty()) {
+                    handleRemainder(remainder, FLUID_INPUT_SLOT);
+                }
+                consumeFluid(fluidAmount);
+                setChanged();
+            }
+        }
+    }
+
     public void tick(Level world, BlockPos pos, BlockState state) {
         if (world.isClientSide()) return;
-
+        if (!fluidInputProcessed) {
+            processFluidInput();
+            fluidInputProcessed = true;
+        }
+        ItemStack fluidItem = getItem(FLUID_INPUT_SLOT);
+        if (fluidItem.isEmpty() || (!fluidItem.is(TagRegistry.SMALL_WATER_FILL) && !fluidItem.is(TagRegistry.LARGE_WATER_FILL))) {
+            fluidInputProcessed = false;
+        }
         isBeingBurned = isBeingBurned();
         if (!isBeingBurned && state.getValue(CookingCauldronBlock.LIT)) {
             world.setBlock(pos, state.setValue(CookingCauldronBlock.LIT, false), Block.UPDATE_ALL);
             return;
         }
-
         CookingCauldronRecipe recipe = world.getRecipeManager().getRecipeFor(RecipeRegistry.COOKING.get(), this, world).orElse(null);
-        if (canCraft(recipe)) {
+        if (canCraft(recipe) && fluidLevel >= recipe.getFluidAmount()) {
             cookingTime++;
             if (cookingTime >= MAX_COOKING_TIME) {
                 cookingTime = 0;
@@ -191,19 +250,27 @@ public class CookingCauldronBlockEntity extends BlockEntity implements Implement
         }
     }
 
+    @Override
     public NonNullList<ItemStack> getItems() {
         return inventory;
     }
 
+    @Override
     public boolean stillValid(Player player) {
-        return player.distanceToSqr((double) worldPosition.getX() + 0.5, (double) worldPosition.getY() + 0.5, (double) worldPosition.getZ() + 0.5) <= 64.0;
+        return player.distanceToSqr(worldPosition.getX() + 0.5, worldPosition.getY() + 0.5, worldPosition.getZ() + 0.5) <= 64.0;
     }
 
+    @Override
     public @NotNull Component getDisplayName() {
-        return Component.nullToEmpty("");
+        return ObjectRegistry.COOKING_CAULDRON.get().getName();
     }
 
+    @Override
     public @Nullable AbstractContainerMenu createMenu(int syncId, @NotNull Inventory inv, @NotNull Player player) {
         return new CookingCauldronGuiHandler(syncId, inv, this, delegate);
+    }
+
+    private void consumeFluid(int amount) {
+        fluidLevel += amount;
     }
 }
