@@ -16,6 +16,7 @@ public class FondueGui extends AbstractContainerScreen<FondueGuiHandler> {
 
     public static final int ARROW_X = 87;
     public static final int ARROW_Y = 25;
+
     public FondueGui(FondueGuiHandler handler, Inventory inventory, Component title) {
         super(handler, inventory, title);
     }

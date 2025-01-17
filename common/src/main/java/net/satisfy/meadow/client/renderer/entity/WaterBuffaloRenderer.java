@@ -28,7 +28,7 @@ public class WaterBuffaloRenderer extends MobRenderer<WaterBuffaloEntity, WaterB
     @Override
     public void render(WaterBuffaloEntity pEntity, float pEntityYaw, float pPartialTicks, PoseStack pMatrixStack,
                        MultiBufferSource pBuffer, int pPackedLight) {
-        if(pEntity.isBaby()) {
+        if (pEntity.isBaby()) {
             pMatrixStack.scale(0.5f, 0.5f, 0.5f);
         }
         super.render(pEntity, pEntityYaw, pPartialTicks, pMatrixStack, pBuffer, pPackedLight);

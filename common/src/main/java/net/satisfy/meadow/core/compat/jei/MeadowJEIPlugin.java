@@ -78,7 +78,7 @@ public class MeadowJEIPlugin implements IModPlugin {
         registration.addRecipeCatalyst(ObjectRegistry.CHEESE_FORM.get().asItem().getDefaultInstance(), CheesePressCategory.CHEESE_PRESS);
     }
 
-    public static void addSlot(IRecipeLayoutBuilder builder, int x, int y, Ingredient ingredient){
+    public static void addSlot(IRecipeLayoutBuilder builder, int x, int y, Ingredient ingredient) {
         builder.addSlot(RecipeIngredientRole.INPUT, x, y).addIngredients(ingredient);
     }
 }

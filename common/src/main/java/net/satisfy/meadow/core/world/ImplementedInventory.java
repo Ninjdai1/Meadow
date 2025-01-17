@@ -29,7 +29,7 @@ public interface ImplementedInventory extends WorldlyContainer {
     }
 
     default boolean isEmpty() {
-        for(int i = 0; i < this.getContainerSize(); ++i) {
+        for (int i = 0; i < this.getContainerSize(); ++i) {
             ItemStack stack = this.getItem(i);
             if (!stack.isEmpty()) {
                 return false;
@@ -40,7 +40,7 @@ public interface ImplementedInventory extends WorldlyContainer {
     }
 
     default @NotNull ItemStack getItem(int slot) {
-        return (ItemStack)this.getItems().get(slot);
+        return (ItemStack) this.getItems().get(slot);
     }
 
     default @NotNull ItemStack removeItem(int slot, int count) {
@@ -72,7 +72,7 @@ public interface ImplementedInventory extends WorldlyContainer {
     default int @NotNull [] getSlotsForFace(Direction side) {
         int[] result = new int[this.getItems().size()];
 
-        for(int i = 0; i < result.length; result[i] = i++) {
+        for (int i = 0; i < result.length; result[i] = i++) {
         }
 
         return result;

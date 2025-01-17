@@ -12,10 +12,10 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
 import net.satisfy.meadow.Meadow;
+import net.satisfy.meadow.core.registry.CompostableRegistry;
 import net.satisfy.meadow.core.registry.EntityTypeRegistry;
 import net.satisfy.meadow.forge.core.config.MeadowForgeConfig;
 import net.satisfy.meadow.forge.core.registry.MeadowForgeVillagers;
-import net.satisfy.meadow.core.registry.CompostableRegistry;
 import net.satisfy.meadow.platform.forge.PlatformHelperImpl;
 
 @Mod(Meadow.MOD_ID)
@@ -37,7 +37,7 @@ public class MeadowForge {
     }
 
     @SubscribeEvent
-    public static void spawnEvent(SpawnPlacementRegisterEvent event){
+    public static void spawnEvent(SpawnPlacementRegisterEvent event) {
         event.register(EntityTypeRegistry.WOOLY_COW.get(),
                 SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                 Animal::checkAnimalSpawnRules,

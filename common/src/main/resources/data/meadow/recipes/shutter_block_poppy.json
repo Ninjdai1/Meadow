@@ -1,18 +1,18 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "pattern": [
-        "-B "
-    ],
-    "key": {
-        "-": {
-            "item": "meadow:shutter_block"
-        },
-        "B": {
-            "item": "minecraft:poppy"
-        }
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "-B "
+  ],
+  "key": {
+    "-": {
+      "item": "meadow:shutter_block"
     },
-    "result": {
-        "item": "meadow:shutter_block_poppy",
-        "count": 1
+    "B": {
+      "item": "minecraft:poppy"
     }
+  },
+  "result": {
+    "item": "meadow:shutter_block_poppy",
+    "count": 1
+  }
 }

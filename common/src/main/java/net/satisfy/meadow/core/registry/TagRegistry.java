@@ -1,14 +1,11 @@
 package net.satisfy.meadow.core.registry;
 
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.satisfy.meadow.core.util.MeadowIdentifier;
-
-import static net.satisfy.meadow.Meadow.MOD_ID;
 
 public class TagRegistry {
     public static final TagKey<Biome> IS_MEADOW = TagKey.create(Registries.BIOME, new MeadowIdentifier("is_meadow"));

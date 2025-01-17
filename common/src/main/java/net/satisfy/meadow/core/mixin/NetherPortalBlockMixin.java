@@ -8,8 +8,8 @@ import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.NetherPortalBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.satisfy.meadow.core.entity.WoolyCowVar;
 import net.satisfy.meadow.core.entity.WoolyCowEntity;
+import net.satisfy.meadow.core.entity.WoolyCowVar;
 import net.satisfy.meadow.core.registry.EntityTypeRegistry;
 import net.satisfy.meadow.core.registry.TagRegistry;
 import org.spongepowered.asm.mixin.Mixin;
@@ -23,7 +23,7 @@ public class NetherPortalBlockMixin {
     @Inject(method = "randomTick", at = @At("HEAD"))
     private void checkCannotConnect(BlockState blockState, ServerLevel serverLevel, BlockPos blockPos, RandomSource randomSource, CallbackInfo ci) {
         if (!serverLevel.dimensionType().natural() && serverLevel.getRandom().nextFloat() < 0.005F && serverLevel.getBiome(blockPos).is(TagRegistry.SPAWNS_WARPED_COW) && serverLevel.getGameRules().getBoolean(GameRules.RULE_DOMOBSPAWNING)) {
-            while(serverLevel.getBlockState(blockPos).is(Blocks.NETHER_PORTAL)) {
+            while (serverLevel.getBlockState(blockPos).is(Blocks.NETHER_PORTAL)) {
                 blockPos = blockPos.below();
             }
 

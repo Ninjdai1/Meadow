@@ -1,6 +1,5 @@
 package net.satisfy.meadow.core.block;
 
-import java.util.function.Supplier;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
@@ -18,6 +17,8 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.satisfy.meadow.core.registry.StorageTypeRegistry;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.function.Supplier;
 
 @SuppressWarnings("deprecation")
 public class FlowerPotBigBlock extends StorageBlock {

@@ -1,6 +1,5 @@
 {
   "variants": {
-
     "facing=north,type=none": {
       "model": "meadow:block/table"
     },
@@ -16,7 +15,6 @@
       "model": "meadow:block/table",
       "y": 270
     },
-
     "facing=north,type=middle": {
       "model": "meadow:block/table_middle"
     },
@@ -32,7 +30,6 @@
       "model": "meadow:block/table_middle",
       "y": 270
     },
-
     "facing=north,type=left": {
       "model": "meadow:block/table_side"
     },
@@ -48,7 +45,6 @@
       "model": "meadow:block/table_side",
       "y": 270
     },
-
     "facing=north,type=right": {
       "model": "meadow:block/table_side",
       "y": 180

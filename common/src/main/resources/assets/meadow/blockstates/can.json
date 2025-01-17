@@ -15,7 +15,6 @@
       "model": "meadow:block/can",
       "y": 270
     },
-
     "facing=east,fluid=1": {
       "model": "meadow:block/can_milk",
       "y": 90
@@ -31,7 +30,6 @@
       "model": "meadow:block/can_milk",
       "y": 270
     },
-
     "facing=east,fluid=2": {
       "model": "meadow:block/can_water",
       "y": 90

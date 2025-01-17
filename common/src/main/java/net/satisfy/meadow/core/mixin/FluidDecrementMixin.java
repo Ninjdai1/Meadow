@@ -23,7 +23,7 @@ public class FluidDecrementMixin {
     @Inject(method = "lowerFillLevel", at = @At(value = "HEAD"), cancellable = true)
     private static void register(BlockState state, Level world, BlockPos pos, CallbackInfo ci) {
         Block b = state.getBlock();
-        if(b.equals(ObjectRegistry.WOODEN_WATER_CAULDRON.get())){
+        if (b.equals(ObjectRegistry.WOODEN_WATER_CAULDRON.get())) {
             int i = state.getValue(LEVEL) - 1;
             BlockState blockState = i == 0 ? ObjectRegistry.WOODEN_CAULDRON.get().defaultBlockState() : state.setValue(LEVEL, i);
 
@@ -39,8 +39,8 @@ public class FluidDecrementMixin {
         LayeredCauldronBlock block = (LayeredCauldronBlock) o;
 
         if (!world.isClientSide && block.isEntityInsideContent(state, pos, entity)) {
-            if(entity.isOnFire()) return;
-            if(block instanceof PowderSnowCauldronBlock){
+            if (entity.isOnFire()) return;
+            if (block instanceof PowderSnowCauldronBlock) {
                 Blocks.POWDER_SNOW.entityInside(state, world, pos, entity);
             }
         }

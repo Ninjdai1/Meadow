@@ -62,6 +62,14 @@ public class CheeseFormGuiHandler extends AbstractContainerMenu {
         return progress * 25 / totalProgress + 1;
     }
 
+    public int getCookingTime() {
+        return propertyDelegate.get(0);
+    }
+
+    public int getRequiredDuration() {
+        return propertyDelegate.get(3);
+    }
+
     @Override
     public @NotNull ItemStack quickMoveStack(Player player, int i) {
         return ItemStack.EMPTY;

@@ -1,18 +1,18 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "pattern": [
-        "-B "
-    ],
-    "key": {
-        "-": {
-            "item": "meadow:shutter_block"
-        },
-        "B": {
-            "item": "minecraft:sweet_berries"
-        }
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "-B "
+  ],
+  "key": {
+    "-": {
+      "item": "meadow:shutter_block"
     },
-    "result": {
-        "item": "meadow:shutter_block_berry",
-        "count": 1
+    "B": {
+      "item": "minecraft:sweet_berries"
     }
+  },
+  "result": {
+    "item": "meadow:shutter_block_berry",
+    "count": 1
+  }
 }

@@ -7,7 +7,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.config.ModConfigEvent;
 
 import java.io.File;
-import java.util.List;
 
 public class MeadowForgeConfig {
     public static final ForgeConfigSpec COMMON_CONFIG;

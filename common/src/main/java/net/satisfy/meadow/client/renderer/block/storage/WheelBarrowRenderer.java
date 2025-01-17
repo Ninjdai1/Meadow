@@ -6,8 +6,8 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
-import net.satisfy.meadow.core.block.entity.StorageBlockEntity;
 import net.satisfy.meadow.client.util.ClientUtil;
+import net.satisfy.meadow.core.block.entity.StorageBlockEntity;
 
 public class WheelBarrowRenderer implements StorageTypeRenderer {
     @Override

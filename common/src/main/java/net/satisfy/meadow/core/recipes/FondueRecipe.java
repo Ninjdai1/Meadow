@@ -64,6 +64,7 @@ public class FondueRecipe implements Recipe<Container> {
     public Ingredient getFuel() {
         return fuel;
     }
+
     public Ingredient getBread() {
         return bread;
     }

@@ -68,9 +68,9 @@ public class FondueBlockEntity extends BlockEntity implements MenuProvider, Impl
 
     @Override
     public int @NotNull [] getSlotsForFace(Direction side) {
-        if(side.equals(Direction.UP)){
+        if (side.equals(Direction.UP)) {
             return SLOTS_FOR_UP;
-        } else if (side.equals(Direction.DOWN)){
+        } else if (side.equals(Direction.DOWN)) {
             return SLOTS_FOR_DOWN;
         } else return SLOTS_FOR_SIDE;
     }
@@ -112,7 +112,7 @@ public class FondueBlockEntity extends BlockEntity implements MenuProvider, Impl
         if (world.isClientSide()) return;
 
         Recipe<?> r = world.getRecipeManager().getRecipeFor(RecipeRegistry.FONDUE.get(), this, world).orElse(null);
-        if(!(r instanceof FondueRecipe recipe)){
+        if (!(r instanceof FondueRecipe recipe)) {
             entity.resetProgress();
             setChanged(world, blockPos, state);
             return;
@@ -169,7 +169,7 @@ public class FondueBlockEntity extends BlockEntity implements MenuProvider, Impl
         if (this.level.getBlockEntity(this.worldPosition) != this) {
             return false;
         } else {
-            return player.distanceToSqr((double)this.worldPosition.getX() + 0.5, (double)this.worldPosition.getY() + 0.5, (double)this.worldPosition.getZ() + 0.5) <= 64.0;
+            return player.distanceToSqr((double) this.worldPosition.getX() + 0.5, (double) this.worldPosition.getY() + 0.5, (double) this.worldPosition.getZ() + 0.5) <= 64.0;
         }
     }
 

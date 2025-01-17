@@ -14,7 +14,9 @@ import net.minecraft.tags.FluidTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.DispensibleContainerItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
@@ -66,7 +68,7 @@ public class WoodenBucket extends Item implements DispensibleContainerItem, Inje
                             level.gameEvent(player, GameEvent.FLUID_PICKUP, blockPos);
                             ItemStack itemStack3 = new ItemStack(ObjectRegistry.WOODEN_WATER_BUCKET.get());
                             if (!level.isClientSide) {
-                                CriteriaTriggers.FILLED_BUCKET.trigger((ServerPlayer)player, itemStack2);
+                                CriteriaTriggers.FILLED_BUCKET.trigger((ServerPlayer) player, itemStack2);
                             }
                             itemStack.shrink(1);
                             if (itemStack.isEmpty()) {
@@ -86,7 +88,7 @@ public class WoodenBucket extends Item implements DispensibleContainerItem, Inje
                     if (this.emptyContents(player, level, blockPos3, blockHitResult)) {
                         this.checkExtraContent(player, level, itemStack, blockPos3);
                         if (player instanceof ServerPlayer) {
-                            CriteriaTriggers.PLACED_BLOCK.trigger((ServerPlayer)player, blockPos3, itemStack);
+                            CriteriaTriggers.PLACED_BLOCK.trigger((ServerPlayer) player, blockPos3, itemStack);
                         }
 
                         player.awardStat(Stats.ITEM_USED.get(this));
@@ -112,7 +114,7 @@ public class WoodenBucket extends Item implements DispensibleContainerItem, Inje
             BlockState blockState = level.getBlockState(blockPos);
             Block block = blockState.getBlock();
             boolean bl = blockState.canBeReplaced(this.content);
-            boolean bl2 = blockState.isAir() || bl || block instanceof LiquidBlockContainer && ((LiquidBlockContainer)block).canPlaceLiquid(level, blockPos, blockState, this.content);
+            boolean bl2 = blockState.isAir() || bl || block instanceof LiquidBlockContainer && ((LiquidBlockContainer) block).canPlaceLiquid(level, blockPos, blockState, this.content);
             if (!bl2) {
                 return blockHitResult != null && this.emptyContents(player, level, blockHitResult.getBlockPos().relative(blockHitResult.getDirection()), null);
             } else if (level.dimensionType().ultraWarm() && this.content.is(FluidTags.WATER)) {
@@ -121,13 +123,13 @@ public class WoodenBucket extends Item implements DispensibleContainerItem, Inje
                 int k = blockPos.getZ();
                 level.playSound(player, blockPos, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 0.5F, 2.6F + (level.random.nextFloat() - level.random.nextFloat()) * 0.8F);
 
-                for(int l = 0; l < 8; ++l) {
-                    level.addParticle(ParticleTypes.LARGE_SMOKE, (double)i + Math.random(), (double)j + Math.random(), (double)k + Math.random(), 0.0, 0.0, 0.0);
+                for (int l = 0; l < 8; ++l) {
+                    level.addParticle(ParticleTypes.LARGE_SMOKE, (double) i + Math.random(), (double) j + Math.random(), (double) k + Math.random(), 0.0, 0.0, 0.0);
                 }
 
                 return true;
             } else if (block instanceof LiquidBlockContainer && this.content == Fluids.WATER) {
-                ((LiquidBlockContainer)block).placeLiquid(level, blockPos, blockState, ((FlowingFluid)this.content).getSource(false));
+                ((LiquidBlockContainer) block).placeLiquid(level, blockPos, blockState, ((FlowingFluid) this.content).getSource(false));
                 this.playEmptySound(player, level, blockPos);
                 return true;
             } else {

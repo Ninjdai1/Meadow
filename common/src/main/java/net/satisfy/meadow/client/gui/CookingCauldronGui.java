@@ -1,13 +1,13 @@
 package net.satisfy.meadow.client.gui;
 
-import net.satisfy.meadow.client.gui.handler.CookingCauldronGuiHandler;
-import net.satisfy.meadow.core.util.MeadowIdentifier;
-import org.joml.Vector2i;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import net.satisfy.meadow.client.gui.handler.CookingCauldronGuiHandler;
+import net.satisfy.meadow.core.util.MeadowIdentifier;
+import org.joml.Vector2i;
 
 public class CookingCauldronGui extends AbstractContainerScreen<CookingCauldronGuiHandler> {
     private static final ResourceLocation BACKGROUND = new MeadowIdentifier("textures/gui/cooking_cauldron_gui.png");

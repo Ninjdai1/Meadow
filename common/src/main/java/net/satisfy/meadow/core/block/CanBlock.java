@@ -43,21 +43,21 @@ public class CanBlock extends Block {
 
     private static final Supplier<VoxelShape> voxelShapeSupplier = () -> {
         VoxelShape shape = Shapes.empty();
-        shape = Shapes.joinUnoptimized(shape, Shapes.box(0.25, 0, 0.25, 0.75, 0.625, 0.75),BooleanOp.OR);
-        shape = Shapes.joinUnoptimized(shape, Shapes.box(0.921875, 0.28125, 0.375, 0.984375, 0.28125, 0.4375),BooleanOp.OR);
-        shape = Shapes.joinUnoptimized(shape, Shapes.box(0.984375, 0.28125, 0.375, 1.046875, 0.28125, 0.625),BooleanOp.OR);
-        shape = Shapes.joinUnoptimized(shape, Shapes.box(0.921875, 0.28125, 0.5625, 0.984375, 0.28125, 0.625),BooleanOp.OR);
-        shape = Shapes.joinUnoptimized(shape, Shapes.box(-0.0625, 0.65625, 0.375, 0, 0.65625, 0.4375),BooleanOp.OR);
-        shape = Shapes.joinUnoptimized(shape, Shapes.box(-0.125, 0.65625, 0.375, -0.0625, 0.65625, 0.625),BooleanOp.OR);
-        shape = Shapes.joinUnoptimized(shape, Shapes.box(-0.0625, 0.65625, 0.5625, 0, 0.65625, 0.625),BooleanOp.OR);
-        shape = Shapes.joinUnoptimized(shape, Shapes.box(0.25, 0.875, 0.625, 0.75, 0.9375, 0.75),BooleanOp.OR);
-        shape = Shapes.joinUnoptimized(shape, Shapes.box(0.25, 0.875, 0.25, 0.75, 0.9375, 0.375),BooleanOp.OR);
-        shape = Shapes.joinUnoptimized(shape, Shapes.box(0.3125, 0.625, 0.3125, 0.375, 0.875, 0.6875),BooleanOp.OR);
-        shape = Shapes.joinUnoptimized(shape, Shapes.box(0.625, 0.625, 0.3125, 0.6875, 0.875, 0.6875),BooleanOp.OR);
-        shape = Shapes.joinUnoptimized(shape, Shapes.box(0.375, 0.625, 0.3125, 0.625, 0.875, 0.375),BooleanOp.OR);
-        shape = Shapes.joinUnoptimized(shape, Shapes.box(0.375, 0.625, 0.625, 0.625, 0.875, 0.6875),BooleanOp.OR);
-        shape = Shapes.joinUnoptimized(shape, Shapes.box(0.25, 0.875, 0.375, 0.375, 0.9375, 0.625),BooleanOp.OR);
-        shape = Shapes.joinUnoptimized(shape, Shapes.box(0.625, 0.875, 0.375, 0.75, 0.9375, 0.625),BooleanOp.OR);
+        shape = Shapes.joinUnoptimized(shape, Shapes.box(0.25, 0, 0.25, 0.75, 0.625, 0.75), BooleanOp.OR);
+        shape = Shapes.joinUnoptimized(shape, Shapes.box(0.921875, 0.28125, 0.375, 0.984375, 0.28125, 0.4375), BooleanOp.OR);
+        shape = Shapes.joinUnoptimized(shape, Shapes.box(0.984375, 0.28125, 0.375, 1.046875, 0.28125, 0.625), BooleanOp.OR);
+        shape = Shapes.joinUnoptimized(shape, Shapes.box(0.921875, 0.28125, 0.5625, 0.984375, 0.28125, 0.625), BooleanOp.OR);
+        shape = Shapes.joinUnoptimized(shape, Shapes.box(-0.0625, 0.65625, 0.375, 0, 0.65625, 0.4375), BooleanOp.OR);
+        shape = Shapes.joinUnoptimized(shape, Shapes.box(-0.125, 0.65625, 0.375, -0.0625, 0.65625, 0.625), BooleanOp.OR);
+        shape = Shapes.joinUnoptimized(shape, Shapes.box(-0.0625, 0.65625, 0.5625, 0, 0.65625, 0.625), BooleanOp.OR);
+        shape = Shapes.joinUnoptimized(shape, Shapes.box(0.25, 0.875, 0.625, 0.75, 0.9375, 0.75), BooleanOp.OR);
+        shape = Shapes.joinUnoptimized(shape, Shapes.box(0.25, 0.875, 0.25, 0.75, 0.9375, 0.375), BooleanOp.OR);
+        shape = Shapes.joinUnoptimized(shape, Shapes.box(0.3125, 0.625, 0.3125, 0.375, 0.875, 0.6875), BooleanOp.OR);
+        shape = Shapes.joinUnoptimized(shape, Shapes.box(0.625, 0.625, 0.3125, 0.6875, 0.875, 0.6875), BooleanOp.OR);
+        shape = Shapes.joinUnoptimized(shape, Shapes.box(0.375, 0.625, 0.3125, 0.625, 0.875, 0.375), BooleanOp.OR);
+        shape = Shapes.joinUnoptimized(shape, Shapes.box(0.375, 0.625, 0.625, 0.625, 0.875, 0.6875), BooleanOp.OR);
+        shape = Shapes.joinUnoptimized(shape, Shapes.box(0.25, 0.875, 0.375, 0.375, 0.9375, 0.625), BooleanOp.OR);
+        shape = Shapes.joinUnoptimized(shape, Shapes.box(0.625, 0.875, 0.375, 0.75, 0.9375, 0.625), BooleanOp.OR);
         return shape;
     };
 
@@ -93,7 +93,7 @@ public class CanBlock extends Block {
         boolean milk;
         boolean wood = isWooden(item);
         if (state.getValue(FLUID) == 0 && ((water = isWater(item)) || (milk = isMilk(item)))) {
-            if(!world.isClientSide()){
+            if (!world.isClientSide()) {
                 player.setItemInHand(hand, ItemUtils.createFilledResult(itemStack, player, new ItemStack(wood ? ObjectRegistry.WOODEN_BUCKET.get() : Items.BUCKET)));
                 player.awardStat(Stats.ITEM_USED.get(item));
                 world.setBlockAndUpdate(pos, state.setValue(FLUID, water ? 2 : 1));
@@ -102,7 +102,7 @@ public class CanBlock extends Block {
             }
             return InteractionResult.sidedSuccess(world.isClientSide());
         } else if ((state.getValue(FLUID) == 1 || state.getValue(FLUID) == 2) && (item.equals(Items.BUCKET) || item.equals(ObjectRegistry.WOODEN_BUCKET.get()))) {
-            if(!world.isClientSide()){
+            if (!world.isClientSide()) {
                 player.setItemInHand(hand, ItemUtils.createFilledResult(itemStack, player, new ItemStack(state.getValue(FLUID) == 2 ? wood ? ObjectRegistry.WOODEN_WATER_BUCKET.get() : Items.WATER_BUCKET : wood ? ObjectRegistry.WOODEN_MILK_BUCKET.get() : Items.MILK_BUCKET)));
                 player.awardStat(Stats.ITEM_USED.get(item));
                 world.setBlockAndUpdate(pos, state.setValue(FLUID, 0));
@@ -115,15 +115,15 @@ public class CanBlock extends Block {
         return InteractionResult.PASS;
     }
 
-    public boolean isMilk(Item item){
+    public boolean isMilk(Item item) {
         return item.equals(Items.MILK_BUCKET) || item.equals(ObjectRegistry.WOODEN_MILK_BUCKET.get());
     }
 
-    public boolean isWooden(Item item){
+    public boolean isWooden(Item item) {
         return item.equals(ObjectRegistry.WOODEN_WATER_BUCKET.get()) || item.equals(ObjectRegistry.WOODEN_MILK_BUCKET.get()) || item.equals(ObjectRegistry.WOODEN_BUCKET.get());
     }
 
-    public boolean isWater(Item item){
+    public boolean isWater(Item item) {
         return item.equals(Items.WATER_BUCKET) || item.equals(ObjectRegistry.WOODEN_WATER_BUCKET.get());
     }
 

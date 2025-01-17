@@ -24,16 +24,24 @@
       "conditions": {
         "items": [
           {
-            "items": ["meadow:fur_helmet"]
+            "items": [
+              "meadow:fur_helmet"
+            ]
           },
           {
-            "items": ["meadow:fur_chestplate"]
+            "items": [
+              "meadow:fur_chestplate"
+            ]
           },
           {
-            "items": ["meadow:fur_leggings"]
+            "items": [
+              "meadow:fur_leggings"
+            ]
           },
           {
-            "items": ["meadow:fur_boots"]
+            "items": [
+              "meadow:fur_boots"
+            ]
           }
         ]
       }

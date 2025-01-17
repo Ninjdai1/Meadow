@@ -60,9 +60,9 @@ public class ModHangingSignRenderer extends ModSignRenderer {
 
     public void render(ModSignBlockEntity signBlockEntity, float f, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, int j) {
         BlockState blockState = signBlockEntity.getBlockState();
-        SignBlock signBlock = (SignBlock)blockState.getBlock();
+        SignBlock signBlock = (SignBlock) blockState.getBlock();
         WoodType woodType = SignBlock.getWoodType(signBlock);
-        HangingSignModel hangingSignModel = (HangingSignModel)this.hangingSignModels.get(woodType);
+        HangingSignModel hangingSignModel = (HangingSignModel) this.hangingSignModels.get(woodType);
         hangingSignModel.evaluateVisibleParts(blockState);
         this.renderSignWithText(signBlockEntity, poseStack, multiBufferSource, i, j, blockState, signBlock, woodType, hangingSignModel);
     }
@@ -74,7 +74,7 @@ public class ModHangingSignRenderer extends ModSignRenderer {
     }
 
     void renderSignModel(PoseStack poseStack, int i, int j, Model model, VertexConsumer vertexConsumer) {
-        HangingSignModel hangingSignModel = (HangingSignModel)model;
+        HangingSignModel hangingSignModel = (HangingSignModel) model;
         hangingSignModel.root.render(poseStack, vertexConsumer, i, j);
     }
 

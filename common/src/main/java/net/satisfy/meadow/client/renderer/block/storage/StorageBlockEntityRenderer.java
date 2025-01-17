@@ -16,15 +16,15 @@ import java.util.HashMap;
 public class StorageBlockEntityRenderer implements BlockEntityRenderer<StorageBlockEntity> {
     private static final HashMap<ResourceLocation, StorageTypeRenderer> STORAGE_TYPES = new HashMap<>();
 
-    public static void registerStorageType(ResourceLocation name, StorageTypeRenderer renderer){
+    public static void registerStorageType(ResourceLocation name, StorageTypeRenderer renderer) {
         STORAGE_TYPES.put(name, renderer);
     }
 
-    public static StorageTypeRenderer getRendererForId(ResourceLocation name){
+    public static StorageTypeRenderer getRendererForId(ResourceLocation name) {
         return STORAGE_TYPES.get(name);
     }
 
-    public StorageBlockEntityRenderer(){
+    public StorageBlockEntityRenderer() {
     }
 
     @Override

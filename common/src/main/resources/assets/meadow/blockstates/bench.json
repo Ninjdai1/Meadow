@@ -1,6 +1,5 @@
 {
   "variants": {
-
     "facing=north,type=none": {
       "model": "meadow:block/bench"
     },
@@ -16,7 +15,6 @@
       "model": "meadow:block/bench",
       "y": 270
     },
-
     "facing=north,type=middle": {
       "model": "meadow:block/bench_middle"
     },
@@ -32,7 +30,6 @@
       "model": "meadow:block/bench_middle",
       "y": 270
     },
-
     "facing=north,type=left": {
       "model": "meadow:block/bench_side"
     },
@@ -48,7 +45,6 @@
       "model": "meadow:block/bench_side",
       "y": 270
     },
-
     "facing=north,type=right": {
       "model": "meadow:block/bench_side",
       "y": 180

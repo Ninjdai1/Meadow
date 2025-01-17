@@ -57,7 +57,7 @@ public class MeadowClient {
         registerEntityModelLayers();
     }
 
-    public static void registerStorageTypeRenderers(){
+    public static void registerStorageTypeRenderers() {
         StorageBlockEntityRenderer.registerStorageType(StorageTypeRegistry.WHEEL_BARROW, new WheelBarrowRenderer());
         StorageBlockEntityRenderer.registerStorageType(StorageTypeRegistry.FLOWER_BOX, new FlowerBoxRenderer());
         StorageBlockEntityRenderer.registerStorageType(StorageTypeRegistry.FLOWER_POT_SMALL, new FlowerPotSmallRenderer());

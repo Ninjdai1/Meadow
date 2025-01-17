@@ -66,15 +66,16 @@ public enum WoolyCowVar implements StringRepresentable {
         map.put(WoolyCowVar.UMBRA, TagRegistry.SPAWNS_UMBRA_COW);
         map.put(WoolyCowVar.WARPED, TagRegistry.SPAWNS_WARPED_COW);
     });
-     public static WoolyCowVar getRandomVariant(LevelAccessor levelAccessor, BlockPos blockPos, boolean spawnEgg) {
+
+    public static WoolyCowVar getRandomVariant(LevelAccessor levelAccessor, BlockPos blockPos, boolean spawnEgg) {
         Holder<Biome> holder = levelAccessor.getBiome(blockPos);
         RandomSource random = levelAccessor.getRandom();
         List<WoolyCowVar> possibleVars = getShearableCowVariantsInBiome(holder);
         int size = possibleVars.size();
-        if(size == 0 || spawnEgg){
-            if(spawnEgg) return Util.getRandom(WoolyCowVar.values(), random);
+        if (size == 0 || spawnEgg) {
+            if (spawnEgg) return Util.getRandom(WoolyCowVar.values(), random);
 
-            if(holder.is(BiomeTags.IS_NETHER)) return WoolyCowVar.WARPED;
+            if (holder.is(BiomeTags.IS_NETHER)) return WoolyCowVar.WARPED;
             List<WoolyCowVar> list = new java.util.ArrayList<>(List.of(WoolyCowVar.values()));
             list.remove(WoolyCowVar.WARPED);
             return Util.getRandom(list, random);

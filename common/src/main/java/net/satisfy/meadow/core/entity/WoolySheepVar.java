@@ -67,9 +67,9 @@ public enum WoolySheepVar implements StringRepresentable {
         RandomSource random = levelAccessor.getRandom();
         List<WoolySheepVar> possibleVars = getShearableSheepVariantsInBiome(holder);
         int size = possibleVars.size();
-        if(size == 0 || spawnEgg){
-            if(spawnEgg) return Util.getRandom(WoolySheepVar.values(), random);
-            if(holder.is(TagRegistry.IS_MEADOW)) return FLECKED;
+        if (size == 0 || spawnEgg) {
+            if (spawnEgg) return Util.getRandom(WoolySheepVar.values(), random);
+            if (holder.is(TagRegistry.IS_MEADOW)) return FLECKED;
             List<WoolySheepVar> list = new java.util.ArrayList<>(List.of(WoolySheepVar.values()));
             return Util.getRandom(list, random);
         }

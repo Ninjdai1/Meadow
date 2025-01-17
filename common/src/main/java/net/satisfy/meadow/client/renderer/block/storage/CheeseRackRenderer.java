@@ -14,13 +14,13 @@ public class CheeseRackRenderer implements StorageTypeRenderer {
         poseStack.translate(-0.5f, 0.05f, -0.5f);
         if (!nonNullList.isEmpty()) {
             ItemStack itemStack1 = nonNullList.get(0);
-            if(itemStack1.getItem() instanceof BlockItem blockItem){
+            if (itemStack1.getItem() instanceof BlockItem blockItem) {
                 ClientUtil.renderBlockFromItem(blockItem, poseStack, multiBufferSource, storageBlockEntity);
             }
         }
         if (nonNullList.size() > 1) {
             ItemStack itemStack2 = nonNullList.get(1);
-            if(itemStack2.getItem() instanceof BlockItem blockItem){
+            if (itemStack2.getItem() instanceof BlockItem blockItem) {
                 poseStack.translate(0f, 0.4f, 0f);
                 ClientUtil.renderBlockFromItem(blockItem, poseStack, multiBufferSource, storageBlockEntity);
             }

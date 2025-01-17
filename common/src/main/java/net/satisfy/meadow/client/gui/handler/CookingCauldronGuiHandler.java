@@ -86,32 +86,27 @@ public class CookingCauldronGuiHandler extends AbstractContainerMenu {
                 return ItemStack.EMPTY;
             }
             slot.onQuickCraft(item, copy);
-        }
-        else if (index >= 1 && index <= 6) {
+        } else if (index >= 1 && index <= 6) {
             if (!this.moveItemStackTo(item, 8, this.slots.size(), false)) {
                 return ItemStack.EMPTY;
             }
-        }
-        else if (index == 7) {
+        } else if (index == 7) {
             if (!this.moveItemStackTo(item, 8, this.slots.size(), false)) {
                 return ItemStack.EMPTY;
             }
-        }
-        else {
+        } else {
             if (item.is(TagRegistry.SMALL_WATER_FILL) || item.is(TagRegistry.LARGE_WATER_FILL)) {
                 if (!this.moveItemStackTo(item, 7, 8, false)) {
                     return ItemStack.EMPTY;
                 }
-            }
-            else {
+            } else {
                 return ItemStack.EMPTY;
             }
         }
 
         if (item.isEmpty()) {
             slot.set(ItemStack.EMPTY);
-        }
-        else {
+        } else {
             slot.setChanged();
         }
         slot.onTake(player, item);

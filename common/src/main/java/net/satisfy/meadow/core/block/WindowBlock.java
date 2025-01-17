@@ -51,7 +51,7 @@ public class WindowBlock extends IronBarsBlock {
         int height = 0;
 
         BlockPos current;
-        for(current = lowest; current.getY() <= highest.getY(); current = current.above()) {
+        for (current = lowest; current.getY() <= highest.getY(); current = current.above()) {
             ++height;
         }
 
@@ -75,7 +75,7 @@ public class WindowBlock extends IronBarsBlock {
                 world.setBlock(lowest, newStateLow, 3);
             }
 
-            for(current = lowest.above(); current.getY() < highest.getY(); current = current.above()) {
+            for (current = lowest.above(); current.getY() < highest.getY(); current = current.above()) {
                 BlockState newStateMiddle = state.setValue(PART, 2);
                 if (!world.getBlockState(current).equals(newStateMiddle)) {
                     world.setBlock(current, newStateMiddle, 3);
@@ -90,14 +90,14 @@ public class WindowBlock extends IronBarsBlock {
     }
 
     private BlockPos getLowestWindow(LevelAccessor world, BlockPos pos) {
-        while(world.getBlockState(pos.below()).getBlock() == this) {
+        while (world.getBlockState(pos.below()).getBlock() == this) {
             pos = pos.below();
         }
         return pos;
     }
 
     private BlockPos getHighestWindow(LevelAccessor world, BlockPos pos) {
-        while(world.getBlockState(pos.above()).getBlock() == this) {
+        while (world.getBlockState(pos.above()).getBlock() == this) {
             pos = pos.above();
         }
         return pos;

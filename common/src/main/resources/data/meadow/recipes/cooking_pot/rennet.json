@@ -14,7 +14,7 @@
   "fluid_amount": 25,
   "crafting_duration": 60,
   "result": {
-    "item":  "meadow:rennet",
+    "item": "meadow:rennet",
     "count": 2
   }
 }

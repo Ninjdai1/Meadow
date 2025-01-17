@@ -59,6 +59,7 @@ public class EntityTypeRegistry {
     private static <T extends BlockEntityType<?>> RegistrySupplier<T> registerBlockEntity(final String path, final Supplier<T> type) {
         return BLOCK_ENTITY_TYPES.register(new MeadowIdentifier(path), type);
     }
+
     public static void init() {
         ENTITY_TYPES.register();
         BLOCK_ENTITY_TYPES.register();

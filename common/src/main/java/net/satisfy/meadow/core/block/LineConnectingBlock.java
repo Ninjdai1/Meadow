@@ -45,10 +45,14 @@ public class LineConnectingBlock extends Block {
         BlockPos clickedPos = context.getClickedPos();
 
         return switch (facing) {
-            case EAST -> blockState.setValue(TYPE, this.getType(blockState, world.getBlockState(clickedPos.south()), world.getBlockState(clickedPos.north())));
-            case SOUTH -> blockState.setValue(TYPE, this.getType(blockState, world.getBlockState(clickedPos.west()), world.getBlockState(clickedPos.east())));
-            case WEST -> blockState.setValue(TYPE, this.getType(blockState, world.getBlockState(clickedPos.north()), world.getBlockState(clickedPos.south())));
-            default -> blockState.setValue(TYPE, this.getType(blockState, world.getBlockState(clickedPos.east()), world.getBlockState(clickedPos.west())));
+            case EAST ->
+                    blockState.setValue(TYPE, this.getType(blockState, world.getBlockState(clickedPos.south()), world.getBlockState(clickedPos.north())));
+            case SOUTH ->
+                    blockState.setValue(TYPE, this.getType(blockState, world.getBlockState(clickedPos.west()), world.getBlockState(clickedPos.east())));
+            case WEST ->
+                    blockState.setValue(TYPE, this.getType(blockState, world.getBlockState(clickedPos.north()), world.getBlockState(clickedPos.south())));
+            default ->
+                    blockState.setValue(TYPE, this.getType(blockState, world.getBlockState(clickedPos.east()), world.getBlockState(clickedPos.west())));
         };
     }
 

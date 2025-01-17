@@ -73,7 +73,7 @@ public class FlowerBoxBlock extends StorageBlock {
     }
 
     public int getSection(Float x, Float y) {
-        return (double)x < 0.5 ? 0 : 1;
+        return (double) x < 0.5 ? 0 : 1;
     }
 }
 

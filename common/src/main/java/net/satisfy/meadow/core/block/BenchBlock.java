@@ -68,17 +68,17 @@ public class BenchBlock extends LineConnectingBlock {
     static {
         TOP_SHAPE = new VoxelShape[]{
                 Block.box(2.0, 4.0, 0.0, 14.0, 8.0, 16.0),
-                Block.box(0.0, 4.0, 2.0, 16.0, 8.0, 14.0)  
+                Block.box(0.0, 4.0, 2.0, 16.0, 8.0, 14.0)
         };
         BOTTOM_SINGLE_SHAPE = new VoxelShape[]{
                 Shapes.or(Block.box(1.0, 0.0, 1.0, 15.0, 4.0, 5.0), Block.box(1.0, 0.0, 11.0, 15.0, 4.0, 15.0)),
-                Shapes.or(Block.box(1.0, 0.0, 1.0, 5.0, 4.0, 15.0), Block.box(11.0, 0.0, 1.0, 15.0, 4.0, 15.0)) 
+                Shapes.or(Block.box(1.0, 0.0, 1.0, 5.0, 4.0, 15.0), Block.box(11.0, 0.0, 1.0, 15.0, 4.0, 15.0))
         };
         BOTTOM_MULTI_SHAPE = new VoxelShape[]{
-                Block.box(1.0, 0.0, 1.0, 9.0, 4.0, 15.0), 
+                Block.box(1.0, 0.0, 1.0, 9.0, 4.0, 15.0),
                 Block.box(7.0, 0.0, 1.0, 15.0, 4.0, 15.0),
                 Block.box(1.0, 0.0, 7.0, 15.0, 4.0, 15.0),
-                Block.box(1.0, 0.0, 1.0, 15.0, 4.0, 9.0), 
+                Block.box(1.0, 0.0, 1.0, 15.0, 4.0, 9.0),
         };
     }
 }

@@ -45,7 +45,7 @@ public class WateringCanItem extends BlockItem {
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand interactionHand) {
         ItemStack itemStack = player.getItemInHand(interactionHand);
-        if(itemStack.getDamageValue() == 0) return InteractionResultHolder.pass(itemStack);
+        if (itemStack.getDamageValue() == 0) return InteractionResultHolder.pass(itemStack);
 
         BlockHitResult blockHitResult = getPlayerPOVHitResult(level, player, ClipContext.Fluid.SOURCE_ONLY);
         if (blockHitResult.getType() != HitResult.Type.MISS) {
@@ -170,7 +170,8 @@ public class WateringCanItem extends BlockItem {
     @Override
     protected BlockState getPlacementState(BlockPlaceContext blockPlaceContext) {
         BlockState state = super.getPlacementState(blockPlaceContext);
-        if(state != null) state = state.setValue(WateringCanBlock.DAMAGE, blockPlaceContext.getItemInHand().getDamageValue());
+        if (state != null)
+            state = state.setValue(WateringCanBlock.DAMAGE, blockPlaceContext.getItemInHand().getDamageValue());
         return state;
     }
 }

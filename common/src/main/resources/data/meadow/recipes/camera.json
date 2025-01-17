@@ -1,20 +1,20 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "pattern": [
-        " # ",
-        " / ",
-        "/ /"
-    ],
-    "key": {
-        "#": {
-            "item": "minecraft:redstone_lamp"
-        },
-        "/": {
-            "item": "minecraft:stick"
-        }
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " # ",
+    " / ",
+    "/ /"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:redstone_lamp"
     },
-    "result": {
-        "item": "meadow:camera",
-        "count": 1
+    "/": {
+      "item": "minecraft:stick"
     }
+  },
+  "result": {
+    "item": "meadow:camera",
+    "count": 1
+  }
 }

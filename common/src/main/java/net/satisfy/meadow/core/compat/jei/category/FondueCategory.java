@@ -18,8 +18,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.satisfy.meadow.Meadow;
 import net.satisfy.meadow.client.gui.FondueGui;
-import net.satisfy.meadow.core.compat.jei.MeadowJEIPlugin;
 import net.satisfy.meadow.core.block.entity.FondueBlockEntity;
+import net.satisfy.meadow.core.compat.jei.MeadowJEIPlugin;
 import net.satisfy.meadow.core.recipes.FondueRecipe;
 import net.satisfy.meadow.core.registry.ObjectRegistry;
 
@@ -47,11 +47,11 @@ public class FondueCategory implements IRecipeCategory<FondueRecipe> {
     public void setRecipe(IRecipeLayoutBuilder builder, FondueRecipe recipe, IFocusGroup focuses) {
         NonNullList<Ingredient> ingredients = recipe.getIngredients();
 
-        MeadowJEIPlugin.addSlot(builder,41 - WIDTH_OF, 9 - HEIGHT_OF, ingredients.get(0));
-        MeadowJEIPlugin.addSlot(builder,41 - WIDTH_OF, 33 - HEIGHT_OF, ingredients.get(1));
+        MeadowJEIPlugin.addSlot(builder, 41 - WIDTH_OF, 9 - HEIGHT_OF, ingredients.get(0));
+        MeadowJEIPlugin.addSlot(builder, 41 - WIDTH_OF, 33 - HEIGHT_OF, ingredients.get(1));
 
         // Output
-        builder.addSlot(RecipeIngredientRole.OUTPUT, 120 - WIDTH_OF,  25 - HEIGHT_OF).addItemStack(recipe.getResultItem());
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 120 - WIDTH_OF, 25 - HEIGHT_OF).addItemStack(recipe.getResultItem());
     }
 
     @Override

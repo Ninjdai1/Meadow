@@ -45,7 +45,7 @@ import java.util.Objects;
 
 @SuppressWarnings("unused")
 @Environment(EnvType.CLIENT)
-public class ModSignRenderer <T extends ModSignBlockEntity> implements BlockEntityRenderer<T> {
+public class ModSignRenderer<T extends ModSignBlockEntity> implements BlockEntityRenderer<T> {
     private static final String STICK = "stick";
     private static final int BLACK_TEXT_OUTLINE_COLOR = -988212;
     private static final int OUTLINE_RENDER_DISTANCE = Mth.square(16);
@@ -61,9 +61,9 @@ public class ModSignRenderer <T extends ModSignBlockEntity> implements BlockEnti
 
     public void render(ModSignBlockEntity signBlockEntity, float f, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, int j) {
         BlockState blockState = signBlockEntity.getBlockState();
-        SignBlock signBlock = (SignBlock)blockState.getBlock();
+        SignBlock signBlock = (SignBlock) blockState.getBlock();
         WoodType woodType = SignBlock.getWoodType(signBlock);
-        SignModel signModel = (SignModel)this.signModels.get(woodType);
+        SignModel signModel = (SignModel) this.signModels.get(woodType);
         signModel.stick.visible = blockState.getBlock() instanceof StandingSignBlock;
         this.renderSignWithText(signBlockEntity, poseStack, multiBufferSource, i, j, blockState, signBlock, woodType, signModel);
     }
@@ -106,7 +106,7 @@ public class ModSignRenderer <T extends ModSignBlockEntity> implements BlockEnti
     }
 
     void renderSignModel(PoseStack poseStack, int i, int j, Model model, VertexConsumer vertexConsumer) {
-        SignModel signModel = (SignModel)model;
+        SignModel signModel = (SignModel) model;
         signModel.root.render(poseStack, vertexConsumer, i, j);
     }
 
@@ -121,7 +121,7 @@ public class ModSignRenderer <T extends ModSignBlockEntity> implements BlockEnti
         int m = 4 * j / 2;
         FormattedCharSequence[] formattedCharSequences = signText.getRenderMessages(Minecraft.getInstance().isTextFilteringEnabled(), (component) -> {
             List<FormattedCharSequence> list = this.font.split(component, k);
-            return list.isEmpty() ? FormattedCharSequence.EMPTY : (FormattedCharSequence)list.get(0);
+            return list.isEmpty() ? FormattedCharSequence.EMPTY : (FormattedCharSequence) list.get(0);
         });
         int n;
         boolean bl2;
@@ -136,13 +136,13 @@ public class ModSignRenderer <T extends ModSignBlockEntity> implements BlockEnti
             o = i;
         }
 
-        for(int p = 0; p < 4; ++p) {
+        for (int p = 0; p < 4; ++p) {
             FormattedCharSequence formattedCharSequence = formattedCharSequences[p];
-            float f = (float)(-this.font.width(formattedCharSequence) / 2);
+            float f = (float) (-this.font.width(formattedCharSequence) / 2);
             if (bl2) {
-                this.font.drawInBatch8xOutline(formattedCharSequence, f, (float)(p * j - m), n, l, poseStack.last().pose(), multiBufferSource, o);
+                this.font.drawInBatch8xOutline(formattedCharSequence, f, (float) (p * j - m), n, l, poseStack.last().pose(), multiBufferSource, o);
             } else {
-                this.font.drawInBatch(formattedCharSequence, f, (float)(p * j - m), n, false, poseStack.last().pose(), multiBufferSource, DisplayMode.POLYGON_OFFSET, 0, o);
+                this.font.drawInBatch(formattedCharSequence, f, (float) (p * j - m), n, false, poseStack.last().pose(), multiBufferSource, DisplayMode.POLYGON_OFFSET, 0, o);
             }
         }
 
@@ -173,7 +173,7 @@ public class ModSignRenderer <T extends ModSignBlockEntity> implements BlockEnti
                 return true;
             } else {
                 Entity entity = minecraft.getCameraEntity();
-                return entity != null && entity.distanceToSqr(Vec3.atCenterOf(blockPos)) < (double)OUTLINE_RENDER_DISTANCE;
+                return entity != null && entity.distanceToSqr(Vec3.atCenterOf(blockPos)) < (double) OUTLINE_RENDER_DISTANCE;
             }
         }
     }
@@ -184,9 +184,9 @@ public class ModSignRenderer <T extends ModSignBlockEntity> implements BlockEnti
             return -988212;
         } else {
             double d = 0.4;
-            int j = (int)((double)ARGB32.red(i) * 0.4);
-            int k = (int)((double)ARGB32.green(i) * 0.4);
-            int l = (int)((double)ARGB32.blue(i) * 0.4);
+            int j = (int) ((double) ARGB32.red(i) * 0.4);
+            int k = (int) ((double) ARGB32.green(i) * 0.4);
+            int l = (int) ((double) ARGB32.blue(i) * 0.4);
             return ARGB32.color(0, j, k, l);
         }
     }

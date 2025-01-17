@@ -6,5 +6,5 @@ import net.minecraft.world.level.block.state.properties.WoodType;
 import net.satisfy.meadow.Meadow;
 
 public class MeadowWoodType {
-    public static final WoodType PINE = WoodType.register(new WoodType(new ResourceLocation(Meadow.MOD_ID, "meadow").toString(), BlockSetType.OAK));
+    public static final WoodType PINE = WoodType.register(new WoodType(new ResourceLocation(Meadow.MOD_ID, "pine").toString(), BlockSetType.OAK));
 }

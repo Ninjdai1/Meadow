@@ -16,8 +16,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.satisfy.meadow.Meadow;
 import net.satisfy.meadow.client.gui.CheeseFormGui;
-import net.satisfy.meadow.core.compat.jei.MeadowJEIPlugin;
 import net.satisfy.meadow.core.block.entity.CheeseFormBlockEntity;
+import net.satisfy.meadow.core.compat.jei.MeadowJEIPlugin;
 import net.satisfy.meadow.core.recipes.CheeseFormRecipe;
 import net.satisfy.meadow.core.registry.ObjectRegistry;
 import org.jetbrains.annotations.NotNull;
@@ -49,11 +49,11 @@ public class CheesePressCategory implements IRecipeCategory<CheeseFormRecipe> {
     public void setRecipe(IRecipeLayoutBuilder builder, CheeseFormRecipe recipe, IFocusGroup focuses) {
         NonNullList<Ingredient> ingredients = recipe.getIngredients();
 
-        MeadowJEIPlugin.addSlot(builder,33 - WIDTH_OF, 33 - HEIGHT_OF, ingredients.get(0));
-        MeadowJEIPlugin.addSlot(builder,51 - WIDTH_OF, 33 - HEIGHT_OF, ingredients.get(1));
+        MeadowJEIPlugin.addSlot(builder, 33 - WIDTH_OF, 33 - HEIGHT_OF, ingredients.get(0));
+        MeadowJEIPlugin.addSlot(builder, 51 - WIDTH_OF, 33 - HEIGHT_OF, ingredients.get(1));
 
         // Output
-        builder.addSlot(RecipeIngredientRole.OUTPUT, 123 - WIDTH_OF,  34 - HEIGHT_OF).addItemStack(recipe.getResultItem());
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 123 - WIDTH_OF, 34 - HEIGHT_OF).addItemStack(recipe.getResultItem());
     }
 
     @Override

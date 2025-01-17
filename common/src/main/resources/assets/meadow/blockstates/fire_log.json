@@ -15,7 +15,6 @@
       "model": "meadow:block/axe_woodstack",
       "y": 270
     },
-
     "facing=east,stage=1": {
       "model": "meadow:block/small_woodstack",
       "y": 90
@@ -31,7 +30,6 @@
       "model": "meadow:block/small_woodstack",
       "y": 270
     },
-
     "facing=east,stage=2": {
       "model": "meadow:block/mid_woodstack",
       "y": 90
@@ -47,7 +45,6 @@
       "model": "meadow:block/mid_woodstack",
       "y": 270
     },
-
     "facing=east,stage=3": {
       "model": "meadow:block/big_woodstack",
       "y": 90

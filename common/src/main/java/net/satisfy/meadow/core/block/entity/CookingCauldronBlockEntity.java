@@ -58,14 +58,22 @@ public class CookingCauldronBlockEntity extends BlockEntity implements Implement
                 default -> 0;
             };
         }
-        
+
         @Override
         public void set(int index, int value) {
-            switch(index) {
-                case 0: cookingTime = value; break;
-                case 1: isBeingBurned = value != 0; break;
-                case 2: fluidLevel = value; break;
-                case 3: currentCraftingDuration = value; break;
+            switch (index) {
+                case 0:
+                    cookingTime = value;
+                    break;
+                case 1:
+                    isBeingBurned = value != 0;
+                    break;
+                case 2:
+                    fluidLevel = value;
+                    break;
+                case 3:
+                    currentCraftingDuration = value;
+                    break;
             }
         }
 

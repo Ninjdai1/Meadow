@@ -23,7 +23,7 @@
   "fluid_amount": 5,
   "crafting_duration": 40,
   "result": {
-    "item":  "meadow:roasted_ham",
+    "item": "meadow:roasted_ham",
     "count": 2
   }
 }
