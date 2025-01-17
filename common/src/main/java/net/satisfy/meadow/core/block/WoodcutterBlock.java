@@ -1,8 +1,11 @@
 package net.satisfy.meadow.core.block;
 
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.ItemTags;
@@ -14,6 +17,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -29,9 +33,11 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.satisfy.meadow.core.block.entity.WoodcutterBlockEntity;
 import net.satisfy.meadow.core.registry.SoundEventRegistry;
+import net.satisfy.meadow.core.registry.TagRegistry;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.Optional;
 
 @SuppressWarnings("deprecation")
@@ -137,21 +143,20 @@ public class WoodcutterBlock extends Block implements EntityBlock {
         playDropSound(world, pos);
     }
 
-
     private boolean isWoodOrLog(Item item) {
         TagKey<Item> logsTag = ItemTags.LOGS;
-        boolean inTag = item.builtInRegistryHolder().is(logsTag);
+        TagKey<Item> woodTag = TagRegistry.IS_WOODCUTTER_USABLE;
 
-        return inTag ||
-                item == Items.OAK_WOOD ||
-                item == Items.OAK_LOG ||
-                item == Items.STRIPPED_OAK_LOG ||
-                item == Items.STRIPPED_OAK_WOOD;
+        return item.builtInRegistryHolder().is(logsTag) ||
+                item.builtInRegistryHolder().is(woodTag);
     }
 
     private Optional<String> getWoodType(Item item) {
         ResourceLocation registryName = BuiltInRegistries.ITEM.getKey(item);
         String path = registryName.getPath();
+        if (path.contains("stripped_")) {
+            path = path.replace("stripped_", "");
+        }
         if (path.endsWith("_log") || path.endsWith("_wood")) {
             String[] parts = path.split("_");
             if (parts.length >= 2) {
@@ -225,5 +230,16 @@ public class WoodcutterBlock extends Block implements EntityBlock {
     @Override
     public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
         return new WoodcutterBlockEntity(blockPos, blockState);
+    }
+
+    @Override
+    public void appendHoverText(ItemStack itemStack, BlockGetter world, List<Component> tooltip, TooltipFlag tooltipContext) {
+        if (Screen.hasShiftDown()) {
+            tooltip.add(Component.translatable("tooltip.meadow.description.title").withStyle(style -> style.withColor(TextColor.fromRgb(0x4CAF50)).withBold(true)));
+            tooltip.add(Component.translatable("tooltip.meadow.description.woodcutter_1").withStyle(style -> style.withColor(TextColor.fromRgb(0x4CAF50)).withItalic(false)));
+            tooltip.add(Component.translatable("tooltip.meadow.description.woodcutter_2").withStyle(style -> style.withColor(TextColor.fromRgb(0x4CAF50)).withItalic(false)));
+            tooltip.add(Component.empty());
+            tooltip.add(Component.translatable("tooltip.meadow.description.woodcutter_3").withStyle(style -> style.withColor(TextColor.fromRgb(0x4CAF50)).withItalic(false)));
+        }
     }
 }

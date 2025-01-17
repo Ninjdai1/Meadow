@@ -1,3 +1,4 @@
+
 package net.satisfy.meadow.client.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -24,7 +25,6 @@ public class CheeseFormGui extends AbstractContainerScreen<CheeseFormGuiHandler>
     public CheeseFormGui(CheeseFormGuiHandler handler, Inventory inventory, Component title) {
         super(handler, inventory, title);
         font = Minecraft.getInstance().font;
-        titleLabelX = (imageWidth - font.width(title)) / 2;
     }
 
     @Override
@@ -49,8 +49,10 @@ public class CheeseFormGui extends AbstractContainerScreen<CheeseFormGuiHandler>
         this.renderBackground(guiGraphics);
         super.render(guiGraphics, mouseX, mouseY, delta);
 
+        screenPos.set(leftPos, topPos);
+
         if (isMouseOverProgressArrow(mouseX, mouseY)) {
-            int remainingTicks = this.menu.getRequiredDuration() - this.menu.getCookingTime();
+            int remainingTicks = Math.max(this.menu.getRequiredDuration() - this.menu.getCookingTime(), 0);
             String formattedTime = formatTicks(remainingTicks);
             Component tooltip = Component.translatable("tooltip.meadow.cooking_cauldron.remaining_time", formattedTime);
             guiGraphics.renderTooltip(this.font, tooltip, mouseX, mouseY);
@@ -66,7 +68,7 @@ public class CheeseFormGui extends AbstractContainerScreen<CheeseFormGuiHandler>
     }
 
     private String formatTicks(int ticks) {
-        int seconds = ticks / 20;
+        int seconds = Math.max(ticks / 20, 0);
         int minutes = seconds / 60;
         seconds %= 60;
         return String.format("%d:%02d", minutes, seconds);

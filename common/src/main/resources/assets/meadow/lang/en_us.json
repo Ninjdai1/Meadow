@@ -236,5 +236,11 @@
   "tooltip.meadow.banner.thankyou_3": "Thank you for playing Meadow!",
   "tooltip.meadow.banner.thankyou_4": "Grants Dig Speed II in a radius of 8 blocks",
   "tooltip.meadow.cooking_cauldron.remaining_time": "Remaining Time: %s",
-  "tooltip.meadow.cooking_cauldron.water_level": "Water Level: %d%%"
+  "tooltip.meadow.cooking_cauldron.water_level": "Water Level: %d%%",
+  "tooltip.meadow.description.title": "Usage:",
+  "tooltip.meadow.description.woodcutter_1": "Place an §6[Axe]§r into the Woodcutter to enable cutting.",
+  "tooltip.meadow.description.woodcutter_3": "Insert §6[Logs]§r or §6[Wood]§r to convert them into §6[Planks]§r.",
+  "tooltip.meadow.description.woodcutter_2": "§e[Shift + Right-Click]§r to retrieve the inserted §6[Axe]§r.",
+  "advancement.meadow.woodcutter.desc": "Place an axe, insert logs or wood, and let the Woodcutter do the hard work for you!",
+  "advancement.meadow.woodcutter": "Cut Above the Rest"
 }

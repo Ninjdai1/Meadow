@@ -81,21 +81,22 @@ public class CookingCauldronGuiHandler extends AbstractContainerMenu {
         ItemStack item = slot.getItem();
         ItemStack copy = item.copy();
 
-        if (index == 0) {
+        if (index == 0) { 
             if (!this.moveItemStackTo(item, 8, this.slots.size(), true)) {
                 return ItemStack.EMPTY;
             }
             slot.onQuickCraft(item, copy);
-        } else if (index >= 1 && index <= 6) {
+        } else if (index >= 1 && index <= 6) { 
             if (!this.moveItemStackTo(item, 8, this.slots.size(), false)) {
                 return ItemStack.EMPTY;
             }
-        } else if (index == 7) {
+        } else if (index == 7) { 
             if (!this.moveItemStackTo(item, 8, this.slots.size(), false)) {
                 return ItemStack.EMPTY;
             }
         } else {
-            if (item.is(TagRegistry.SMALL_WATER_FILL) || item.is(TagRegistry.LARGE_WATER_FILL)) {
+            if (this.moveItemStackTo(item, 1, 7, false)) {
+            } else if (item.is(TagRegistry.SMALL_WATER_FILL) || item.is(TagRegistry.LARGE_WATER_FILL)) {
                 if (!this.moveItemStackTo(item, 7, 8, false)) {
                     return ItemStack.EMPTY;
                 }
@@ -103,7 +104,6 @@ public class CookingCauldronGuiHandler extends AbstractContainerMenu {
                 return ItemStack.EMPTY;
             }
         }
-
         if (item.isEmpty()) {
             slot.set(ItemStack.EMPTY);
         } else {
@@ -112,6 +112,7 @@ public class CookingCauldronGuiHandler extends AbstractContainerMenu {
         slot.onTake(player, item);
         return copy;
     }
+
 
     @Override
     public boolean stillValid(Player player) {

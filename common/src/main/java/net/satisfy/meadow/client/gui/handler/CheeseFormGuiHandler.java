@@ -6,7 +6,6 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
-import net.satisfy.meadow.core.block.entity.CheeseFormBlockEntity;
 import net.satisfy.meadow.core.registry.ScreenHandlerRegistry;
 import org.jetbrains.annotations.NotNull;
 
@@ -15,7 +14,7 @@ public class CheeseFormGuiHandler extends AbstractContainerMenu {
     private final ContainerData propertyDelegate;
 
     public CheeseFormGuiHandler(int syncId, Inventory playerInventory) {
-        this(syncId, playerInventory, new SimpleContainer(3), new SimpleContainerData(1));
+        this(syncId, playerInventory, new SimpleContainer(3), new SimpleContainerData(2));
     }
 
     public CheeseFormGuiHandler(int syncId, Inventory playerInventory, Container inventory, ContainerData propertyDelegate) {
@@ -33,33 +32,32 @@ public class CheeseFormGuiHandler extends AbstractContainerMenu {
     }
 
     private void buildPlayerContainer(Inventory playerInventory) {
-        int i;
-        for (i = 0; i < 3; ++i) {
+        for (int i = 0; i < 3; ++i) {
             for (int j = 0; j < 9; ++j) {
                 this.addSlot(new Slot(playerInventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
             }
         }
-        for (i = 0; i < 9; ++i) {
+        for (int i = 0; i < 9; ++i) {
             this.addSlot(new Slot(playerInventory, i, 8 + i * 18, 142));
         }
     }
 
     public int getScaledXProgress() {
         final int progress = this.propertyDelegate.get(0);
-        final int totalProgress = CheeseFormBlockEntity.COOKING_TIME_IN_TICKS;
-        if (progress == 0) {
+        final int totalProgress = this.propertyDelegate.get(1);
+        if (progress <= 0 || totalProgress <= 0) {
             return 0;
         }
-        return progress * 24 / totalProgress + 1;
+        return progress * 24 / totalProgress;
     }
 
     public int getScaledYProgress() {
         final int progress = this.propertyDelegate.get(0);
-        final int totalProgress = CheeseFormBlockEntity.COOKING_TIME_IN_TICKS;
-        if (progress == 0) {
+        final int totalProgress = this.propertyDelegate.get(1);
+        if (progress <= 0 || totalProgress <= 0) {
             return 0;
         }
-        return progress * 25 / totalProgress + 1;
+        return progress * 25 / totalProgress;
     }
 
     public int getCookingTime() {
@@ -67,12 +65,41 @@ public class CheeseFormGuiHandler extends AbstractContainerMenu {
     }
 
     public int getRequiredDuration() {
-        return propertyDelegate.get(3);
+        return propertyDelegate.get(1);
     }
 
     @Override
-    public @NotNull ItemStack quickMoveStack(Player player, int i) {
-        return ItemStack.EMPTY;
+    public @NotNull ItemStack quickMoveStack(Player player, int index) {
+        Slot slot = this.slots.get(index);
+        if (!slot.hasItem()) {
+            return ItemStack.EMPTY;
+        }
+        ItemStack stack = slot.getItem();
+        ItemStack originalStack = stack.copy();
+        if (index == 0) {
+            if (!this.moveItemStackTo(stack, 3, this.slots.size(), true)) {
+                return ItemStack.EMPTY;
+            }
+            slot.onQuickCraft(stack, originalStack);
+        } else if (index >= 3 && index < this.slots.size()) {
+            if (!this.moveItemStackTo(stack, 1, 3, false)) {
+                return ItemStack.EMPTY;
+            }
+        } else if (index >= 1 && index < 3) {
+            if (!this.moveItemStackTo(stack, 3, this.slots.size(), false)) {
+                return ItemStack.EMPTY;
+            }
+        }
+        if (stack.isEmpty()) {
+            slot.set(ItemStack.EMPTY);
+        } else {
+            slot.setChanged();
+        }
+        if (stack.getCount() == originalStack.getCount()) {
+            return ItemStack.EMPTY;
+        }
+        slot.onTake(player, stack);
+        return originalStack;
     }
 
     @Override

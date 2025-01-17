@@ -33,7 +33,7 @@ public class CheeseFormBlockEntity extends BlockEntity implements BlockEntityTic
 
     private NonNullList<ItemStack> inventory;
     public static final int CAPACITY = 3;
-    public static final int COOKING_TIME_IN_TICKS = 1800; // 90s or 3 minutes
+    public static final int COOKING_TIME_IN_TICKS = 1800;
     private static final int OUTPUT_SLOT = 0;
     private int fermentationTime = 0;
     protected float experience;
@@ -49,9 +49,11 @@ public class CheeseFormBlockEntity extends BlockEntity implements BlockEntityTic
             if (index == 0) {
                 return fermentationTime;
             }
+            if (index == 1) {
+                return COOKING_TIME_IN_TICKS;
+            }
             return 0;
         }
-
 
         @Override
         public void set(int index, int value) {
@@ -62,7 +64,7 @@ public class CheeseFormBlockEntity extends BlockEntity implements BlockEntityTic
 
         @Override
         public int getCount() {
-            return 1;
+            return 2;
         }
     };
 
@@ -77,7 +79,9 @@ public class CheeseFormBlockEntity extends BlockEntity implements BlockEntityTic
             return SLOTS_FOR_UP;
         } else if (side.equals(Direction.DOWN)) {
             return SLOTS_FOR_DOWN;
-        } else return SLOTS_FOR_SIDE;
+        } else {
+            return SLOTS_FOR_SIDE;
+        }
     }
 
     @Override
@@ -87,9 +91,7 @@ public class CheeseFormBlockEntity extends BlockEntity implements BlockEntityTic
         ContainerHelper.loadAllItems(nbt, this.inventory);
         this.fermentationTime = nbt.getShort("fermentationTime");
         this.experience = nbt.getFloat("experience");
-
     }
-
 
     @Override
     protected void saveAdditional(CompoundTag nbt) {
@@ -98,7 +100,6 @@ public class CheeseFormBlockEntity extends BlockEntity implements BlockEntityTic
         nbt.putFloat("experience", this.experience);
         nbt.putShort("fermentationTime", (short) this.fermentationTime);
     }
-
 
     @Override
     public void tick(Level world, BlockPos pos, BlockState state, CheeseFormBlockEntity blockEntity) {
@@ -132,9 +133,8 @@ public class CheeseFormBlockEntity extends BlockEntity implements BlockEntityTic
             return false;
         }
         ItemStack itemStack = this.getItem(OUTPUT_SLOT);
-        return itemStack.isEmpty() || itemStack == recipe.getResultItem(manager);
+        return itemStack.isEmpty() || itemStack.is(recipe.getResultItem(manager).getItem());
     }
-
 
     private boolean areInputsEmpty() {
         int emptyStacks = 0;
@@ -213,10 +213,9 @@ public class CheeseFormBlockEntity extends BlockEntity implements BlockEntityTic
         }
     }
 
-
     @Override
     public @NotNull Component getDisplayName() {
-        return Component.nullToEmpty("");
+        return Component.literal("Cheese Form");
     }
 
     @Nullable
