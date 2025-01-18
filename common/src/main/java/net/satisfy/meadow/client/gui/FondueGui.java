@@ -21,7 +21,6 @@ public class FondueGui extends AbstractContainerScreen<FondueGuiHandler> {
         super(handler, inventory, title);
     }
 
-
     private void renderProgressArrow(GuiGraphics context, int x, int y) {
         int progress = this.menu.getScaledProgress();
         context.blit(BACKGROUND, x + ARROW_X, y + ARROW_Y, 176, 17, progress, 14);

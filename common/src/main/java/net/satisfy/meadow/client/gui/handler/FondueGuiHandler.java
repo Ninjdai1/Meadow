@@ -34,7 +34,7 @@ public class FondueGuiHandler extends AbstractContainerMenu {
 
     private void buildBlockEntityContainer(Inventory playerInventory, Container inventory) {
         this.addSlot(new Slot(inventory, 0, 41, 9));
-        this.addSlot(new Slot(inventory, 1, 41, 33)); //Fuel
+        this.addSlot(new Slot(inventory, 1, 41, 33));
         this.addSlot(new FurnaceResultSlot(playerInventory.player, inventory, 2, 120, 25));
     }
 
@@ -54,7 +54,6 @@ public class FondueGuiHandler extends AbstractContainerMenu {
         return propertyDelegate.get(0) != 0;
     }
 
-
     @Override
     public @NotNull ItemStack quickMoveStack(Player player, int invSlot) {
         ItemStack newStack = ItemStack.EMPTY;
@@ -62,7 +61,12 @@ public class FondueGuiHandler extends AbstractContainerMenu {
         if (slot.hasItem()) {
             ItemStack originalStack = slot.getItem();
             newStack = originalStack.copy();
-            if (invSlot < this.inventory.getContainerSize()) {
+
+            if (invSlot == 1) {
+                if (!this.moveItemStackTo(originalStack, this.inventory.getContainerSize(), this.slots.size(), true)) {
+                    return ItemStack.EMPTY;
+                }
+            } else if (invSlot < this.inventory.getContainerSize()) {
                 if (!this.moveItemStackTo(originalStack, this.inventory.getContainerSize(), this.slots.size(), true)) {
                     return ItemStack.EMPTY;
                 }

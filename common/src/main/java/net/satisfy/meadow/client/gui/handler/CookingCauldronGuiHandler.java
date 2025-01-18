@@ -6,6 +6,8 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.satisfy.meadow.core.registry.ObjectRegistry;
 import net.satisfy.meadow.core.registry.ScreenHandlerRegistry;
 import net.satisfy.meadow.core.registry.TagRegistry;
 import org.jetbrains.annotations.NotNull;
@@ -96,7 +98,7 @@ public class CookingCauldronGuiHandler extends AbstractContainerMenu {
             }
         } else {
             if (this.moveItemStackTo(item, 1, 7, false)) {
-            } else if (item.is(TagRegistry.SMALL_WATER_FILL) || item.is(TagRegistry.LARGE_WATER_FILL)) {
+            } else if (item.is(ObjectRegistry.WOODEN_WATER_BUCKET.get()) || item.is(Items.WATER_BUCKET)) {
                 if (!this.moveItemStackTo(item, 7, 8, false)) {
                     return ItemStack.EMPTY;
                 }
