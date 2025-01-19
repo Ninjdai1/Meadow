@@ -7,163 +7,128 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.*;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityTicker;
-import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Mirror;
+import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.satisfy.meadow.core.block.entity.FondueBlockEntity;
-import net.satisfy.meadow.core.registry.EntityTypeRegistry;
+import net.satisfy.meadow.core.registry.ObjectRegistry;
 import net.satisfy.meadow.core.registry.SoundEventRegistry;
+import net.satisfy.meadow.core.registry.TagRegistry;
 import net.satisfy.meadow.core.util.GeneralUtil;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
 @SuppressWarnings("deprecation")
-public class FondueBlock extends BaseEntityBlock {
+public class FondueBlock extends FacingBlock {
+    public static final IntegerProperty FILL_AMOUNT = IntegerProperty.create("fill_amount", 0, 3);
     private static final Supplier<VoxelShape> voxelShapeSupplier = () -> {
         VoxelShape shape = Shapes.empty();
-        shape = Shapes.joinUnoptimized(shape, Shapes.box(0.4375, 0.75, -0.125, 0.5625, 0.8125, 0.1875), BooleanOp.OR);
-        shape = Shapes.joinUnoptimized(shape, Shapes.box(0.375, 0.75, 0.8125, 0.625, 0.8125, 0.875), BooleanOp.OR);
-        shape = Shapes.joinUnoptimized(shape, Shapes.box(0.09375, 0.5, 0.09375, 0.90625, 0.5625, 0.90625), BooleanOp.OR);
-        shape = Shapes.joinUnoptimized(shape, Shapes.box(0.09375, 0, 0.84375, 0.15625, 0.5, 0.90625), BooleanOp.OR);
-        shape = Shapes.joinUnoptimized(shape, Shapes.box(0.09375, 0, 0.09375, 0.15625, 0.5, 0.15625), BooleanOp.OR);
-        shape = Shapes.joinUnoptimized(shape, Shapes.box(0.84375, 0, 0.84375, 0.90625, 0.5, 0.90625), BooleanOp.OR);
-        shape = Shapes.joinUnoptimized(shape, Shapes.box(0.84375, 0, 0.09375, 0.90625, 0.5, 0.15625), BooleanOp.OR);
-        shape = Shapes.joinUnoptimized(shape, Shapes.box(0.32, 0, 0.26, 0.44, 0.12, 0.74), BooleanOp.OR);
-        shape = Shapes.joinUnoptimized(shape, Shapes.box(0.56, 0, 0.26, 0.68, 0.12, 0.74), BooleanOp.OR);
-        shape = Shapes.joinUnoptimized(shape, Shapes.box(0.26, 0.06, 0.32, 0.74, 0.18, 0.44), BooleanOp.OR);
-        shape = Shapes.joinUnoptimized(shape, Shapes.box(0.26, 0.06, 0.56, 0.74, 0.18, 0.68), BooleanOp.OR);
-        shape = Shapes.joinUnoptimized(shape, Shapes.box(0.3375, 0.06, 0.5, 0.66875, 0.54, 0.5), BooleanOp.OR);
-        shape = Shapes.joinUnoptimized(shape, Shapes.box(0.5, 0.06, 0.3375, 0.5, 0.54, 0.66875), BooleanOp.OR);
-        shape = Shapes.joinUnoptimized(shape, Shapes.box(0.25, 0.5625, 0.25, 0.75, 0.625, 0.75), BooleanOp.OR);
-        shape = Shapes.joinUnoptimized(shape, Shapes.box(0.25, 0.75, 0.25, 0.75, 0.8125, 0.75), BooleanOp.OR);
-        shape = Shapes.joinUnoptimized(shape, Shapes.box(0.1875, 0.625, 0.25, 0.25, 0.875, 0.75), BooleanOp.OR);
-        shape = Shapes.joinUnoptimized(shape, Shapes.box(0.75, 0.625, 0.25, 0.8125, 0.875, 0.75), BooleanOp.OR);
-        shape = Shapes.joinUnoptimized(shape, Shapes.box(0.25, 0.625, 0.75, 0.75, 0.875, 0.8125), BooleanOp.OR);
-        shape = Shapes.joinUnoptimized(shape, Shapes.box(0.25, 0.625, 0.1875, 0.75, 0.875, 0.25), BooleanOp.OR);
-        shape = Shapes.joinUnoptimized(shape, Shapes.box(0.1875, 0.8125, 0.75, 0.25, 0.875, 0.8125), BooleanOp.OR);
-        shape = Shapes.joinUnoptimized(shape, Shapes.box(0.75, 0.8125, 0.75, 0.8125, 0.875, 0.8125), BooleanOp.OR);
-        shape = Shapes.joinUnoptimized(shape, Shapes.box(0.75, 0.8125, 0.1875, 0.8125, 0.875, 0.25), BooleanOp.OR);
-        shape = Shapes.joinUnoptimized(shape, Shapes.box(0.1875, 0.8125, 0.1875, 0.25, 0.875, 0.25), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(-0.125, 0.75, 0.4375, 0.1875, 0.8125, 0.5625), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(0.0625, 0.5, 0.0625, 0.9375, 0.5625, 0.9375), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(0.0625, 0, 0.875, 0.125, 0.5, 0.9375), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(0.0625, 0, 0.0625, 0.125, 0.5, 0.125), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(0.875, 0, 0.875, 0.9375, 0.5, 0.9375), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(0.875, 0, 0.0625, 0.9375, 0.5, 0.125), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(0.25, 0, 0.25, 0.6875, 0.375, 0.75), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(0.1875, 0.5625, 0.1875, 0.8125, 0.875, 0.8125), BooleanOp.OR);
         return shape;
     };
 
     public static final Map<Direction, VoxelShape> SHAPE = Util.make(new HashMap<>(), map -> {
-        for (Direction direction : Direction.Plane.HORIZONTAL.stream().toList()) {
+        for (Direction direction : Direction.Plane.HORIZONTAL) {
             map.put(direction, GeneralUtil.rotateShape(Direction.NORTH, direction, voxelShapeSupplier.get()));
         }
     });
 
-    public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
-
-    public FondueBlock(Properties settings) {
-        super(settings);
-        this.registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.NORTH));
-    }
-
-    @Override
     public @NotNull VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
         return SHAPE.get(state.getValue(FACING));
     }
 
-    @Override
-    public void onRemove(BlockState state, Level world, BlockPos pos, BlockState newState, boolean moved) {
-        if (state.getBlock() != newState.getBlock()) {
-            BlockEntity blockEntity = world.getBlockEntity(pos);
-            if (blockEntity instanceof FondueBlockEntity) {
-                Containers.dropContents(world, pos, (FondueBlockEntity) blockEntity);
-                world.updateNeighbourForOutputSignal(pos, this);
-            }
-            super.onRemove(state, world, pos, newState, moved);
-        }
+    public FondueBlock(Properties properties) {
+        super(properties);
+        this.registerDefaultState(this.defaultBlockState().setValue(FILL_AMOUNT, 0));
     }
-
-    @Override
-    public @NotNull InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
-        if (!world.isClientSide) {
-            MenuProvider screenHandlerFactory = state.getMenuProvider(world, pos);
-            if (screenHandlerFactory != null) {
-                player.openMenu(screenHandlerFactory);
-            }
-        }
-        return InteractionResult.SUCCESS;
-    }
-
-    @Nullable
-    @Override
-    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new FondueBlockEntity(pos, state);
-    }
-
-    @Nullable
-    @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level world, BlockState state, BlockEntityType<T> type) {
-        return createTickerHelper(type, EntityTypeRegistry.FONDUE.get(), (world1, pos, state1, be) -> be.tick(world1, pos, state1, be));
-    }
-
-
-    @Override
-    public @NotNull RenderShape getRenderShape(BlockState state) {
-        return RenderShape.MODEL;
-    }
-
-    @Nullable
-    @Override
-    public BlockState getStateForPlacement(BlockPlaceContext ctx) {
-        return this.defaultBlockState().setValue(FACING, ctx.getHorizontalDirection().getOpposite());
-    }
-
-    @Override
-    public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource random) {
-        double d = (double) pos.getX() + 0.5;
-        double e = pos.getY() + 0.7;
-        double f = (double) pos.getZ() + 0.5;
-        if (random.nextDouble() < 0.3) {
-            world.playLocalSound(d, e, f, SoundEvents.FURNACE_FIRE_CRACKLE, SoundSource.BLOCKS, 1.0f, 1.0f, true);
-            world.playLocalSound(d, e, f, SoundEventRegistry.COOKING_POT_BOILING.get(), SoundSource.BLOCKS, 0.05f, 1.0f, true);
-        }
-        Direction direction = state.getValue(FACING);
-        Direction.Axis axis = direction.getAxis();
-        double h = random.nextDouble() * 0.6 - 0.3;
-        double i = axis == Direction.Axis.X ? (double) direction.getStepX() * 0.0 : h;
-        double j = random.nextDouble() * 9.0 / 16.0;
-        double k = axis == Direction.Axis.Z ? (double) direction.getStepZ() * 0.0 : h;
-        world.addParticle(ParticleTypes.SMOKE, d + i, e + j, f + k, 0.0, 0.0, 0.0);
-        world.addParticle(ParticleTypes.BUBBLE_POP, d + i, e + j, f + k, 0.0, 0.0, 0.0);
-    }
-
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(FACING);
+        super.createBlockStateDefinition(builder);
+        builder.add(FILL_AMOUNT);
     }
 
+    @Override
+    public @NotNull InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+        ItemStack itemStack = player.getItemInHand(hand);
+
+        if (!level.isClientSide) {
+            if (itemStack.is(TagRegistry.BREAD)) {
+                int currentAmount = state.getValue(FILL_AMOUNT);
+                if (currentAmount > 0) {
+                    level.setBlock(pos, state.setValue(FILL_AMOUNT, currentAmount - 1), 3);
+                    ItemStack cheeseStick = ObjectRegistry.CHEESE_STICK.get().getDefaultInstance();
+                    player.addItem(cheeseStick);
+                    player.addItem(cheeseStick);
+                    if (!player.getAbilities().instabuild) {
+                        itemStack.shrink(1);
+                    }
+                    return InteractionResult.SUCCESS;
+                }
+            }
+
+            int currentAmount = state.getValue(FILL_AMOUNT);
+            if (currentAmount < 3) {
+                if (itemStack.is(TagRegistry.CHEESE_BLOCKS)) {
+                    level.setBlock(pos, state.setValue(FILL_AMOUNT, 3), 3);
+                    if (!player.getAbilities().instabuild) {
+                        itemStack.shrink(1);
+                    }
+                    return InteractionResult.SUCCESS;
+                } else if (itemStack.is(TagRegistry.CHEESE)) {
+                    level.setBlock(pos, state.setValue(FILL_AMOUNT, currentAmount + 1), 3);
+                    if (!player.getAbilities().instabuild) {
+                        itemStack.shrink(1);
+                    }
+                    return InteractionResult.SUCCESS;
+                }
+            }
+        }
+        return InteractionResult.PASS;
+    }
+
+    @Override
+    public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
+        super.animateTick(state, level, pos, random);
+        int fillAmount = state.getValue(FILL_AMOUNT);
+        if (fillAmount >= 1 && random.nextInt(100) < 5)
+            level.playLocalSound(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, SoundEventRegistry.COOKING_POT_BOILING.get(), SoundSource.BLOCKS, 0.75F, 0.75F, false);
+        if (random.nextInt(100) < 10)
+            level.playLocalSound(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, SoundEvents.CAMPFIRE_CRACKLE, SoundSource.BLOCKS, 1.0F, 1.0F, false);
+        if (random.nextInt(100) < 20)
+            level.addParticle(ParticleTypes.SMOKE, pos.getX() + 0.5 + (random.nextDouble() - 0.5) * 0.2, pos.getY() + 1.0, pos.getZ() + 0.5 + (random.nextDouble() - 0.5) * 0.2, 0.0, 0.07, 0.0);
+    }
+
+    @Override
     public @NotNull BlockState rotate(BlockState state, Rotation rotation) {
-        return state.setValue(FACING, rotation.rotate(state.getValue(FACING)));
+        return super.rotate(state, rotation);
     }
 
+    @Override
     public @NotNull BlockState mirror(BlockState state, Mirror mirror) {
-        return state.rotate(mirror.getRotation(state.getValue(FACING)));
+        return super.mirror(state, mirror);
     }
 }

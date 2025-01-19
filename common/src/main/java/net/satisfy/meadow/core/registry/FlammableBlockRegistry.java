@@ -4,7 +4,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FireBlock;
 
-public class BurningBlockRegistry {
+public class FlammableBlockRegistry {
     public static void init() {
         addFlammable(5, 20,
                 ObjectRegistry.PINE_BARN_DOOR.get(),

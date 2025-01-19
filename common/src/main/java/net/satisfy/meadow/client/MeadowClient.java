@@ -13,7 +13,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.satisfy.meadow.Meadow;
 import net.satisfy.meadow.client.gui.CheeseFormGui;
 import net.satisfy.meadow.client.gui.CookingCauldronGui;
-import net.satisfy.meadow.client.gui.FondueGui;
 import net.satisfy.meadow.client.model.*;
 import net.satisfy.meadow.client.renderer.block.CompletionistBannerRenderer;
 import net.satisfy.meadow.client.renderer.block.ModHangingSignRenderer;
@@ -68,7 +67,6 @@ public class MeadowClient {
     private static void registerClientScreens() {
         MenuRegistry.registerScreenFactory(ScreenHandlerRegistry.CHEESE_FORM_SCREEN_HANDLER.get(), CheeseFormGui::new);
         MenuRegistry.registerScreenFactory(ScreenHandlerRegistry.COOKING_CAULDRON_SCREEN_HANDLER.get(), CookingCauldronGui::new);
-        MenuRegistry.registerScreenFactory(ScreenHandlerRegistry.FONDUE_SCREEN_HANDLER.get(), FondueGui::new);
     }
 
     public static void registerBlockEntityRenderer() {

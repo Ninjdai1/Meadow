@@ -8,7 +8,6 @@ import net.minecraft.world.inventory.MenuType;
 import net.satisfy.meadow.Meadow;
 import net.satisfy.meadow.client.gui.handler.CheeseFormGuiHandler;
 import net.satisfy.meadow.client.gui.handler.CookingCauldronGuiHandler;
-import net.satisfy.meadow.client.gui.handler.FondueGuiHandler;
 
 import java.util.function.Supplier;
 
@@ -17,8 +16,6 @@ public class ScreenHandlerRegistry {
 
     public static final RegistrySupplier<MenuType<CookingCauldronGuiHandler>> COOKING_CAULDRON_SCREEN_HANDLER = create("cooking_cauldron", () -> new MenuType<>(CookingCauldronGuiHandler::new, FeatureFlags.VANILLA_SET));
     public static final RegistrySupplier<MenuType<CheeseFormGuiHandler>> CHEESE_FORM_SCREEN_HANDLER = create("cheese_form", () -> new MenuType<>(CheeseFormGuiHandler::new, FeatureFlags.VANILLA_SET));
-    public static final RegistrySupplier<MenuType<FondueGuiHandler>> FONDUE_SCREEN_HANDLER = create("fondue", () -> new MenuType<>(FondueGuiHandler::new, FeatureFlags.VANILLA_SET));
-
 
     public static void init() {
         SCREEN_TYPES.register();
@@ -27,5 +24,4 @@ public class ScreenHandlerRegistry {
     private static <T extends MenuType<?>> RegistrySupplier<T> create(String name, Supplier<T> type) {
         return SCREEN_TYPES.register(name, type);
     }
-
 }

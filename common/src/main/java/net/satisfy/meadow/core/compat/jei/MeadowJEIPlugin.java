@@ -14,17 +14,15 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.satisfy.meadow.client.gui.handler.CheeseFormGuiHandler;
 import net.satisfy.meadow.client.gui.handler.CookingCauldronGuiHandler;
-import net.satisfy.meadow.client.gui.handler.FondueGuiHandler;
 import net.satisfy.meadow.core.compat.jei.category.CheesePressCategory;
 import net.satisfy.meadow.core.compat.jei.category.CookingCauldronCategory;
-import net.satisfy.meadow.core.compat.jei.category.FondueCategory;
 import net.satisfy.meadow.core.recipes.CheeseFormRecipe;
 import net.satisfy.meadow.core.recipes.CookingCauldronRecipe;
-import net.satisfy.meadow.core.recipes.FondueRecipe;
 import net.satisfy.meadow.core.registry.ObjectRegistry;
 import net.satisfy.meadow.core.registry.RecipeRegistry;
 import net.satisfy.meadow.core.registry.ScreenHandlerRegistry;
 import net.satisfy.meadow.core.util.MeadowIdentifier;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Objects;
@@ -37,7 +35,6 @@ public class MeadowJEIPlugin implements IModPlugin {
     public void registerCategories(IRecipeCategoryRegistration registration) {
         registration.addRecipeCategories(new CookingCauldronCategory(registration.getJeiHelpers().getGuiHelper()));
         registration.addRecipeCategories(new CheesePressCategory(registration.getJeiHelpers().getGuiHelper()));
-        registration.addRecipeCategories(new FondueCategory(registration.getJeiHelpers().getGuiHelper()));
     }
 
 
@@ -51,12 +48,10 @@ public class MeadowJEIPlugin implements IModPlugin {
         List<CheeseFormRecipe> cheesePressRecipes = rm.getAllRecipesFor(RecipeRegistry.CHEESE.get());
         registration.addRecipes(CheesePressCategory.CHEESE_PRESS, cheesePressRecipes);
 
-        List<FondueRecipe> fondueRecipes = rm.getAllRecipesFor(RecipeRegistry.FONDUE.get());
-        registration.addRecipes(FondueCategory.FONDUE, fondueRecipes);
     }
 
     @Override
-    public ResourceLocation getPluginUid() {
+    public @NotNull ResourceLocation getPluginUid() {
         return new MeadowIdentifier("jei_plugin");
     }
 
@@ -67,9 +62,6 @@ public class MeadowJEIPlugin implements IModPlugin {
 
         registration.addRecipeTransferHandler(CookingCauldronGuiHandler.class, ScreenHandlerRegistry.COOKING_CAULDRON_SCREEN_HANDLER.get(), CookingCauldronCategory.COOKING_CAULDRON,
                 1, 6, 7, 36);
-
-        registration.addRecipeTransferHandler(FondueGuiHandler.class, ScreenHandlerRegistry.FONDUE_SCREEN_HANDLER.get(), FondueCategory.FONDUE,
-                0, 2, 3, 36);
     }
 
     @Override

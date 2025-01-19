@@ -9,7 +9,6 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.satisfy.meadow.Meadow;
 import net.satisfy.meadow.core.recipes.CheeseFormRecipe;
 import net.satisfy.meadow.core.recipes.CookingCauldronRecipe;
-import net.satisfy.meadow.core.recipes.FondueRecipe;
 
 import java.util.function.Supplier;
 
@@ -22,10 +21,6 @@ public class RecipeRegistry {
 
     public static final RegistrySupplier<RecipeType<CheeseFormRecipe>> CHEESE = create("cheese");
     public static final RegistrySupplier<RecipeSerializer<CheeseFormRecipe>> CHEESE_SERIALIZER = create("cheese", CheeseFormRecipe.Serializer::new);
-
-    public static final RegistrySupplier<RecipeType<FondueRecipe>> FONDUE = create("fondue");
-    public static final RegistrySupplier<RecipeSerializer<FondueRecipe>> FONDUE_SERIALIZER = create("fondue", FondueRecipe.Serializer::new);
-
 
     public static void init() {
         RECIPE_SERIALIZERS.register();

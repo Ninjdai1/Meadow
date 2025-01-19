@@ -14,11 +14,13 @@ public class TagRegistry {
     public static final TagKey<Biome> SPAWNS_WARPED_COW = TagKey.create(Registries.BIOME, new MeadowIdentifier("spawns_warped_cow"));
     public static final TagKey<Item> MILK = TagKey.create(Registries.ITEM, new MeadowIdentifier("milk"));
     public static final TagKey<Item> CHEESE_BLOCKS = TagKey.create(Registries.ITEM, new MeadowIdentifier("cheese_blocks"));
+    public static final TagKey<Item> CHEESE = TagKey.create(Registries.ITEM, new MeadowIdentifier("cheese"));
     public static final TagKey<Block> ALLOWS_COOKING = TagKey.create(Registries.BLOCK, new MeadowIdentifier("allows_cooking"));
     public static final TagKey<Item> WOODEN_MILK_BUCKET = TagKey.create(Registries.ITEM, new MeadowIdentifier("wooden_milk_bucket"));
     public static final TagKey<Item> MILK_BUCKET = TagKey.create(Registries.ITEM, new MeadowIdentifier("milk_bucket"));
     public static final TagKey<Item> SMALL_WATER_FILL = TagKey.create(Registries.ITEM, new MeadowIdentifier("small_water_fill"));
     public static final TagKey<Item> LARGE_WATER_FILL = TagKey.create(Registries.ITEM, new MeadowIdentifier("large_water_fill"));
     public static final TagKey<Item> IS_WOODCUTTER_USABLE = TagKey.create(Registries.ITEM, new MeadowIdentifier("is_woodcutter_usable"));
+    public static final TagKey<Item> BREAD = TagKey.create(Registries.ITEM, new MeadowIdentifier("bread"));
 
 }

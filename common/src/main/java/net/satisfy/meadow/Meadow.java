@@ -18,7 +18,7 @@ public class Meadow {
     }
 
     public static void commonSetup() {
-        BurningBlockRegistry.init();
+        FlammableBlockRegistry.init();
         WoodenCauldronBehavior.bootStrap();
         AxeItemHooks.addStrippable(ObjectRegistry.PINE_LOG.get(), ObjectRegistry.STRIPPED_PINE_LOG.get());
         AxeItemHooks.addStrippable(ObjectRegistry.PINE_WOOD.get(), ObjectRegistry.STRIPPED_PINE_WOOD.get());
