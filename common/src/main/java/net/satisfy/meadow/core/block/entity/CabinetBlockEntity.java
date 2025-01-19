@@ -93,7 +93,7 @@ public class CabinetBlockEntity extends RandomizableContainerBlockEntity {
 
     @Override
     protected @NotNull AbstractContainerMenu createMenu(int syncId, Inventory playerInventory) {
-        return new ChestMenu(MenuType.GENERIC_9x4, syncId, playerInventory, this, 2);
+        return new ChestMenu(MenuType.GENERIC_9x4, syncId, playerInventory, this, 4);
     }
 
     @Override
@@ -107,12 +107,6 @@ public class CabinetBlockEntity extends RandomizableContainerBlockEntity {
     public void stopOpen(Player player) {
         if (!this.remove && !player.isSpectator()) {
             this.stateManager.decrementOpeners(player, this.getLevel(), this.getBlockPos(), this.getBlockState());
-        }
-    }
-
-    public void tick() {
-        if (!this.remove) {
-            this.stateManager.recheckOpeners(this.getLevel(), this.getBlockPos(), this.getBlockState());
         }
     }
 }
