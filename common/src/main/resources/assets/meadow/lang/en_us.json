@@ -241,6 +241,8 @@
   "tooltip.meadow.description.woodcutter_1": "Place an §6[Axe]§r into the Woodcutter to enable cutting.",
   "tooltip.meadow.description.woodcutter_3": "Insert §6[Logs]§r or §6[Wood]§r to convert them into §6[Planks]§r.",
   "tooltip.meadow.description.woodcutter_2": "§e[Shift + Right-Click]§r to retrieve the inserted §6[Axe]§r.",
-  "advancement.meadow.woodcutter.desc": "Place an axe, insert logs or wood, and let the Woodcutter do the hard work for you!",
-  "advancement.meadow.woodcutter": "Cut Above the Rest"
+  "advancement.meadow.woodcutter.desc": "Place a Woodcutter, use an axe on it, insert logs or wood, and let the Woodcutter do the hard work for you!",
+  "advancement.meadow.woodcutter": "Cut Above the Rest",
+  "advancement.meadow.fondue": "From Cheese to Stick",
+  "advancement.meadow.fondue.desc": "Dip bread into a pot of melted cheese and savor the flavor"
 }

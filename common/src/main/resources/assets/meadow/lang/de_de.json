@@ -241,6 +241,7 @@
   "tooltip.meadow.description.woodcutter_1": "Platziere eine §6[Axt]§r auf dem Holzstamm, um das Holz hacken zu aktivieren.",
   "tooltip.meadow.description.woodcutter_3": "Lege §6[Stämme]§r oder §6[Holz]§r ein, um sie in §6[Bretter]§r zu verarbeiten.",
   "tooltip.meadow.description.woodcutter_2": "§e[Shift + Rechtsklick]§r, um die eingelegte §6[Axt]§r zu entnehmen.",
-  "advancement.meadow.woodcutter.desc": "Setze die Axt ein, füge Stämme oder Holz hinzu und lass den Holzstamm mit Axt die Arbeit für dich erledigen!",
-  "advancement.meadow.woodcutter": "Verdammte Axt!"
-}
+  "advancement.meadow.woodcutter.desc": "Platziere den Holzstamm, setze die Axt ein, füge Stämme oder Holz hinzu und lass den Holzstamm mit Axt die Arbeit für dich erledigen!",
+  "advancement.meadow.woodcutter": "Verdammte Axt!",
+  "advancement.meadow.fondue": "Käseglück am Spieß",
+  "advancement.meadow.fondue.desc": "Platziere ein Fondue"}
