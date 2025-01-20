@@ -13,11 +13,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.satisfy.meadow.Meadow;
 import net.satisfy.meadow.client.gui.CheeseFormGui;
 import net.satisfy.meadow.client.gui.CookingCauldronGui;
+import net.satisfy.meadow.client.gui.WoodcutterGui;
 import net.satisfy.meadow.client.model.*;
 import net.satisfy.meadow.client.renderer.block.CompletionistBannerRenderer;
 import net.satisfy.meadow.client.renderer.block.ModHangingSignRenderer;
 import net.satisfy.meadow.client.renderer.block.ModSignRenderer;
-import net.satisfy.meadow.client.renderer.block.WoodcutterRenderer;
 import net.satisfy.meadow.client.renderer.block.storage.*;
 import net.satisfy.meadow.client.renderer.entity.*;
 import net.satisfy.meadow.core.registry.EntityTypeRegistry;
@@ -67,6 +67,7 @@ public class MeadowClient {
     private static void registerClientScreens() {
         MenuRegistry.registerScreenFactory(ScreenHandlerRegistry.CHEESE_FORM_SCREEN_HANDLER.get(), CheeseFormGui::new);
         MenuRegistry.registerScreenFactory(ScreenHandlerRegistry.COOKING_CAULDRON_SCREEN_HANDLER.get(), CookingCauldronGui::new);
+        MenuRegistry.registerScreenFactory(ScreenHandlerRegistry.WOODCUTTER_SCREEN_HANDLER.get(), WoodcutterGui::new);
     }
 
     public static void registerBlockEntityRenderer() {
@@ -74,7 +75,6 @@ public class MeadowClient {
         BlockEntityRendererRegistry.register(EntityTypeRegistry.STORAGE_ENTITY.get(), context -> new StorageBlockEntityRenderer());
         BlockEntityRendererRegistry.register(EntityTypeRegistry.MOD_SIGN.get(), ModSignRenderer::new);
         BlockEntityRendererRegistry.register(EntityTypeRegistry.MOD_HANGING_SIGN.get(), ModHangingSignRenderer::new);
-        BlockEntityRendererRegistry.register(EntityTypeRegistry.WOOD_CUTTER.get(), context -> new WoodcutterRenderer());
     }
 
     private static void registerEntityRenderers() {
