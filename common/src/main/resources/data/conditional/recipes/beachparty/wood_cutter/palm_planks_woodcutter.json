@@ -1,0 +1,17 @@
+{
+	"type": "meadow:conditional",
+	"conditions": [
+		{
+			"type": "forge:mod_loaded",
+			"modid": "beachparty"
+		}
+	],
+	"recipe": {
+		"type": "meadow:woodcutting",
+		"inputItem": {
+			"tag": "beachparty:palm_logs"
+		},
+		"outputItem": "beachparty:palm_planks",
+		"outputAmount": 4
+	}
+}

@@ -1,16 +1,19 @@
 package net.satisfy.meadow.platform.fabric;
 
+import com.google.gson.JsonObject;
 import me.shedaniel.autoconfig.AutoConfig;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
-import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.GsonHelper;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.level.block.Block;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeManager;
 import net.satisfy.meadow.Meadow;
 import net.satisfy.meadow.fabric.core.config.MeadowFabricConfig;
 import net.satisfy.meadow.platform.PlatformHelper;
@@ -31,5 +34,19 @@ public class PlatformHelperImpl extends PlatformHelper {
     public static boolean shouldShowTooltip() {
         MeadowFabricConfig config = AutoConfig.getConfigHolder(MeadowFabricConfig.class).getConfig();
         return config.items.banner.isShowTooltipEnabled();
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T extends Recipe<?>> T fromJson(ResourceLocation recipeId, JsonObject json) {
+        if (!"conditional".equals(recipeId.getNamespace())) {
+            throw new UnsupportedOperationException(
+                    "All Meadow conditional recipes must use the 'conditional' namespace. Invalid recipe: " + recipeId
+            );
+        }
+        return (T) RecipeManager.fromJson(recipeId, GsonHelper.getAsJsonObject(json, "recipe"));
+    }
+
+    public static boolean isModLoaded(String modId) {
+        return FabricLoader.getInstance().isModLoaded(modId);
     }
 }

@@ -313,6 +313,6 @@
   "tooltip.meadow.banner.thankyou_2": "当放置时：",
   "tooltip.meadow.banner.thankyou_3": "感谢您游玩青青草甸！",
   "tooltip.meadow.banner.thankyou_4": "在半径8格范围内给予玩家急迫II效果",
-  "block.doapi.banner": "全物品收集者旗帜：§2青青草甸",
+  "block.meadow.banner": "全物品收集者旗帜：§2青青草甸",
   "block.meadow.meadow_banner": "全物品收集者旗帜：§2青青草甸"
 }
