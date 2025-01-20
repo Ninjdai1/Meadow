@@ -1,10 +1,12 @@
 package net.satisfy.meadow.core.entity;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
@@ -12,6 +14,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -25,8 +28,10 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.satisfy.meadow.core.registry.EntityTypeRegistry;
+import net.satisfy.meadow.core.registry.TagRegistry;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -137,7 +142,7 @@ public class WoolySheepEntity extends Animal implements Shearable {
     @Override
     public @NotNull InteractionResult mobInteract(Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
-        if (stack.is(Items.SHEARS)) {
+        if (stack.is(TagRegistry.SHEARS)) {
             if (!this.level().isClientSide && this.readyForShearing()) {
                 this.shear(SoundSource.PLAYERS);
                 this.gameEvent(GameEvent.SHEAR, player);
@@ -253,6 +258,26 @@ public class WoolySheepEntity extends Animal implements Shearable {
             this.entityData.set(DATA_WOOL_TYPE, (byte) (b & -17));
         }
     }
+
+    @Override
+    protected SoundEvent getAmbientSound() {
+        return SoundEvents.SHEEP_AMBIENT;
+    }
+
+    protected void playStepSound(BlockPos blockPos, BlockState blockState) {
+        this.playSound(SoundEvents.SHEEP_STEP, 0.15F, 1.0F);
+    }
+
+    @Override
+    protected SoundEvent getHurtSound(@NotNull DamageSource damageSource) {
+        return SoundEvents.SHEEP_HURT;
+    }
+
+    @Override
+    protected SoundEvent getDeathSound() {
+        return SoundEvents.SHEEP_DEATH;
+    }
+
 
     public boolean readyForShearing() {
         return this.isAlive() && !this.isSheared() && !this.isBaby();

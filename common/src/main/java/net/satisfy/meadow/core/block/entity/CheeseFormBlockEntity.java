@@ -150,9 +150,12 @@ public class CheeseFormBlockEntity extends BlockEntity implements BlockEntityTic
         }
         final ItemStack recipeOutput = recipe.getResultItem(manager);
         final ItemStack outputSlotStack = this.getItem(OUTPUT_SLOT);
+
         if (outputSlotStack.isEmpty()) {
             ItemStack output = recipeOutput.copy();
             setItem(OUTPUT_SLOT, output);
+        } else if (outputSlotStack.is(recipeOutput.getItem())) {
+            outputSlotStack.grow(recipeOutput.getCount());
         }
 
         ItemStack slot1Stack = this.getItem(1);
@@ -165,6 +168,7 @@ public class CheeseFormBlockEntity extends BlockEntity implements BlockEntityTic
                 removeItem(1, 1);
             }
         }
+
         ItemStack slot2Stack = this.getItem(2);
         if (recipe.getIngredients().stream().anyMatch(entry -> entry.test(slot2Stack))) {
             if (slot2Stack.is(TagRegistry.MILK_BUCKET)) {
