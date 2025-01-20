@@ -32,7 +32,8 @@
     ]
   },
   "mixins": [
-    "meadow-common.mixins.json"
+    "meadow-common.mixins.json",
+    "meadow.mixins.json"
   ],
   "depends": {
     "fabric": "*",
